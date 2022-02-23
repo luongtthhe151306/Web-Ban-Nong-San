@@ -13,17 +13,17 @@ public class Product {
     private int IdP;
     private String Name;
     private double Price;
-    private String Type;
+    private Type Type;
     private String Origin;
     private String Img;
     private int QuantityStock;
     private int QuantitySold;
-    private int IdSaler;
+    private Saler Saler;
 
     public Product() {
     }
 
-    public Product(int IdP, String Name, double Price, String Type, String Origin, String Img, int QuantityStock, int QuantitySold, int IdSaler) {
+    public Product(int IdP, String Name, double Price, Type Type, String Origin, String Img, int QuantityStock, int QuantitySold, Saler Saler) {
         this.IdP = IdP;
         this.Name = Name;
         this.Price = Price;
@@ -32,7 +32,7 @@ public class Product {
         this.Img = Img;
         this.QuantityStock = QuantityStock;
         this.QuantitySold = QuantitySold;
-        this.IdSaler = IdSaler;
+        this.Saler = Saler;
     }
 
     public int getIdP() {
@@ -59,11 +59,11 @@ public class Product {
         this.Price = Price;
     }
 
-    public String getType() {
+    public Type getType() {
         return Type;
     }
 
-    public void setType(String Type) {
+    public void setType(Type Type) {
         this.Type = Type;
     }
 
@@ -99,12 +99,12 @@ public class Product {
         this.QuantitySold = QuantitySold;
     }
 
-    public int getIdSaler() {
-        return IdSaler;
+    public Saler getSaler() {
+        return Saler;
     }
 
-    public void setIdSaler(int IdSaler) {
-        this.IdSaler = IdSaler;
+    public void setSaler(Saler Saler) {
+        this.Saler = Saler;
     }
     
 }
