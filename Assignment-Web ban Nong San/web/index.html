@@ -6,11 +6,27 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Login</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <form name="login" action="LoginServlet" method="post">
+            <table>
+                <tr>
+                    <td>Account Name:</td>
+                    <td><input type="text" name="accname"/></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="text" name="pass"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Login"/></td>
+                </tr>
+            </table>
+        </form>
+        <a href="CreateAccount.jsp">Create Account</a>
     </body>
 </html>

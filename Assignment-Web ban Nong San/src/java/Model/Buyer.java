@@ -14,15 +14,35 @@ public class Buyer {
     private String Name;
     private String Address;
     private String Phone;
+    private String AccountName;
+    private String Password;
 
     public Buyer() {
     }
 
-    public Buyer(int IdBuy, String Name, String Address, String Phone) {
+    public Buyer(int IdBuy, String Name, String Address, String Phone, String AccountName, String Password) {
         this.IdBuy = IdBuy;
         this.Name = Name;
         this.Address = Address;
         this.Phone = Phone;
+        this.AccountName = AccountName;
+        this.Password = Password;
+    }
+
+    public String getAccountName() {
+        return AccountName;
+    }
+
+    public void setAccountName(String AccountName) {
+        this.AccountName = AccountName;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
     }
 
     public int getIdBuy() {

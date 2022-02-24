@@ -12,18 +12,18 @@ package Model;
 public class Saler {
     private int IdS;
     private String Name;
-    private String DOB;
-    private boolean gender;
-    private String Gmail;
+    private String Address;
     private String Phone;
+    private String AccountName;
+    private String Password;
 
-    public Saler(int IdS, String Name, String DOB, boolean gender, String Gmail, String Phone) {
+    public Saler(int IdS, String Name, String Address, String Phone, String AccountName, String Password) {
         this.IdS = IdS;
         this.Name = Name;
-        this.DOB = DOB;
-        this.gender = gender;
-        this.Gmail = Gmail;
+        this.Address = Address;
         this.Phone = Phone;
+        this.AccountName = AccountName;
+        this.Password = Password;
     }
 
     public Saler() {
@@ -45,36 +45,36 @@ public class Saler {
         this.Name = Name;
     }
 
-    public String getDOB() {
-        return DOB;
-    }
-
-    public void setDOB(String DOB) {
-        this.DOB = DOB;
-    }
-
-    public boolean isGender() {
-        return gender;
-    }
-
-    public void setGender(boolean gender) {
-        this.gender = gender;
-    }
-
-    public String getGmail() {
-        return Gmail;
-    }
-
-    public void setGmail(String Gmail) {
-        this.Gmail = Gmail;
-    }
-
     public String getPhone() {
         return Phone;
     }
 
     public void setPhone(String Phone) {
         this.Phone = Phone;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
+
+    public String getAccountName() {
+        return AccountName;
+    }
+
+    public void setAccountName(String AccountName) {
+        this.AccountName = AccountName;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
     }
     
 }
