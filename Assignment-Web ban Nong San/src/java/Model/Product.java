@@ -18,12 +18,12 @@ public class Product {
     private String Img;
     private int QuantityStock;
     private int QuantitySold;
-    private Saler Saler;
+    private Account Account;
 
     public Product() {
     }
 
-    public Product(int IdP, String Name, double Price, Type Type, String Origin, String Img, int QuantityStock, int QuantitySold, Saler Saler) {
+    public Product(int IdP, String Name, double Price, Type Type, String Origin, String Img, int QuantityStock, int QuantitySold, Account Account) {
         this.IdP = IdP;
         this.Name = Name;
         this.Price = Price;
@@ -32,7 +32,7 @@ public class Product {
         this.Img = Img;
         this.QuantityStock = QuantityStock;
         this.QuantitySold = QuantitySold;
-        this.Saler = Saler;
+        this.Account = Account;
     }
 
     public int getIdP() {
@@ -99,12 +99,12 @@ public class Product {
         this.QuantitySold = QuantitySold;
     }
 
-    public Saler getSaler() {
-        return Saler;
+    public Account getAccount() {
+        return Account;
     }
 
-    public void setSaler(Saler Saler) {
-        this.Saler = Saler;
+    public void setSaler(Account Account) {
+        this.Account = Account;
     }
     
 }

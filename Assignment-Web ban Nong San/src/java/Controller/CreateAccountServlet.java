@@ -9,7 +9,6 @@ import DAO.ManagerDAO;
 import Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class LoginServlet extends HttpServlet {
+public class CreateAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,6 +31,19 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CreateAccountServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CreateAccountServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,50 +72,16 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String name = request.getParameter("namecreate");
+        String add = request.getParameter("addcreate");
+        String phone = request.getParameter("phonecreate");
+        String accname = request.getParameter("accnamecreate");
+        String pass = request.getParameter("passcreate");
+        Account acc = new Account(name,add,phone,accname,pass);
+        
         ManagerDAO md = new ManagerDAO();
-        ArrayList<Account> acclist = md.getAccount();
-        String accname = request.getParameter("accname");
-        String pass = request.getParameter("pass");
-        
-        boolean flaglogin = false;
-        //find account
-        for(int i=0; i<acclist.size(); i++){
-            if(acclist.get(i).getAccountName().equals(accname)
-               && acclist.get(i).getPassword().equals(pass)){
-                flaglogin = true;
-            }
-        }
-        
-        //login success
-        if(flaglogin){
-            request.getRequestDispatcher("Home.jsp").forward(request, response);
-        }//login faile
-        else{
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<!DOCTYPE html>");
-            out.println("<html><head>");
-            out.println("</head><body>");
-            out.println("<form name=\"login\" action=\"LoginServlet\" method=\"post\">");
-            out.println("<table>");
-            out.println("<tr>");
-            out.println("<td>Account Name:</td>");
-            out.println("<td><input type=\"text\" name=\"accname\"/></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>Password:</td>");
-            out.println("<td><input type=\"text\" name=\"pass\"/></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td></td>");
-            out.println("<td><input type=\"submit\" value=\"Login\"/></td>");
-            out.println("</tr>");
-            out.println("</table>");
-            out.println("</form>");
-            out.println("<a href=\"CreateAccount.jsp\">Create Account</a>");
-            out.println("</table>");
-            out.println("</body></html>");
-        }
+        md.createAccount(acc);
+        request.getRequestDispatcher("Home.jsp").forward(request, response);
     }
 
     /**

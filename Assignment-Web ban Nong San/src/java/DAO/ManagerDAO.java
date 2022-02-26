@@ -5,8 +5,7 @@
  */
 package DAO;
 
-import Model.Buyer;
-import Model.Saler;
+import Model.Account;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,22 +18,23 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class ManagerDAO extends BaseDAO {
-
-    public ArrayList getSaler() {
-        ArrayList<Saler> salerlist = new ArrayList<>();
+    
+    public ArrayList getAccount() {
         try {
+            ArrayList<Account> acclist = new ArrayList<>();
             Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM [Salser]");
+            ResultSet rs = st.executeQuery("SELECT * FROM [Account]");
             while (rs.next()) {
-                int id = rs.getInt("IdS");
+                int id = rs.getInt("IdC");
                 String Name = rs.getString("Name");
                 String Address = rs.getString("Address");
                 String Phone = rs.getString("Phone");
                 String AccountName = rs.getString("AccountName");
                 String Password = rs.getString("Password"); 
-                Saler saler = new Saler(id,Name,Address,Phone,AccountName,Password);
-                salerlist.add(saler);
+                Account acc = new Account(id,Name,Address,Phone,AccountName,Password);
+                acclist.add(acc);
             }
+            return acclist;
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -46,35 +46,18 @@ public class ManagerDAO extends BaseDAO {
                 }
             }
         }
-        return salerlist;
+        return null;
     }
     
-    public ArrayList getBuyer() {
-        ArrayList<Buyer> buyerlist = new ArrayList<>();
+    public void createAccount(Account acc) {
         try {
+            String sql = "INSERT INTO [Account]( [Name], [Address], [Phone], [AccountName], [Password])\n" +
+                         "VALUES('"+ acc.getName()+"','"+acc.getAddress()+"','"+acc.getPhone()+"','"
+                                 +acc.getAccountName()+"','"+acc.getPassword()+"')";
             Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM [Buyer]");
-            while (rs.next()) {
-                int id = rs.getInt("IdB");
-                String Name = rs.getString("Name");
-                String Address = rs.getString("Address");
-                String Phone = rs.getString("Phone");
-                String AccountName = rs.getString("AccountName");
-                String Password = rs.getString("Password"); 
-                Buyer buyer = new Buyer(id,Name,Address,Phone,AccountName,Password);
-                buyerlist.add(buyer);
-            }
+            st.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
-        return buyerlist;
     }
 }

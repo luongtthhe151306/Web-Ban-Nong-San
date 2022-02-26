@@ -15,14 +15,14 @@ public class Bill {
     private int IDB;
     private ArrayList<Order> Order;
     private double TotalMoney;
-    private Buyer Buyer;
+    private Account Buyer;
     private String OrderTime;
     private String DeliveryTime;
 
     public Bill() {
     }
 
-    public Bill(int IDB, ArrayList<Order> Order, double TotalMoney, Buyer Buyer, String OrderTime, String DeliveryTime) {
+    public Bill(int IDB, ArrayList<Order> Order, double TotalMoney, Account Buyer, String OrderTime, String DeliveryTime) {
         this.IDB = IDB;
         this.Order = Order;
         this.TotalMoney = TotalMoney;
@@ -55,11 +55,11 @@ public class Bill {
         this.TotalMoney = TotalMoney;
     }
 
-    public Buyer getBuyer() {
+    public Account getBuyer() {
         return Buyer;
     }
 
-    public void setBuyer(Buyer Buyer) {
+    public void setBuyer(Account Buyer) {
         this.Buyer = Buyer;
     }
 

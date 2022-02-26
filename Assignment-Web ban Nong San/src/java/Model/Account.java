@@ -9,7 +9,7 @@ package Model;
  *
  * @author Admin
  */
-public class Buyer {
+public class Account {
     private int IdBuy;
     private String Name;
     private String Address;
@@ -17,10 +17,18 @@ public class Buyer {
     private String AccountName;
     private String Password;
 
-    public Buyer() {
+    public Account() {
     }
 
-    public Buyer(int IdBuy, String Name, String Address, String Phone, String AccountName, String Password) {
+    public Account(String Name, String Address, String Phone, String AccountName, String Password) {
+        this.Name = Name;
+        this.Address = Address;
+        this.Phone = Phone;
+        this.AccountName = AccountName;
+        this.Password = Password;
+    }
+
+    public Account(int IdBuy, String Name, String Address, String Phone, String AccountName, String Password) {
         this.IdBuy = IdBuy;
         this.Name = Name;
         this.Address = Address;
