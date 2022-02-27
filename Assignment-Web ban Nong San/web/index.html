@@ -5,29 +5,33 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>Login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/styleLogin.css">
-    </head>
-    <body>
-        <form name="login" action="LoginServlet" method="post">
-            <table>
-                <tr>
-                    <td>Account Name:</td>
-                    <td><input type="text" name="accname"/></td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td><input type="text" name="pass"/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Login"/></td>
-                </tr>
-            </table>
-        </form>
-        <a href="CreateAccount.jsp">Create Account</a>
-    </body>
+
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styleLogin.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="image">
+        </div>
+        <div class="login">
+            <div style="padding-left:35%;padding-bottom: 10px; font-size: 30px;">Login</div>
+            <form action="LoginServlet" method="post">
+
+                <label>Account Name:</label></br>
+                <input class="ip" type="text" name="accname" /></br>
+
+                <label>Password:</label></br>
+                <input class="ip" type="text" name="pass" /></br>
+                <input class="submit" type="submit" value="Login" /></br>
+                <a href="CreateAccount.jsp">Create Account</a>
+            </form>
+            
+        </div>
+    </div>
+</body>
+
 </html>
