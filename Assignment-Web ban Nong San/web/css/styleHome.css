@@ -1,0 +1,31 @@
+
+.header{
+    height:120px;
+    background-color: rgb(20, 138, 26);
+}
+.grid{
+    width: 95%;
+    max-width: 100%;
+    margin:0 auto;
+}
+
+.header-navbar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-list{
+    list-style: none;
+    padding-left: 0px;
+}
+
+.header-item{
+    display: inline-block;
+    font-size: 15px;
+    margin: 0 8px;
+    font-weight: 300;
+    color:aliceblue;
+    position: relative;
+}
+
+
