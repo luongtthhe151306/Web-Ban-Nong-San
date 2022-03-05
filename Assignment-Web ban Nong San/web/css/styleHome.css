@@ -6,6 +6,7 @@
 .grid{
     width: 95%;
     max-width: 100%;
+    height: 100%;
     margin:0 auto;
 }
 
@@ -17,11 +18,12 @@
 .header-list{
     list-style: none;
     padding-left: 0px;
+    margin: 10px 20px 0 10px;
 }
 
 .header-item{
     display: inline-block;
-    font-size: 15px;
+    font-size: 17px;
     margin: 0 8px;
     font-weight: 300;
     color:aliceblue;
@@ -29,18 +31,130 @@
 }
 
 .header-item-link{
+    position: relative;
     color: aliceblue;
     text-decoration: none;
 }
 
-.header-home-find{
-    display: inline-flex;
+.header-item-link:hover{
+    color: rgb(202, 205, 207);
 }
-
 /* notification */
 .header-notification{
     position:absolute;
     top:100%;
+    right: 0;
     width: 300px;
-    background-color: var(--white-color);
+    background-color: aliceblue;
+    color: dimgray;
+    border: 1px solid aquamarine;
+    cursor: default;
+    transform-origin: top right;
+    animation: headerNotifyGrowth ease-in 0.25s;
+    display: none;
+}
+
+.link-has-notifi:hover .header-notification{
+    display: block;
+}
+
+@keyframes headerNotifyGrowth{
+    from{
+        opacity: 0;
+        transform: scale(0);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.notifi-header{
+    height: 35px;
+    background-color: aliceblue;
+    color: rgb(172, 166, 166);
+    margin: 0 0 0 10px;
+    font-weight: 350;
+    font-size: 17px;
+}
+
+.notifi-list{
+    padding-left: 0;
+    list-style: none;
+}
+
+.notifi-item{
+    display: inline-flex;
+    margin: 0 0 10px 10px;
+    background-color: rgb(150, 206, 150);
+    width: 90%;
+    padding: 5px 5px 5px 5px;
+}
+
+.notifi-item-img{
+    width: 40px;
+    height: 40px;
+}
+
+.notifi-item-content{
+    margin-left: 10px;
+    color: rgb(71, 71, 71);
+}
+
+.header-home-search{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.home-logo-icon {
+    color: aliceblue;
+    font-size: 40px; 
+    margin-left: 35px;
+}
+
+.home-logo-icon:hover{
+    color: rgb(8, 70, 8);
+}
+
+.search{
+    margin: 0 50px 0 50px;
+    width: 60%;
+    height: 35px;
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.cart-logo-icon{
+    color: aliceblue;
+    font-size: 30px;
+    margin-right: 50px;
+}
+
+.cart-logo-icon:hover{
+    color: rgb(8, 70, 8);
+}
+
+.search-input{
+    width: 90%;
+    height: 100%;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 0 16px;
+}
+
+.find-icon{
+    color: black;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.find-icon:hover{
+    color:aliceblue;
+    background-color: rgb(20, 138, 26);
 }
