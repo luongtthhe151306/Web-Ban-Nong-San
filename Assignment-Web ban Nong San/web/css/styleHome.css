@@ -28,4 +28,19 @@
     position: relative;
 }
 
+.header-item-link{
+    color: aliceblue;
+    text-decoration: none;
+}
 
+.header-home-find{
+    display: inline-flex;
+}
+
+/* notification */
+.header-notification{
+    position:absolute;
+    top:100%;
+    width: 300px;
+    background-color: var(--white-color);
+}
