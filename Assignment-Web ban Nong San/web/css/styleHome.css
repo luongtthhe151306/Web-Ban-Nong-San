@@ -54,6 +54,7 @@
     transform-origin: top right;
     animation: headerNotifyGrowth ease-in 0.25s;
     display: none;
+    z-index: 2;
 }
 
 .link-has-notifi:hover .header-notification{
@@ -164,6 +165,7 @@
 .cart{
     position: relative;
     text-align: center;
+    z-index: 2;
 }
 
 .cart-list{
@@ -224,8 +226,9 @@
     background-color: aliceblue;
     border-radius: 3px;
     margin: 40px 0;
+    position: sticky;
+    top: 20px;
 }
-
 .category-heading{
     font-size: 17px;
     color: rgba(44, 43, 43, 0.993);
@@ -273,6 +276,12 @@
     margin: 20px 20px;
 }
 
+.product{
+    background-color: #fff;
+    position:absolute;
+    z-index: 1;
+}
+
 .product-viewall{
     margin-left: 43% ;
     padding-top: 10px;
@@ -287,20 +296,28 @@
 
 .product-list{
     position: relative;
-    text-decoration: none;
     font-size: 17px;
     font-weight: 500;
-    padding-left: 7px;
+    padding: 5px 0 5px 7px;
     margin: 20px 10px;
-    color: rgb(46, 48, 46);
     border-left: 4px solid rgb(20, 138, 26);
     right: 0;
     transition: right linear 0.1s;
+    background-color: rgba(253, 253, 253, 0.945);
+    border-radius: 2px;
 }
 
 .product-list:hover{
-    color: rgb(20, 138, 26);
     right: -4px;
+}
+
+.product-list-link{
+    text-decoration: none;
+    color: rgba(44, 43, 43, 0.993);
+}
+
+.product-list-link:hover{
+    color: rgb(20, 138, 26);
 }
 
 .product-item{
@@ -337,4 +354,25 @@
     margin-top: 0;
     color: rgb(240, 72, 72);
     font-size: 14px;
+}
+
+/* footer */
+.footer {
+    background-color: #fff;
+}
+
+.footer-contact-list{
+    float: left;
+    padding-left: 15%;
+}
+
+.footer-content-list{
+    float: left;
+    padding-left: 25%;
+}
+
+.footer-icon{
+    font-size: 20px;
+    color: rgb(12, 88, 16);
+    margin-right: 7px;
 }
