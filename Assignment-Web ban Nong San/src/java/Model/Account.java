@@ -10,7 +10,7 @@ package Model;
  * @author Admin
  */
 public class Account {
-    private int IdBuy;
+    private int IdA;
     private String Name;
     private String Address;
     private String Phone;
@@ -28,8 +28,8 @@ public class Account {
         this.Password = Password;
     }
 
-    public Account(int IdBuy, String Name, String Address, String Phone, String AccountName, String Password) {
-        this.IdBuy = IdBuy;
+    public Account(int IdA, String Name, String Address, String Phone, String AccountName, String Password) {
+        this.IdA = IdA;
         this.Name = Name;
         this.Address = Address;
         this.Phone = Phone;
@@ -53,12 +53,12 @@ public class Account {
         this.Password = Password;
     }
 
-    public int getIdBuy() {
-        return IdBuy;
+    public int getIdA() {
+        return IdA;
     }
 
-    public void setIdBuy(int IdBuy) {
-        this.IdBuy = IdBuy;
+    public void setIdA(int IdA) {
+        this.IdA = IdA;
     }
 
     public String getName() {
