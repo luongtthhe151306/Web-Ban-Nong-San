@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="Model.Type"%>
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="DAO.ManagerDAO"%>
@@ -131,50 +132,51 @@
                     <div class="col-sm-9">
                         <div class="home-product">
                             <div class="row">
-                                <c:forEach items="${typelist}" var="type">
-                                    <div class="product-list"><a class="product-list-link">${type.getTypeName()}</a></div>
-                                    <%ManagerDAO md = new ManagerDAO();
-                                    ArrayList<Product> prolist = md.getProduct(type.getId());
-                                    %>
-                                    <div class="col-sm-3 ">
-                                        <div class="product-item">
-                                            <a href="" class="product-item-link">
-                                                <img src="./image/logo.jpg" class="product-item-img">
-                                                <p class="product-item-name">Rau cải</p>
-                                                <p class="product-item-price">5.000vnd</p>
-                                            </a>
-                                        </div>
+                                <%ManagerDAO md = new ManagerDAO();
+                                    ArrayList<Type> typelist = (ArrayList) request.getAttribute("typelist");
+                                    for (int i = 0; i < typelist.size(); i++) {%>
+                                <div class="product-list"><a href="" class="product-list-link"><%= typelist.get(i).getTypeName()%></a></div>
+                                    <%ArrayList<Product> prolist = md.getProduct(typelist.get(i).getIdType());
+                                            for (int j = 0; j < 4; j++) {%>
+                                <div class="col-sm-3 ">
+                                    <div class="product-item">
+                                        <a href="" class="product-item-link">
+                                            <img src= "<%= prolist.get(j).getImg()%>" class="product-item-img" style="height: 170px">
+                                            <p class="product-item-name"><%= prolist.get(j).getName()%></p>
+                                            <p class="product-item-price"><%= prolist.get(j).getPrice()%></p>
+                                        </a>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <div class="product-item">
-                                            <a href="" class="product-item-link">
-                                                <img src="./image/logo.jpg" class="product-item-img">
-                                                <p class="product-item-name">Rau cải</p>
-                                                <p class="product-item-price">5.000vnd</p>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="product-item">
-                                            <a href="" class="product-item-link">
-                                                <img src="./image/logo.jpg" class="product-item-img">
-                                                <p class="product-item-name">Rau cải</p>
-                                                <p class="product-item-price">5.000vnd</p>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="product-item">
-                                            <a href="" class="product-item-link">
-                                                <img src="./image/logo.jpg" class="product-item-img">
-                                                <p class="product-item-name">Rau cải</p>
-                                                <p class="product-item-price">5.000vnd</p>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="" class="product-viewall">Xem tất cả</a>
-                                </c:forEach>
-
+                                </div>
+                                <!--                                <div class="col-sm-3">
+                                                                    <div class="product-item">
+                                                                        <a href="" class="product-item-link">
+                                                                            <img src="./image/logo.jpg" class="product-item-img">
+                                                                            <p class="product-item-name">Rau cải</p>
+                                                                            <p class="product-item-price">5.000vnd</p>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="product-item">
+                                                                        <a href="" class="product-item-link">
+                                                                            <img src="./image/logo.jpg" class="product-item-img">
+                                                                            <p class="product-item-name">Rau cải</p>
+                                                                            <p class="product-item-price">5.000vnd</p>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="product-item">
+                                                                        <a href="" class="product-item-link">
+                                                                            <img src="./image/logo.jpg" class="product-item-img">
+                                                                            <p class="product-item-name">Rau cải</p>
+                                                                            <p class="product-item-price">5.000vnd</p>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>-->
+                                        <%} %>
+                                        <a  href = "" class="product-viewall">Xem tất cả</a >
+                                     <%}%>
                             </div>                    
                         </div>
                     </div>

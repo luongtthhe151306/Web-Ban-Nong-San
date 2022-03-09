@@ -8,6 +8,8 @@ package DAO;
 import Model.Account;
 import Model.Product;
 import Model.Type;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,125 +21,123 @@ import java.util.logging.Logger;
  *
  * @author Admin
  */
-public class ManagerDAO extends BaseDAO {
-    
+public class ManagerDAO {
+
     public ArrayList getAccount() {
         try {
+            Connection conn = new BaseDAO().getConnection();
+            PreparedStatement state = conn.prepareStatement("SELECT * FROM [Account]");
+            ResultSet rs = state.executeQuery();
             ArrayList<Account> acclist = new ArrayList<>();
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM [Account]");
             while (rs.next()) {
                 int id = rs.getInt("IdC");
                 String Name = rs.getString("Name");
                 String Address = rs.getString("Address");
                 String Phone = rs.getString("Phone");
                 String AccountName = rs.getString("AccountName");
-                String Password = rs.getString("Password"); 
-                Account acc = new Account(id,Name,Address,Phone,AccountName,Password);
+                String Password = rs.getString("Password");
+                Account acc = new Account(id, Name, Address, Phone, AccountName, Password);
                 acclist.add(acc);
             }
             return acclist;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
+
         return null;
     }
     
+    
+
     public void createAccount(Account acc) {
         try {
-            String sql = "INSERT INTO [Account]( [Name], [Address], [Phone], [AccountName], [Password])\n" +
-                         "VALUES('"+ acc.getName()+"','"+acc.getAddress()+"','"+acc.getPhone()+"','"
-                                 +acc.getAccountName()+"','"+acc.getPassword()+"')";
-            Statement st = connection.createStatement();
-            st.executeUpdate(sql);
+            Connection conn = new BaseDAO().getConnection();
+            PreparedStatement state = conn.prepareStatement("INSERT INTO [Account]( [Name], [Address], [Phone], [AccountName], [Password])\n"
+                    + "VALUES('" + acc.getName() + "','" + acc.getAddress() + "','" + acc.getPhone() + "','"
+                    + acc.getAccountName() + "','" + acc.getPassword() + "')");
+            ResultSet rs = state.executeQuery();
         } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public ArrayList getProductType(){
+
+    public ArrayList getProductType() {
         try {
             ArrayList<Type> typelist = new ArrayList<>();
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM [Type]");
+            Connection conn = new BaseDAO().getConnection();
+            PreparedStatement state = conn.prepareStatement("SELECT * FROM [Type]");
+            ResultSet rs = state.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("ID");
-                String Name = rs.getString("NameType"); 
-                Type acc = new Type(id,Name);
+                String Name = rs.getString("NameType");
+                Type acc = new Type(id, Name);
                 typelist.add(acc);
             }
             return typelist;
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    public Type getTypeById(int id){
+
+    public Type getTypeById(int id) {
         ArrayList<Type> typelist = getProductType();
         for (Type typelist1 : typelist) {
-            if(typelist1.getIdType() == id){
+            if (typelist1.getIdType() == id) {
                 return typelist1;
             }
         }
         return null;
     }
     
-    public Account getAccountById(int id){
+    public static void main(String[] args) {
+        ManagerDAO n = new ManagerDAO();
+        ArrayList<Account> a = n.getAccount();
+        System.out.println(a.get(0).getAccountName());
+        Account acc = n.getAccountById(1);
+        System.out.println(acc.getAccountName());
+        ArrayList<Product> list = n.getProduct(1);
+        System.out.println(list.get(0).getName());
+    }
+
+    public Account getAccountById(int id) {
         ArrayList<Account> acclist = getAccount();
         for (Account acclist1 : acclist) {
-            if(acclist1.getIdA() == id){
+            if (acclist1.getIdA() == id) {
                 return acclist1;
             }
         }
         return null;
     }
-    
-    public ArrayList getProduct( int ID) {
+
+    public ArrayList getProduct(int ID) {
         try {
             ArrayList<Product> prolist = new ArrayList<>();
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM [Product] WHERE TypeID="+ID);
+            Connection conn = new BaseDAO().getConnection();
+            PreparedStatement state = conn.prepareStatement("SELECT * FROM [Product] WHERE TypeID=" + ID);
+            ResultSet rs = state.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("Idp");
+                int id = rs.getInt("IdP");
                 String Name = rs.getString("Name");
                 double Price = rs.getFloat("Price");
                 Type Type = getTypeById(rs.getInt("TypeID"));
-                String Origin = rs.getString("Origin");
-                String img = rs.getString("image");
+                String o = rs.getString("Origin");
+                String i = rs.getString("image");
                 int QuantityStock = rs.getInt("QuantityStock");
                 int QuantitySold = rs.getInt("QuantitySold");
                 Account IdC = getAccountById(rs.getInt("IdC"));
-                Product acc = new Product(id,Name,Price,Type, Origin, img, QuantityStock, QuantitySold, IdC);
+                Product acc = new Product(id, Name, Price, Type, o, i, QuantityStock, QuantitySold, IdC);
                 prolist.add(acc);
             }
             return prolist;
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

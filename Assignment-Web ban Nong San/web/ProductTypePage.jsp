@@ -1,27 +1,30 @@
+<%-- 
+    Document   : ProductTypePage
+    Created on : Mar 10, 2022, 12:41:21 AM
+    Author     : Admin
+--%>
+
+<%@page import="Model.Product"%>
+<%@page import="Model.Type"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="DAO.ManagerDAO"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Product Type Page</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/styleProductTypePage.css">
-    <link rel="stylesheet" href="./font/fontawesome-free-6.0.0-web/css/all.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="./font/fontawesome-free-6.0.0-web/css/all.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body>
         <header class="header">
             <div class="grid">
                 <nav class="header-navbar">
                     <ul class="header-list">
-                        <!-- <a href="DemoHome.html" class="img-itema">
-                                <img width="100" height="100" src="../web/image/Happyfield_logos__primary_hollow_yellow_transparent+(1).png">
-                            </a> -->
                         <li class="header-item">
                             <a href="" class="header-item-link">Kênh người bán</a>
                         </li>
@@ -118,62 +121,33 @@ and open the template in the editor.
                             Danh mục sản phẩm
                         </div>
                         <ul class="category-list">
-                            <li class="category-item">
-                                <a href="" class="catagory-item-link">Rau củ</a>
-                            </li>
-                            <li class="category-item">
-                                <a href="" class="catagory-item-link">Hoa quả</a>
-                            </li>
-                            <li class="category-item">
-                                <a href="" class="catagory-item-link">Gạo</a>
-                            </li>
-                            <li class="category-item">
-                                <a href="" class="catagory-item-link">Sản phẩm chăn nuôi</a>
-                            </li>
+                            <c:forEach items="${typelist}" var="type">
+                                <li class="category-item">
+                                    <a href="" class="catagory-item-link">${type.getTypeName()}</a>
+                                </li>
+                            </c:forEach>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-sm-9">
                     <div class="home-product">
-                        <div class="row">
-                            <div class="product-list"><a class="product-list-link">Sản phẩm chăn nuôi</a></div>
+                            <div class="row">
+                            <%ManagerDAO md = new ManagerDAO();
+                                ArrayList<Type> typelist = (ArrayList) request.getAttribute("typelist");
+                                for (int i = 0; i < typelist.size(); i++) {%>
+                            <div class="product-list"><a href="" class="product-list-link"><%= typelist.get(i).getTypeName()%></a></div>
+                                <%ArrayList<Product> prolist = md.getProduct(typelist.get(i).getIdType());
+                                        for (int j = 0; j < 4; j++) {%>
                             <div class="col-sm-3 ">
                                 <div class="product-item">
                                     <a href="" class="product-item-link">
                                         <img src= "<%= prolist.get(j).getImg()%>" class="product-item-img" style="height: 170px">
-                                        <p class="product-item-name">Rau cải</p>
-                                        <p class="product-item-price">5.000vnd</p>
+                                        <p class="product-item-name"><%= prolist.get(j).getName()%></p>
+                                        <p class="product-item-price"><%= prolist.get(j).getPrice()%></p>
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="product-item">
-                                    <a href="" class="product-item-link">
-                                        <img src="./image/logo.jpg" class="product-item-img">
-                                        <p class="product-item-name">Rau cải</p>
-                                        <p class="product-item-price">5.000vnd</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="product-item">
-                                    <a href="" class="product-item-link">
-                                        <img src="./image/logo.jpg" class="product-item-img">
-                                        <p class="product-item-name">Rau cải</p>
-                                        <p class="product-item-price">5.000vnd</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="product-item">
-                                    <a href="" class="product-item-link">
-                                        <img src="./image/logo.jpg" class="product-item-img">
-                                        <p class="product-item-name">Rau cải</p>
-                                        <p class="product-item-price">5.000vnd</p>
-                                    </a>
-                                </div>
-                            </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -215,3 +189,4 @@ and open the template in the editor.
         </footer>
     </body>
 </html>
+

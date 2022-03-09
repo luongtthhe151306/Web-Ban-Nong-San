@@ -6,7 +6,6 @@
 package Controller;
 
 import DAO.ManagerDAO;
-import Model.Product;
 import Model.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class HomeServlet extends HttpServlet {
+public class ProductTypeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,18 +32,10 @@ public class HomeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ManagerDAO  md = new ManagerDAO();
+         ManagerDAO  md = new ManagerDAO();
         ArrayList<Type> typelist = md.getProductType();
-//        ArrayList<Product> prolist = md.getProduct(typelist.get(0).getIdType());
-//        PrintWriter out = response.getWriter();
-//        out.println(typelist);
-//        out.print(prolist.get(0).getName());
-//        for(int i=0; i<typelist.size(); i++){
-//            ArrayList<Product> prolist = md.getProduct(typelist.get(i).getIdType());
-//        }
-        
         request.setAttribute("typelist", typelist);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        request.getRequestDispatcher("ProductTypePage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
