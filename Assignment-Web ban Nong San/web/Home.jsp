@@ -67,7 +67,7 @@
                     </nav>
                     <div class="header-home-search">
                         <div class="home">
-                            <a class="logo" href="DemoHome.html">
+                            <a class="logo" href="HomeServlet">
                                 <i class="fa-solid fa-house home-logo-icon"></i>
                                 <div class="header-item-link">Happy Field</div>
                             </a>
@@ -114,7 +114,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-3">
-                        <a href="" style="text-decoration: none;"><h3 style="margin-left: 10px 0 0 35px; color: #fff">Home</h3></a>
+                        <a href="HomeServlet" style="text-decoration: none;"><h3 style="margin-left: 10px 0 0 35px; color: #fff">Home</h3></a>
                         <nav class="category">
                             <div class="category-heading">
                                 <i class="fa-solid fa-bars category-heading-icon"></i>
@@ -123,7 +123,7 @@
                             <ul class="category-list">
                                 <c:forEach items="${typelist}" var="type">
                                     <li class="category-item">
-                                        <a href="" class="catagory-item-link">${type.getTypeName()}</a>
+                                        <a href="ProductTypeServlet?idT=${type.getIdType()}" class="catagory-item-link">${type.getTypeName()}</a>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -135,7 +135,7 @@
                                 <%ManagerDAO md = new ManagerDAO();
                                     ArrayList<Type> typelist = (ArrayList) request.getAttribute("typelist");
                                     for (int i = 0; i < typelist.size(); i++) {%>
-                                <div class="product-list"><a href="" class="product-list-link"><%= typelist.get(i).getTypeName()%></a></div>
+                                <div class="product-list"><a href="ProductTypeServlet?idT=<%=typelist.get(i).getIdType()%>" class="product-list-link"><%= typelist.get(i).getTypeName()%></a></div>
                                     <%ArrayList<Product> prolist = md.getProduct(typelist.get(i).getIdType());
                                             for (int j = 0; j < 4; j++) {%>
                                 <div class="col-sm-3 ">
@@ -147,35 +147,8 @@
                                         </a>
                                     </div>
                                 </div>
-                                <!--                                <div class="col-sm-3">
-                                                                    <div class="product-item">
-                                                                        <a href="" class="product-item-link">
-                                                                            <img src="./image/logo.jpg" class="product-item-img">
-                                                                            <p class="product-item-name">Rau cải</p>
-                                                                            <p class="product-item-price">5.000vnd</p>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <div class="product-item">
-                                                                        <a href="" class="product-item-link">
-                                                                            <img src="./image/logo.jpg" class="product-item-img">
-                                                                            <p class="product-item-name">Rau cải</p>
-                                                                            <p class="product-item-price">5.000vnd</p>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <div class="product-item">
-                                                                        <a href="" class="product-item-link">
-                                                                            <img src="./image/logo.jpg" class="product-item-img">
-                                                                            <p class="product-item-name">Rau cải</p>
-                                                                            <p class="product-item-price">5.000vnd</p>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>-->
                                         <%} %>
-                                        <a  href = "" class="product-viewall">Xem tất cả</a >
+                                        <a  href = "ProductTypeServlet?idT=<%=typelist.get(i).getIdType()%>" class="product-viewall">Xem tất cả</a >
                                      <%}%>
                             </div>                    
                         </div>

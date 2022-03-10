@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.ManagerDAO;
+import Model.Product;
 import Model.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,9 +33,23 @@ public class ProductTypeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         ManagerDAO  md = new ManagerDAO();
+        ManagerDAO  md = new ManagerDAO();
+        int idT = Integer.parseInt(request.getParameter("idT"));
         ArrayList<Type> typelist = md.getProductType();
+        ArrayList<Product> prolist = md.getProduct(idT);
+        String typename = "";
+        for (Type typelist1 : typelist) {
+            if(typelist1.getIdType() == idT){
+                typename = typelist1.getTypeName();
+            }
+        }
+//        PrintWriter out = response.getWriter();
+//        out.print(typelist);
+//        out.print(prolist);
+        request.setAttribute("idT", idT);
+        request.setAttribute("typename", typename);
         request.setAttribute("typelist", typelist);
+        request.setAttribute("prolist", prolist);
         request.getRequestDispatcher("ProductTypePage.jsp").forward(request, response);
     }
 
