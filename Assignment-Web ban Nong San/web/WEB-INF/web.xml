@@ -20,6 +20,14 @@
         <servlet-name>SalerServlet</servlet-name>
         <servlet-class>Controller.SalerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteProductPageServlet</servlet-name>
+        <servlet-class>Controller.DeleteProductPageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProductItemServlet</servlet-name>
+        <servlet-class>Controller.DeleteProductItemServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -39,6 +47,14 @@
     <servlet-mapping>
         <servlet-name>SalerServlet</servlet-name>
         <url-pattern>/SalerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProductPageServlet</servlet-name>
+        <url-pattern>/DeleteProductPageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProductItemServlet</servlet-name>
+        <url-pattern>/DeleteProductItemServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

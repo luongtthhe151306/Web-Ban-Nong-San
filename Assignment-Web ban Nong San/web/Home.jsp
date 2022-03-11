@@ -156,7 +156,7 @@
                                         <a href="" class="product-item-link">
                                             <img src= "<%= prolist.get(j).getImg()%>" class="product-item-img" style="height: 170px">
                                             <p class="product-item-name"><%= prolist.get(j).getName()%></p>
-                                            <p class="product-item-price"><%= prolist.get(j).getPrice()%></p>
+                                            <p class="product-item-price"><%= prolist.get(j).getPrice()%>00vnd</p>
                                         </a>
                                     </div>
                                 </div>

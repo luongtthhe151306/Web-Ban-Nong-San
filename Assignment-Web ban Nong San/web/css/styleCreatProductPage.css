@@ -295,107 +295,23 @@
     color: rgb(20, 138, 26);
 }
 
-/* home product */
-.home-product{
-    padding: 20px 5px;
-    margin: 10px 20px;
+.create-product{
+    margin: 50px 50px;
 }
 
-.row{
-    margin: 20px 20px;
+.input-infomation{
+    margin: 10px 0px;
+    display: flex;
 }
 
-.space{
-    padding: 20px 20px
-}
-/*.product{
-    background-color: #fff;
-    position:absolute;
-    z-index: 1;
-}*/
-
-/* .product-viewall{
-    margin-left: 43% ;
-    padding-top: 10px;
-    text-decoration: none;
-    color: rgba(44, 43, 43, 0.993);
-    font-weight: 480;
+.input-infomation-type{
+    margin: 10px 0px;
+    display: flex;
 }
 
-.product-viewall:hover{
-    color: rgb(20, 138, 26);
-} */
-
-.product-list{
-    position: relative;
-    font-size: 17px;
-    font-weight: 500;
-    padding: 5px 0 5px 7px;
-    margin: 20px 10px;
-    border-left: 4px solid rgb(20, 138, 26);
-    right: 0;
-    transition: right linear 0.1s;
-    background-color: rgba(253, 253, 253, 0.945);
-    border-radius: 2px;
-}
-
-.product-list:hover{
-    right: -4px;
-}
-
-.product-list-link{
-    text-decoration: none;
-    color: rgba(44, 43, 43, 0.993);
-}
-
-.product-list-link:hover{
-    color: rgb(20, 138, 26);
-}
-
-.product-item{
-    width: 90%;
-    height: 100%;
-    text-align: center;
-    border-radius: 3px;
-    background-color: #fff;
-    /* border: 1.5px solid rgba(214, 210, 210, 0.5); */
-    padding: 5px;   
-}
-
-.product-item-link{
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 500;
-    color: rgb(46, 48, 46);
-}
-
-.product-item-link:hover{
-    color: rgb(20, 138, 26);
-}
-
-.product-item-img{
-    width: 80%;
-    margin-top: 10px;
-}
-
-.product-item-name{
-    margin: 7px 0;
-}
-
-.product-item-price{
-    margin-top: 0;
-    color: rgb(240, 72, 72);
-    font-size: 14px;
-}
-
-.delete-link{
-    text-decoration: none;
-    font-size: 15px;
-    color: rgb(46, 48, 46);
-}
-
-.delete-link:hover{
-    color: rgb(20, 138, 26);
+.input-infomation input{
+    margin-left: 15px;
+    flex: 1;
 }
 
 /* footer */

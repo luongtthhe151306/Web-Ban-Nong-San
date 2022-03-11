@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class SalerServlet extends HttpServlet {
+public class DeleteProductItemServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +34,19 @@ public class SalerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DeleteProductItemServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DeleteProductItemServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,27 +61,25 @@ public class SalerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        int IdA = Integer.parseInt(request.getParameter("idA"));
-        int IdA = 1;
-        String accname = "";
+        int IdP = Integer.parseInt(request.getParameter("IdP"));        
         ManagerDAO md = new ManagerDAO();
-        ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
-        ArrayList<Account> acclist = md.getAccount();
-        ArrayList<Type> typelist = md.getProductType();
-        for (Account acclist1 : acclist) {
-            if(acclist1.getIdA() == IdA){
-                accname = acclist1.getAccountName();
+        ArrayList<Product> prolist = md.getAllProduct();
+        int IdA = 0;
+        String accname = "";
+        for (Product prolist1 : prolist) {
+            if(prolist1.getIdP() == IdP){
+                accname = prolist1.getAccount().getAccountName();
+                IdA = prolist1.getAccount().getIdA();
             }
         }
+        md.DeleteProduct(IdP);
+        ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
+        ArrayList<Type> typelist = md.getProductType();
         request.setAttribute("IdA", IdA);
         request.setAttribute("accname", accname);
         request.setAttribute("prolistbyIdA", prolistbyIdA);
         request.setAttribute("typelist", typelist);
-        request.getRequestDispatcher("SalerPage.jsp").forward(request, response);
-//        PrintWriter out = response.getWriter();
-//        out.print(prolistbyIdA);
-//        out.print(acclist);
-//        out.print(typelist.get(0).getTypeName());
+        request.getRequestDispatcher("DeleteProduct.jsp").forward(request, response);
     }
 
     /**

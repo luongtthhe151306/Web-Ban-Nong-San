@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class SalerServlet extends HttpServlet {
+public class DeleteProductPageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +34,23 @@ public class SalerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        ManagerDAO md = new ManagerDAO();
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+//        int IdA = 1;
+        String accname = "";
+        ArrayList<Account> acclist = md.getAccount();
+        for (Account acclist1 : acclist) {
+            if (acclist1.getIdA() == IdA) {
+                accname = acclist1.getAccountName();
+            }
+        }
+        ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
+        ArrayList<Type> typelist = md.getProductType();
+        request.setAttribute("accname", accname);
+        request.setAttribute("prolistbyIdA", prolistbyIdA);
+        request.setAttribute("typelist", typelist);
+        request.getRequestDispatcher("DeleteProduct.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,27 +65,7 @@ public class SalerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        int IdA = Integer.parseInt(request.getParameter("idA"));
-        int IdA = 1;
-        String accname = "";
-        ManagerDAO md = new ManagerDAO();
-        ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
-        ArrayList<Account> acclist = md.getAccount();
-        ArrayList<Type> typelist = md.getProductType();
-        for (Account acclist1 : acclist) {
-            if(acclist1.getIdA() == IdA){
-                accname = acclist1.getAccountName();
-            }
-        }
-        request.setAttribute("IdA", IdA);
-        request.setAttribute("accname", accname);
-        request.setAttribute("prolistbyIdA", prolistbyIdA);
-        request.setAttribute("typelist", typelist);
-        request.getRequestDispatcher("SalerPage.jsp").forward(request, response);
-//        PrintWriter out = response.getWriter();
-//        out.print(prolistbyIdA);
-//        out.print(acclist);
-//        out.print(typelist.get(0).getTypeName());
+        processRequest(request, response);
     }
 
     /**
