@@ -30,7 +30,7 @@
                     <nav class="header-navbar">
                         <ul class="header-list">
                             <li class="header-item">
-                                <a href="" class="header-item-link">Kênh người bán</a>
+                                <a href="SalerServlet?idA=${idA}" class="header-item-link">Kênh người bán</a>
                             </li>
                         </ul>
                         <ul class="header-list">
@@ -57,12 +57,25 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="header-item">
-                                <a href="" class="header-item-link">Đăng nhập</a>
-                            </li>
-                            <li class="header-item">
-                                <a href="" class="header-item-link">Đăng ký</a>
-                            </li>
+                            <c:choose>
+                                <c:when test="${accname == null}">
+                                <li class="header-item">
+                                    <a href="Login.jsp" class="header-item-link">Đăng nhập</a>
+                                </li>
+                                <li class="header-item">
+                                    <a href="" class="header-item-link">Đăng ký</a>
+                                </li>
+                                </c:when>
+                                <c:when test="${accname != null}">
+                                <li class="header-item">
+                                    <a href="" class="header-item-link">${accname}</a>
+                                </li>
+                                <li class="header-item">
+                                    <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
+                                </li>  
+                                </c:when>
+                            </c:choose>
+                            
                         </ul>
                     </nav>
                     <div class="header-home-search">

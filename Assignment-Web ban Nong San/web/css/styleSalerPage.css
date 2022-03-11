@@ -400,7 +400,10 @@
 
 /* footer */
 .footer {
+    display: block;
     background-color: #fff;
+    margin-top: 15px;
+    width: 100%;
 }
 
 .footer-contact-list{

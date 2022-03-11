@@ -100,7 +100,7 @@ public class ManagerDAO {
         System.out.println(a.get(0).getAccountName());
         Account acc = n.getAccountById(1);
         System.out.println(acc.getAccountName());
-        ArrayList<Product> list = n.getProduct(1);
+        ArrayList<Product> list = n.getProductByIdA(1);
         System.out.println(list.get(0).getName());
     }
 
@@ -119,6 +119,34 @@ public class ManagerDAO {
             ArrayList<Product> prolist = new ArrayList<>();
             Connection conn = new BaseDAO().getConnection();
             PreparedStatement state = conn.prepareStatement("SELECT * FROM [Product] WHERE TypeID=" + ID);
+            ResultSet rs = state.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("IdP");
+                String Name = rs.getString("Name");
+                double Price = rs.getFloat("Price");
+                Type Type = getTypeById(rs.getInt("TypeID"));
+                String o = rs.getString("Origin");
+                String i = rs.getString("image");
+                int QuantityStock = rs.getInt("QuantityStock");
+                int QuantitySold = rs.getInt("QuantitySold");
+                Account IdC = getAccountById(rs.getInt("IdC"));
+                Product acc = new Product(id, Name, Price, Type, o, i, QuantityStock, QuantitySold, IdC);
+                prolist.add(acc);
+            }
+            return prolist;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList getProductByIdA(int IdA) {
+        try {
+            ArrayList<Product> prolist = new ArrayList<>();
+            Connection conn = new BaseDAO().getConnection();
+            PreparedStatement state = conn.prepareStatement("SELECT * FROM [Product] WHERE IdC=" + IdA);
             ResultSet rs = state.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("IdP");

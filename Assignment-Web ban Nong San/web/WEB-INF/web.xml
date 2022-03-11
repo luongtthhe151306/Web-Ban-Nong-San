@@ -16,6 +16,10 @@
         <servlet-name>ProductTypeServlet</servlet-name>
         <servlet-class>Controller.ProductTypeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SalerServlet</servlet-name>
+        <servlet-class>Controller.SalerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -32,9 +36,16 @@
         <servlet-name>ProductTypeServlet</servlet-name>
         <url-pattern>/ProductTypeServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SalerServlet</servlet-name>
+        <url-pattern>/SalerServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>Login.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

@@ -64,18 +64,21 @@ public class LoginServlet extends HttpServlet {
         ArrayList<Account> acclist = md.getAccount();
         String accname = request.getParameter("accname");
         String pass = request.getParameter("pass");
-        
+        int idA=0 ;
         boolean flaglogin = false;
         //find account
         for(int i=0; i<acclist.size(); i++){
             if(acclist.get(i).getAccountName().equals(accname)
                && acclist.get(i).getPassword().equals(pass)){
+                idA = acclist.get(i).getIdA();
                 flaglogin = true;
             }
         }
         
         //login success
         if(flaglogin){
+            request.setAttribute("accname", accname);
+            request.setAttribute("idA", idA);
             request.getRequestDispatcher("HomeServlet").forward(request, response);
         }//login faile
         else{
