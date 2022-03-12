@@ -115,7 +115,7 @@
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
                         <a href="" class="navigation-bar-link" >Kênh người bán</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="" class="navigation-bar-link" >Xóa sản phẩm</a>
+                        <a href="" class="navigation-bar-link" >Cập nhật sản phẩm</a>
                     </div>
                     <nav class="category">
                         <div class="category-heading">
@@ -153,7 +153,7 @@
                                             <p class="product-item-price">${pro.getPrice()}00vnd</p>
                                             <p>Đã bán: ${pro.getQuantitySold()}</p>
                                             <p>Còn lại: ${pro.getQuantityStock()}</p>
-                                            <a class="delete-link" href="UpdateProduct.jsp?IdP=${pro.getIdP()}&accname=">Cập nhật</a>
+                                            <a class="delete-link" href="UpdateProduct.jsp?IdP=${pro.getIdP()}&IdA=${pro.getAccount().getIdA()}">Cập nhật</a>
                                         </a>
                                     </div>
                                     </div>

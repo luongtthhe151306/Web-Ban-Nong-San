@@ -102,9 +102,13 @@ public class ManagerDAO {
 //        System.out.println(acc.getAccountName());
 //        ArrayList<Product> list = n.getProductByIdA(1);
 //        System.out.println(list.get(0).getName());
-        Product p = new Product("Mận hậu", 13, new Type(2,"Hoa quả"),"Moc Chau", "https://traicaycaonghe.vn/wp-content/uploads/2021/04/manhau13.jpg",
+//        Product p = new Product("Mận hậu", 13, new Type(2,"Hoa quả"),"Moc Chau", "https://traicaycaonghe.vn/wp-content/uploads/2021/04/manhau13.jpg",
+//                100, 0, n.getAccountById(1));
+//        n.createProduct(p);
+        Product p = new Product(30,"Mận hậu", 13, new Type(2,"Hoa quả"),"Moc Chau", "https://traicaycaonghe.vn/wp-content/uploads/2021/04/manhau13.jpg",
                 100, 0, n.getAccountById(1));
-        n.createProduct(p);
+        //System.out.println(p.getIdP()+"/"+p.getName());
+        n.UpdateProduct(p);
     }
 
     public Account getAccountById(int id) {
@@ -247,11 +251,10 @@ public class ManagerDAO {
     
     public void UpdateProduct(Product pro) {
         try {
-            String sql = "Update Product set Name=N'"+pro.getName()+"', Price="+pro.getPrice()+
-                    ",TypeId="+pro.getType().getIdType()+",Origin=N'"+pro.getOrigin()+
-                    "',image='"+pro.getImg()+"',QuantitySold="+pro.getQuantitySold()+
-                    ",QuantityStock=" +pro.getQuantityStock()+"\n"+
-                    "where IdP = "+pro.getIdP();
+            String sql = "UPDATE [Product] SET [Name]=N'"+pro.getName()+"', [Price]="+pro.getPrice()+
+                    ", [TypeId]="+pro.getType().getIdType()+", [Origin]=N'"+pro.getOrigin()+
+                    "', [image]='"+pro.getImg()+"', [QuantityStock]=" +pro.getQuantityStock()+
+                    " WHERE IdP = "+pro.getIdP();
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();
             state.executeUpdate(sql);

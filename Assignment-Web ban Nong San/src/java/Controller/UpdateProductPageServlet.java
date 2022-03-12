@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.ManagerDAO;
+import Model.Account;
 import Model.Product;
 import Model.Type;
 import java.io.IOException;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class HomeServlet extends HttpServlet {
+public class UpdateProductPageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,15 +34,22 @@ public class HomeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ManagerDAO  md = new ManagerDAO();
+        ManagerDAO md = new ManagerDAO();
+//        int IdA = Integer.parseInt(request.getParameter("IdA"));
+        int IdA = 1;
+        String accname = "";
+        ArrayList<Account> acclist = md.getAccount();
+        for (Account acclist1 : acclist) {
+            if (acclist1.getIdA() == IdA) {
+                accname = acclist1.getAccountName();
+            }
+        }
+        ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
         ArrayList<Type> typelist = md.getProductType();
-        String accname = (String)request.getAttribute("accname");
-//        int idA = (Integer)request.getAttribute("idA");
-        int idA = 1;
-        request.setAttribute("accname",accname);
-        request.setAttribute("idA", idA);
+        request.setAttribute("accname", accname);
+        request.setAttribute("prolistbyIdA", prolistbyIdA);
         request.setAttribute("typelist", typelist);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        request.getRequestDispatcher("UpdateProductPage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
