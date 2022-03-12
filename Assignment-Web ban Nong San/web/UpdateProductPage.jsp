@@ -1,20 +1,15 @@
 <%-- 
-    Document   : SalerPage
-    Created on : Mar 11, 2022, 4:34:26 PM
+    Document   : DeleteProduct
+    Created on : Mar 11, 2022, 8:41:59 PM
     Author     : Admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>SalerPage</title>
+        <title>UpdateProductPage</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/styleSalerPage.css">
@@ -27,6 +22,9 @@ and open the template in the editor.
             <div class="grid">
                 <nav class="header-navbar">
                     <ul class="header-list">
+                        <!-- <a href="DemoHome.html" class="img-itema">
+                                <img width="100" height="100" src="../web/image/Happyfield_logos__primary_hollow_yellow_transparent+(1).png">
+                            </a> -->
                         <li class="header-item">
                             <a href="" class="header-item-link">Kênh người bán</a>
                         </li>
@@ -116,6 +114,8 @@ and open the template in the editor.
                         <a href="" class="navigation-bar-link" >Home</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
                         <a href="" class="navigation-bar-link" >Kênh người bán</a>
+                        <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
+                        <a href="" class="navigation-bar-link" >Xóa sản phẩm</a>
                     </div>
                     <nav class="category">
                         <div class="category-heading">
@@ -124,13 +124,13 @@ and open the template in the editor.
                         </div>
                         <ul class="category-list">
                             <li class="category-item">
-                                <a href="CreateProduct.jsp?IdA=${IdA}" class="catagory-item-link">Thêm sản phẩm</a>
+                                <a href="" class="catagory-item-link">Thêm sản phẩm</a>
                             </li>
                             <li class="category-item">
-                                <a href="DeleteProductPageServlet?IdA=${IdA}" class="catagory-item-link">Xóa sản phẩm</a>
+                                <a href="" class="catagory-item-link">Xóa sản phẩm</a>
                             </li>
                             <li class="category-item">
-                                <a href="UpdateProductPageServlet?IdA=${IdA}&" class="catagory-item-link">Cập nhật lại sản phẩm</a>
+                                <a href="" class="catagory-item-link">Cập nhật lại sản phẩm</a>
                             </li>
                             <li class="category-item">
                                 <a href="" class="catagory-item-link">Cài đặt</a>
@@ -153,6 +153,7 @@ and open the template in the editor.
                                             <p class="product-item-price">${pro.getPrice()}00vnd</p>
                                             <p>Đã bán: ${pro.getQuantitySold()}</p>
                                             <p>Còn lại: ${pro.getQuantityStock()}</p>
+                                            <a class="delete-link" href="UpdateProduct.jsp?IdP=${pro.getIdP()}&accname=">Cập nhật</a>
                                         </a>
                                     </div>
                                     </div>

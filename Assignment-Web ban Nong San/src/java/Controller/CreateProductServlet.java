@@ -34,48 +34,52 @@ public class CreateProductServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         int IdA = Integer.parseInt(request.getParameter("IdA"));
         String name = request.getParameter("ipName");
         double price = Double.parseDouble(request.getParameter("ipPrice"));
-        String typename1 = request.getParameter("checkType");
+        int typename1 = 0;
+        if (request.getParameter("checkType") != null) {
+            typename1 = Integer.parseInt(request.getParameter("checkType"));
+        }
         String typename2 = request.getParameter("ipType");
         String origin = request.getParameter("ipOrigin");
         String img = request.getParameter("ipImg");
         int QuantityStock = Integer.parseInt(request.getParameter("ipQuantityStock"));
-        
-        PrintWriter out = response.getWriter();
-        out.println(typename1);
-        out.println(typename2);
-        out.println(IdA);
+//        PrintWriter out = response.getWriter();
+////        out.println(typename1);
+//        out.println(typename2);
+//        out.println(IdA);
         Type type = null;
         Account acc = null;
-        boolean f = false;
+        Product pro;
         ManagerDAO md = new ManagerDAO();
-        ArrayList<Type> typelist = md.getProductType();
-        ArrayList<Account> acclist = md.getAccount();
-        for (Type typelist1 : typelist) {
-            if(typelist1.getTypeName().equals(typename1)){
-                type = typelist1;
-                f = true;
+        if (typename1 != 0) {
+            ArrayList<Type> typelist = md.getProductType();
+            for (Type typelist1 : typelist) {
+                if (typelist1.getIdType() == typename1) {
+                    type = typelist1;
+                }
+            }
+        } else {
+            md.createTypeProduct(typename2);
+            ArrayList<Type> typelist = md.getProductType();
+            for (Type typelist1 : typelist) {
+                if (typelist1.getTypeName().equalsIgnoreCase(typename2)) {
+                    type = typelist1;
+                }
             }
         }
-        out.print(type);
-//        for (Account acclist1 : acclist) {
-//            if(acclist1.getIdA() == IdA){
-//                acc = acclist1;
-//            }
-//        }
-//        
-//        Product pro;
-//        if(f){
-//            pro = new Product(name, price, type,origin, img, QuantityStock, 0, acc);
-//        }else{
-//            type = new Type(typename2);
-//            md.createTypeProduct(type);
-//            pro = new Product(name, price, type,origin, img, QuantityStock, 0, acc);
-//        }
-//        md.createProduct(pro);
-//        request.getRequestDispatcher("SalerServlet?IdA="+IdA).forward(request, response);
+        ArrayList<Account> acclist = md.getAccount();
+        for (Account acclist1 : acclist) {
+            if (acclist1.getIdA() == IdA) {
+                acc = acclist1;
+            }
+        }
+        pro = new Product(name, price, type, origin, img, QuantityStock, 0, acc);
+        md.createProduct(pro);
+        request.getRequestDispatcher("SalerServlet?IdA=" + IdA).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -231,10 +231,27 @@ public class ManagerDAO {
         }
     }
     
-    public void createTypeProduct(Type type) {
+    public void createTypeProduct(String typename) {
         try {
             String sql = "insert into Type( NameType)\n" +
-                          "values(N'"+type.getTypeName()+"')";
+                          "values(N'"+typename+"')";
+            Connection conn = new BaseDAO().getConnection();
+            Statement state = conn.createStatement();
+            state.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void UpdateProduct(Product pro) {
+        try {
+            String sql = "Update Product set Name=N'"+pro.getName()+"', Price="+pro.getPrice()+
+                    ",TypeId="+pro.getType().getIdType()+",Origin=N'"+pro.getOrigin()+
+                    "',image='"+pro.getImg()+"',QuantitySold="+pro.getQuantitySold()+
+                    ",QuantityStock=" +pro.getQuantityStock()+"\n"+
+                    "where IdP = "+pro.getIdP();
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();
             state.executeUpdate(sql);

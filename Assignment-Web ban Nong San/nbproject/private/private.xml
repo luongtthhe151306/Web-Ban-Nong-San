@@ -5,12 +5,13 @@
         <group>
             <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/Controller/SalerServlet.java</file>
             <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/SalerPage.jsp</file>
-            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/DemoUpdateProduct.html</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/UpdateProductPage.jsp</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/UpdateProduct.jsp</file>
             <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/Model/Product.java</file>
-            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/Controller/CreateProductServlet.java</file>
             <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/Model/Type.java</file>
-            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/DemoCreateProduct.html</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/Controller/CreateProductServlet.java</file>
             <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/DAO/ManagerDAO.java</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/DeleteProduct.jsp</file>
             <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/CreateProduct.jsp</file>
         </group>
     </open-files>
