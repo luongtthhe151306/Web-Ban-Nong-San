@@ -124,7 +124,7 @@ and open the template in the editor.
                         </div>
                         <ul class="category-list">
                             <li class="category-item">
-                                <a href="" class="catagory-item-link">Thêm sản phẩm</a>
+                                <a href="CreateProduct.jsp?IdA=${IdA}" class="catagory-item-link">Thêm sản phẩm</a>
                             </li>
                             <li class="category-item">
                                 <a href="DeleteProductPageServlet?IdA=${IdA}" class="catagory-item-link">Xóa sản phẩm</a>

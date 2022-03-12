@@ -21,6 +21,10 @@ public class Type {
         this.TypeName = TypeName;
     }
 
+    public Type(String TypeName) {
+        this.TypeName = TypeName;
+    }
+
     public void setIdType(int IdType) {
         this.IdType = IdType;
     }

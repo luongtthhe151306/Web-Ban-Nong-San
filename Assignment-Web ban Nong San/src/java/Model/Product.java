@@ -34,6 +34,18 @@ public class Product {
         this.QuantitySold = QuantitySold;
         this.Account = Account;
     }
+    
+
+    public Product(String Name, double Price, Type Type, String Origin, String Img, int QuantityStock, int QuantitySold, Account Account) {
+        this.Name = Name;
+        this.Price = Price;
+        this.Type = Type;
+        this.Origin = Origin;
+        this.Img = Img;
+        this.QuantityStock = QuantityStock;
+        this.QuantitySold = QuantitySold;
+        this.Account = Account;
+    }
 
     public int getIdP() {
         return IdP;

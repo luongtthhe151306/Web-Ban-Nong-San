@@ -102,7 +102,9 @@ public class ManagerDAO {
 //        System.out.println(acc.getAccountName());
 //        ArrayList<Product> list = n.getProductByIdA(1);
 //        System.out.println(list.get(0).getName());
-        n.DeleteProduct(28);
+        Product p = new Product("Mận hậu", 13, new Type(2,"Hoa quả"),"Moc Chau", "https://traicaycaonghe.vn/wp-content/uploads/2021/04/manhau13.jpg",
+                100, 0, n.getAccountById(1));
+        n.createProduct(p);
     }
 
     public Account getAccountById(int id) {
@@ -207,6 +209,36 @@ public class ManagerDAO {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
         }catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void createProduct(Product pro) {
+        try {
+            String sql = "insert into Product(Name, Price, TypeID, Origin, image, QuantitySold, QuantityStock, IdC)\n" +
+                            "values(N'"+pro.getName()+"',"+pro.getPrice()+","+pro.getType().getIdType()+",N'"
+                            +pro.getOrigin()+"','"+pro.getImg()+"',"+pro.getQuantitySold()+","
+                            +pro.getQuantityStock()+","+pro.getAccount().getIdA()+")";
+            Connection conn = new BaseDAO().getConnection();
+            Statement state = conn.createStatement();
+            state.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void createTypeProduct(Type type) {
+        try {
+            String sql = "insert into Type( NameType)\n" +
+                          "values(N'"+type.getTypeName()+"')";
+            Connection conn = new BaseDAO().getConnection();
+            Statement state = conn.createStatement();
+            state.executeUpdate(sql);
+        } catch (SQLException ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
