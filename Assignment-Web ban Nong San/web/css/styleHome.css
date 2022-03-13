@@ -190,6 +190,17 @@
     display: none;
 }
 
+.cart-notify{
+    position: absolute;
+    padding: 0px 4px;
+    background-color: #fff;
+    color: rgb(20, 138, 26);
+    font-size: 14px;
+    border-radius: 17px;
+    top: -8px;
+    right: 38px;
+}
+
 .empty-cart{
     width: 50%;
     padding: 10px 0;

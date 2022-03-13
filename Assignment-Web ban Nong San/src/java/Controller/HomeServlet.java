@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.ManagerDAO;
+import Model.Order;
 import Model.Product;
 import Model.Type;
 import java.io.IOException;
@@ -33,12 +34,15 @@ public class HomeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         ManagerDAO  md = new ManagerDAO();
         ArrayList<Type> typelist = md.getProductType();
 //        PrintWriter out = response.getWriter();
-//        out.print(typelist.size());
+//        out.print("a");
         String accname;
         String IdA;
+        
         if(request.getParameter("idA") == null){
             accname = (String)request.getAttribute("accname");
             IdA = (String)request.getAttribute("idA");
@@ -46,12 +50,17 @@ public class HomeServlet extends HttpServlet {
             IdA = request.getParameter("idA");
             accname = request.getParameter("accname");
         }
-        
+//        out.print(request.getAttribute("accname"));
+//        out.print(request.getAttribute("idA"));
+        ArrayList<Order> orderlist = md.getOrder(Integer.parseInt(IdA));
+        ArrayList<Product> prolist = md.getAllProduct();
         if(accname == null){
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }else{
             request.setAttribute("accname",accname);
             request.setAttribute("idA", IdA);
+            request.setAttribute("orderlist", orderlist);
+            request.setAttribute("prolist", prolist);
             request.setAttribute("typelist", typelist);
             request.getRequestDispatcher("Home.jsp").forward(request, response);
         }

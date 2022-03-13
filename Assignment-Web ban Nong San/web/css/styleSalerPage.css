@@ -225,7 +225,16 @@
     color: rgb(240, 72, 72);
     font-size: 14px;
 }
-
+.cart-notify{
+    position: absolute;
+    padding: 0px 4px;
+    background-color: #fff;
+    color: rgb(20, 138, 26);
+    font-size: 14px;
+    border-radius: 17px;
+    top: -8px;
+    right: 38px;
+}
 /* container */
 .container-fluid{
     background-color: rgb(196, 245, 184);

@@ -149,7 +149,16 @@
 .cart-logo-icon:hover{
     color: rgb(8, 70, 8);
 }
-
+.cart-notify{
+    position: absolute;
+    padding: 0px 4px;
+    background-color: #fff;
+    color: rgb(20, 138, 26);
+    font-size: 14px;
+    border-radius: 17px;
+    top: -8px;
+    right: 38px;
+}
 .search-input{
     width: 90%;
     height: 100%;

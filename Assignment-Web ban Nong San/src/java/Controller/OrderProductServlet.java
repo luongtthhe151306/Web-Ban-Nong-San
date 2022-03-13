@@ -42,6 +42,7 @@ public class OrderProductServlet extends HttpServlet {
         int IdP = Integer.parseInt(request.getParameter("IdP"));
         int IdA = Integer.parseInt(request.getParameter("IdA"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
+        Order orderIdP = md.getOrderIdP(IdA, IdP);
         Product pro = md.getProductByIdP(IdP);
         Account acc = md.getAccountById(IdA);
         int sold = pro.getQuantitySold();
@@ -49,35 +50,49 @@ public class OrderProductServlet extends HttpServlet {
         pro.setQuantitySold(sold + quantity);
         pro.setQuantityStock(stock - quantity);
 
+//        PrintWriter out = response.getWriter();
+//        out.println(submit);
+//        out.println(request.getParameter("IdP"));
+//        out.println(request.getParameter("IdA"));
+////        out.println(IdA);
+//        out.println(quantity);
+//        out.println(pro);
+//        out.println(acc);
+//        out.println(sold);
+//        out.println(stock);
+//        out.print(orderIdP);
         //update product quantitysold, stock
-        ArrayList<Bill> billlist = md.getTotalBill(IdA);
-        int IdB = 0;
-        if (billlist.isEmpty()) {
+        Bill bill = md.getTotalBillNull(IdA);
+//        out.print(billlist);
+        Order order = null;
+ 
+        if(bill == null){
             md.CreateTotalBill(IdA);
-        } else {
-            boolean f = false;
-            for (Bill bill : billlist) {
-                if (bill.getOrderTime() == null) {
-                    f = true;
-                    IdB = bill.getIdB();
-                }
-            }
-            if (!f) {
-                md.CreateTotalBill(IdA);
-                ArrayList<Bill> billlist1 = md.getTotalBill(IdA);
-                for (Bill bill1 : billlist1) {
-                    if (bill1.getOrderTime() == null) {
-                        IdB = bill1.getIdB();
-                    }
-                }
-                Order order = new Order(acc, IdB, pro, quantity);
+            Bill b = md.getTotalBillNull(IdA);
+            int IdB = b.getIdB();
+            order = new Order(acc, IdB, pro, quantity);
+            md.CreateOrder(order);
+            md.UpdateProduct(pro);
+        }else{
+            int IdB = bill.getIdB();
+            if(order == null){
+                order = new Order(acc, IdB, pro, quantity);
                 md.CreateOrder(order);
-            } else {
-                Order order = new Order(acc, IdB, pro, quantity);
-                md.CreateOrder(order);
+            }else{
+                int i = order.getQuantity();
+                order.setQuantity(i+quantity);
+                md.UpdateOrder(order);
             }
+            md.UpdateProduct(pro);
         }
+        if (submit.equals("Thêm vào giỏ hàng")) {
+            String idA = Integer.toString(IdA);
+            request.setAttribute("idA", idA);
+            request.setAttribute("accname", acc.getAccountName());
+            request.getRequestDispatcher("HomeServlet").forward(request, response);
+        } else {
 
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

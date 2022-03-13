@@ -4,6 +4,8 @@
     Author     : Admin
 --%>
 
+<%@page import="Model.Type"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="Model.Product"%>
 <%@page import="Model.Account"%>
 <%@page import="DAO.ManagerDAO"%>
@@ -25,9 +27,13 @@
     <header class="header">
         <div class="grid">
             <nav class="header-navbar">
+                <%ManagerDAO md = new ManagerDAO();
+                    int IdA = Integer.parseInt(request.getParameter("IdA"));
+                    Account acc = md.getAccountById(IdA);
+                    %>
                 <ul class="header-list">
                     <li class="header-item">
-                        <a href="" class="header-item-link">Kênh người bán</a>
+                        <a href="SalerServlet?idA=<%= acc.getIdA() %>" class="header-item-link">Kênh người bán</a>
                     </li>
                 </ul>
                 <ul class="header-list">
@@ -54,10 +60,7 @@
                             </ul>
                         </div>
                     </li>
-                    <%ManagerDAO md = new ManagerDAO();
-                    int IdA = Integer.parseInt(request.getParameter("IdA"));
-                    Account acc = md.getAccountById(IdA);
-                    %>
+                    
                     <li class="header-item">
                         <a href="" class="header-item-link"><%= acc.getAccountName() %></a>
                     </li>
@@ -116,10 +119,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3">
+                <%int ids = Integer.parseInt(request.getParameter("IdS"));
+                Account saler = md.getAccountById(ids);
+                %>
                 <div class="navigation-bar">        
                     <a href="HomeServlet?accname=<%= acc.getAccountName() %>&idA=<%= acc.getIdA() %>" class="navigation-bar-link">Home</a>
-                    <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                    <a href="OrderProduct?IdS=${IdS}&IdA=<%= acc.getIdA() %>&IdP=${IdP}" class="navigation-bar-link">Mua hàng</a>
+                    
                 </div>
                 <nav class="category">
                     <div class="category-heading">
@@ -127,18 +132,13 @@
                         Danh mục quản lý
                     </div>
                     <ul class="category-list">
+                        <%ArrayList<Type> typelist = md.getProductType();
+                        for(Type type : typelist){
+                        %>
                         <li class="category-item">
-                            <a href="" class="catagory-item-link">Thêm sản phẩm</a>
+                            <a href="" class="catagory-item-link"><%= type.getTypeName() %></a>
                         </li>
-                        <li class="category-item">
-                            <a href="" class="catagory-item-link">Xóa sản phẩm</a>
-                        </li>
-                        <li class="category-item">
-                            <a href="" class="catagory-item-link">Cập nhật lại sản phẩm</a>
-                        </li>
-                        <li class="category-item">
-                            <a href="" class="catagory-item-link">Cài đặt</a>
-                        </li>
+                        <%}%>
                     </ul>
                 </nav>
             </div>
@@ -148,12 +148,12 @@
                             Product pro = md.getProductByIdP(IdP);
                         %>
                     <div class="col-sm-4" style="padding-top: 50px;">
-                        <div class="store"><i class="fa-solid fa-store store-icon"></i><h4><%= acc.getAccountName() %></h4></div>
+                        <div class="store"><i class="fa-solid fa-store store-icon"></i><h4><%= saler.getAccountName() %></h4></div>
                         <div class="update-img" style="background-image: url(<%= pro.getImg() %>);"></div>
                         
                     </div>
                     <div class="col-sm-7">
-                        <form class="create-product" action="OrderProductServlet?IdA=<%= acc.getIdA()%>&IdP=<%= pro.getIdP() %>">
+                        <form class="create-product" action="OrderProductServlet" method="get">
                             <table>
                             <tr class="infomation"><td>Tên sản phẩm: <%= pro.getName() %></td></tr>
                             <tr class="infomation"><td>Giá bán: <%= pro.getPrice() %>00vnd</td></tr>
@@ -162,9 +162,12 @@
                             <tr class="infomation"><td>Đã bán: <%= pro.getQuantitySold() %></td></tr>
                             <tr><td>Số lượng: <input type="text" name="quantity" class="ipquantity"></td></tr>
                             <tr>${error}</tr>
+                           
                             <tr>
                                 <td class="submit"><input class="submit-item" type="submit" name="submit" value="Thêm vào giỏ hàng"></td>
                                 <td class="submit"><input class=" submit-item-link" type="submit" name="submit" value="Mua hàng"></td>
+                                <td><input type="hidden" name="IdA" value="<%= acc.getIdA()%>"></td>
+                                <td><input type="hidden" name="IdP" value="<%= pro.getIdP() %>"></td>
                             </tr> 
                             </table>             
                         </form>

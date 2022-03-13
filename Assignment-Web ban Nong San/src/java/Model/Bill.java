@@ -20,6 +20,11 @@ public class Bill {
     public Bill() {
     }
 
+    public Bill(int IdB, int IdA) {
+        this.IdB = IdB;
+        this.IdA = IdA;
+    }
+    
     public Bill(double TotalMoney, int IdA, String OrderTime) {
         this.TotalMoney = TotalMoney;
         this.IdA = IdA;

@@ -74,6 +74,7 @@
                     </div>
                     <div class="cart">
                         <div class="logo">
+                            <span class="cart-notify">3</span>
                             <a href="" class="logo-link">
                                 <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
                             </a>

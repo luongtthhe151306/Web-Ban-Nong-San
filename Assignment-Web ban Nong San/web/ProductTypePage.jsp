@@ -58,7 +58,7 @@
                                 </div>
                             </li>
                             <li class="header-item">
-                                <a href="" class="header-item-link">${IdA}</a>
+                                <a href="" class="header-item-link">${accname}</a>
                             </li>
                             <li class="header-item">
                                 <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -77,6 +77,7 @@
                             <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
                         </div>
                         <div class="cart">
+                            <span class="cart-notify" style="position: absolute;padding: 0px 4px;background-color: #fff;color: rgb(20, 138, 26);font-size: 14px;border-radius: 17px;top: -8px;right: 38px;">3</span>
                             <div class="logo">
                                 <a href="" class="logo-link">
                                     <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
@@ -141,7 +142,7 @@
                                <% for(int j= 0; j<prolist.size(); j++){%>
                                     <div class="col-sm-3 " style="margin-top: 20px">
                                         <div class="product-item">
-                                            <a href="" class="product-item-link">
+                                            <a href="OrderProduct.jsp?IdA=${IdA}&IdS=<%= prolist.get(j).getAccount().getIdA()%>&IdP=<%= prolist.get(j).getIdP()%>" class="product-item-link">
                                                 <img src= "<%= prolist.get(j).getImg()%>" class="product-item-img" style="height: 170px">
                                                 <p class="product-item-name"><%= prolist.get(j).getName()%></p>
                                                 <p class="product-item-price"><%= prolist.get(j).getPrice()%></p>

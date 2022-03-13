@@ -4,11 +4,13 @@
     Author     : Admin
 --%>
 
+<%@page import="Model.Order"%>
 <%@page import="Model.Type"%>
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="DAO.ManagerDAO"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -42,18 +44,15 @@
                                         <div>Thông báo mới</div>
                                     </header>
                                     <ul class="notifi-list">
+                                        <% ArrayList<Product> prolist1 = (ArrayList<Product>) request.getAttribute("prolist");
+                                        for(int i=prolist1.size()-1; i>prolist1.size()-4; i--){%>
                                         <li class="notifi-item">
-                                            <img src="../web/image/logo.jpg" class="notifi-item-img">
-                                            <div class="notifi-item-content">Sản phẩm mới từ </div>
+                                            <a href="OrderProduct.jsp?IdS=<%= prolist1.get(i).getAccount().getIdA()%>&IdA=${idA}&IdP=<%= prolist1.get(i).getIdP() %>" class="notifi-item" style="text-decoration: none; font-size: 16px; font-weight: 400px">
+                                                <img src="<%= prolist1.get(i).getImg()%>" class="notifi-item-img">
+                                                <div class="notifi-item-content">Sản phẩm mới từ <%= prolist1.get(i).getAccount().getAccountName() %> </div>
+                                            </a>
                                         </li>
-                                        <li class="notifi-item">
-                                            <img src="../web/image/logo.jpg" class="notifi-item-img">
-                                            <div class="notifi-item-content">Sản phẩm mới từ </div>
-                                        </li>
-                                        <li class="notifi-item">
-                                            <img src="../web/image/logo.jpg" class="notifi-item-img">
-                                            <div class="notifi-item-content">Sản phẩm mới từ </div>
-                                        </li>
+                                        <%}%>                                                                              
                                     </ul>
                                 </div>
                             </li>
@@ -88,34 +87,42 @@
                             <input class="search-input" type="text" placeholder="Nhập tên sản phẩm">
                             <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
                         </div>
-                        <div class="cart">
+                        <div class="cart">      
+                            
+                            <span class="cart-notify" style="position: absolute;padding: 0px 4px;background-color: #fff;color: rgb(20, 138, 26);font-size: 14px;border-radius: 17px;top: -8px;right: 38px;">${orderlist.size()}</span>
                             <div class="logo">
                                 <a href="" class="logo-link">
                                     <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
                                 </a>
                                 <div class="cart-list">
-                                    <!-- <img src="./image/empty-cart.webp" class="empty-cart"> -->
+                                    <c:if test="${orderlist.size() == 0}">
+                                    <img src="./image/empty-cart.webp" class="empty-cart">
+                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=${idA}">Xem giỏ hàng</a>
+                                    </c:if>
+                                    <c:if test="${orderlist.size() < 2}">
+                                        <c:forEach begin="0" end="${orderlist.size()}" items="${orderlist}" var="order">
                                     <a href="" class="cart-item">
-                                        <img src="./image/empty-cart.webp" class="img-cart">
+                                        <img src="${order.getProduct().getImg()}" class="img-cart">
                                         <div class="cart-content">
-                                            <span class="cart-content-name">Tên sản phẩm</span></br>
-                                            <span class="cart-content-price">25.000vnd</span>
+                                            <span class="cart-content-name">${order.getProduct().getName()}</span></br>
+                                            <span class="cart-content-price">${order.getProduct().getPrice()}</span>
                                         </div>
                                     </a>
+                                        </c:forEach>
+                                        <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=${idA}">Xem giỏ hàng</a>
+                                    </c:if>
+                                    <c:if test="${orderlist.size() >= 2}">
+                                        <c:forEach begin="0" end="1" items="${orderlist}" var="order">
                                     <a href="" class="cart-item">
-                                        <img src="./image/empty-cart.webp" class="img-cart">
+                                        <img src="${order.getProduct().getImg()}" class="img-cart">
                                         <div class="cart-content">
-                                            <span class="cart-content-name">Tên sản phẩm</span></br>
-                                            <span class="cart-content-price">25.000vnd</span>
+                                            <span class="cart-content-name">${order.getProduct().getName()}</span></br>
+                                            <span class="cart-content-price">${order.getProduct().getPrice()}</span>
                                         </div>
                                     </a>
-                                    <a href="" class="cart-item">
-                                        <img src="./image/empty-cart.webp" class="img-cart">
-                                        <div class="cart-content">
-                                            <span class="cart-content-name">Tên sản phẩm</span></br>
-                                            <span class="cart-content-price">25.000vnd</span>
-                                        </div>
-                                    </a>
+                                        </c:forEach>                        
+                                        <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=${idA}">Xem giỏ hàng</a>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +164,7 @@
                                 <c:forEach begin="0" end="3" items="${requestScope.prolist}" var="pro">
                                     <div class="col-sm-3">
                                         <div class="product-item">
-                                            <a href="OrderProduct.jsp?IdS=${pro.getAccount().getIdA()}&IdA=${idA}&IdP=${ pro.getIdP}" class="product-item-link">
+                                            <a href="OrderProduct.jsp?IdS=${pro.getAccount().getIdA()}&IdA=${idA}&IdP=${ pro.getIdP()}" class="product-item-link">
                                                 <image class="product-item-img" src="${pro.getImg()}" style="height: 170px">
                                                 <p class="product-item-name">${pro.getName()}</p>
                                                 <p class="product-item-price">${pro.getPrice()}</p>

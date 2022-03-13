@@ -75,6 +75,7 @@ and open the template in the editor.
                         <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
                     </div>
                     <div class="cart">
+                        <span class="cart-notify">3</span>
                         <div class="logo">
                             <a href="" class="logo-link">
                                 <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
