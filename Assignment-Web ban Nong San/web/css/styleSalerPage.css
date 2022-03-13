@@ -337,6 +337,7 @@
     transition: right linear 0.1s;
     background-color: rgba(253, 253, 253, 0.945);
     border-radius: 2px;
+    
 }
 
 .product-list:hover{
@@ -346,6 +347,10 @@
 .product-list-link{
     text-decoration: none;
     color: rgba(44, 43, 43, 0.993);
+}
+
+.delete-producttype{
+    
 }
 
 .product-list-link:hover{

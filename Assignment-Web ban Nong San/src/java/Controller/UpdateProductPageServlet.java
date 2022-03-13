@@ -35,8 +35,8 @@ public class UpdateProductPageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ManagerDAO md = new ManagerDAO();
-//        int IdA = Integer.parseInt(request.getParameter("IdA"));
-        int IdA = 1;
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+//        int IdA = 1;
         String accname = "";
         ArrayList<Account> acclist = md.getAccount();
         for (Account acclist1 : acclist) {
@@ -45,7 +45,7 @@ public class UpdateProductPageServlet extends HttpServlet {
             }
         }
         ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
-        ArrayList<Type> typelist = md.getProductType();
+        ArrayList<Type> typelist = md.getProductTypeByIdA(IdA);
         request.setAttribute("accname", accname);
         request.setAttribute("prolistbyIdA", prolistbyIdA);
         request.setAttribute("typelist", typelist);

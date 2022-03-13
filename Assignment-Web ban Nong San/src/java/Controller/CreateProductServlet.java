@@ -48,8 +48,7 @@ public class CreateProductServlet extends HttpServlet {
         String img = request.getParameter("ipImg");
         int QuantityStock = Integer.parseInt(request.getParameter("ipQuantityStock"));
 //        PrintWriter out = response.getWriter();
-////        out.println(typename1);
-//        out.println(typename2);
+//        out.println(typename);
 //        out.println(IdA);
         Type type = null;
         Account acc = null;
@@ -64,8 +63,8 @@ public class CreateProductServlet extends HttpServlet {
             }
         } else {
             md.createTypeProduct(typename2);
-            ArrayList<Type> typelist = md.getProductType();
-            for (Type typelist1 : typelist) {
+            ArrayList<Type> typelist2 = md.getProductType();
+            for (Type typelist1 : typelist2) {
                 if (typelist1.getTypeName().equalsIgnoreCase(typename2)) {
                     type = typelist1;
                 }
@@ -79,7 +78,7 @@ public class CreateProductServlet extends HttpServlet {
         }
         pro = new Product(name, price, type, origin, img, QuantityStock, 0, acc);
         md.createProduct(pro);
-        request.getRequestDispatcher("SalerServlet?IdA=" + IdA).forward(request, response);
+        request.getRequestDispatcher("SalerServlet?idA=" + IdA).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

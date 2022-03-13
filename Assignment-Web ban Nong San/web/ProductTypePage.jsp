@@ -30,7 +30,7 @@
                     <nav class="header-navbar">
                         <ul class="header-list">
                             <li class="header-item">
-                                <a href="" class="header-item-link">Kênh người bán</a>
+                                <a href="SalerServlet?idA=${idA}" class="header-item-link">Kênh người bán</a>
                             </li>
                         </ul>
                         <ul class="header-list">
@@ -58,16 +58,16 @@
                                 </div>
                             </li>
                             <li class="header-item">
-                                <a href="" class="header-item-link">Đăng nhập</a>
+                                <a href="" class="header-item-link">${IdA}</a>
                             </li>
                             <li class="header-item">
-                                <a href="" class="header-item-link">Đăng ký</a>
+                                <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
                             </li>
                         </ul>
                     </nav>
                     <div class="header-home-search">
                         <div class="home">
-                            <a class="logo" href="DemoHome.html">
+                            <a class="logo" href="HomeServlet?idA=${IdA}&accname=${accname}">
                                 <i class="fa-solid fa-house home-logo-icon"></i>
                                 <div class="header-item-link">Happy Field</div>
                             </a>
@@ -115,9 +115,9 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="navigation-bar" >
-                        <a href="HomeServlet" class="navigation-bar-link" >Home</a>
+                        <a href="HomeServlet?idA=${IdA}&accname=${accname}" class="navigation-bar-link" >Home</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="ProductTypeServlet?idT=${idT}" class="navigation-bar-link" >${ typename}</a>
+                        <a href="ProductTypeServlet?idT=${type.getIdType()}&IdA=${IdA}" class="navigation-bar-link" >${ typename}</a>
                     </div>
                         <nav class="category">
                             <div class="category-heading">
@@ -127,7 +127,7 @@
                             <ul class="category-list">
                                 <c:forEach items="${typelist}" var="type">
                                     <li class="category-item">
-                                        <a href="ProductTypeServlet?idT=${type.getIdType()}" class="catagory-item-link">${type.getTypeName()}</a>
+                                        <a href="ProductTypeServlet?idT=${type.getIdType()}&IdA=${IdA}" class="catagory-item-link">${type.getTypeName()}</a>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -137,7 +137,7 @@
                         <div class="home-product">
                             <div class="row">
                             <% ArrayList<Product> prolist = (ArrayList<Product>)request.getAttribute("prolist"); %>                            
-                            <div class="product-list"><a href="" class="product-list-link">${ typename}</a></div>
+                            <div class="product-list"><a href="ProductTypeServlet?idT=${idT}&IdA=${IdA}" class="product-list-link">${ typename}</a></div>
                                <% for(int j= 0; j<prolist.size(); j++){%>
                                     <div class="col-sm-3 " style="margin-top: 20px">
                                         <div class="product-item">

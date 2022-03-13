@@ -11,17 +11,26 @@ package Model;
  */
 public class Order {
     private int IdO;
-    private String ProductName;
-    private double Price;
+    private Account Account;
+    private int IdB;
+    private Product Product;
     private int Quantity;
 
     public Order() {
     }
 
-    public Order(int IdO, String ProductName, double Price, int Quantity) {
+    public Order(Account Account, int IdB, Product Product, int Quantity) {
+        this.Account = Account;
+        this.IdB = IdB;
+        this.Product = Product;
+        this.Quantity = Quantity;
+    }
+
+    public Order(int IdO, Account Account, int IdB, Product Product, int Quantity) {
         this.IdO = IdO;
-        this.ProductName = ProductName;
-        this.Price = Price;
+        this.Account = Account;
+        this.IdB = IdB;
+        this.Product = Product;
         this.Quantity = Quantity;
     }
 
@@ -33,20 +42,28 @@ public class Order {
         this.IdO = IdO;
     }
 
-    public String getProductName() {
-        return ProductName;
+    public Account getAccount() {
+        return Account;
     }
 
-    public void setProductName(String ProductName) {
-        this.ProductName = ProductName;
+    public void setAccount(Account Account) {
+        this.Account = Account;
     }
 
-    public double getPrice() {
-        return Price;
+    public int getIdB() {
+        return IdB;
     }
 
-    public void setPrice(double Price) {
-        this.Price = Price;
+    public void setIdB(int IdB) {
+        this.IdB = IdB;
+    }
+
+    public Product getProduct() {
+        return Product;
+    }
+
+    public void setProduct(Product Product) {
+        this.Product = Product;
     }
 
     public int getQuantity() {

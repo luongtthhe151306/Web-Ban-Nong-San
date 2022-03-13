@@ -28,7 +28,7 @@ and open the template in the editor.
                 <nav class="header-navbar">
                     <ul class="header-list">
                         <li class="header-item">
-                            <a href="" class="header-item-link">Kênh người bán</a>
+                            <a href="SalerServlet?idA=${IdA}" class="header-item-link">Kênh người bán</a>
                         </li>
                     </ul>
                     <ul class="header-list">
@@ -65,7 +65,7 @@ and open the template in the editor.
                 </nav>
                 <div class="header-home-search">
                     <div class="home">
-                        <a class="logo" href="DemoHome.html">
+                        <a class="logo" href="HomeServlet?idA=${IdA}&accname=${accname}">
                             <i class="fa-solid fa-house home-logo-icon"></i>
                             <div class="header-item-link">Happy Field</div>
                         </a>
@@ -113,9 +113,9 @@ and open the template in the editor.
             <div class="row">
                 <div class="col-sm-3">
                     <div class="navigation-bar" >
-                        <a href="" class="navigation-bar-link" >Home</a>
+                        <a href="HomeServlet?idA=${IdA}&accname=${accname}" class="navigation-bar-link" >Home</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="" class="navigation-bar-link" >Kênh người bán</a>
+                        <a href="SalerServlet?idA=${IdA}" class="navigation-bar-link" >Kênh người bán</a>
                     </div>
                     <nav class="category">
                         <div class="category-heading">
@@ -130,10 +130,7 @@ and open the template in the editor.
                                 <a href="DeleteProductPageServlet?IdA=${IdA}" class="catagory-item-link">Xóa sản phẩm</a>
                             </li>
                             <li class="category-item">
-                                <a href="UpdateProductPageServlet?IdA=${IdA}&" class="catagory-item-link">Cập nhật lại sản phẩm</a>
-                            </li>
-                            <li class="category-item">
-                                <a href="" class="catagory-item-link">Cài đặt</a>
+                                <a href="UpdateProductPageServlet?IdA=${IdA}" class="catagory-item-link">Cập nhật lại sản phẩm</a>
                             </li>
                         </ul>
                     </nav>

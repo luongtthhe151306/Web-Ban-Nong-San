@@ -34,13 +34,13 @@ public class SalerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //        int IdA = Integer.parseInt(request.getParameter("idA"));
-        int IdA = 1;
+        int IdA = Integer.parseInt(request.getParameter("idA"));
+//        int IdA = 1;
         String accname = "";
         ManagerDAO md = new ManagerDAO();
         ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
         ArrayList<Account> acclist = md.getAccount();
-        ArrayList<Type> typelist = md.getProductType();
+        ArrayList<Type> typelist = md.getProductTypeByIdA(IdA);
         for (Account acclist1 : acclist) {
             if(acclist1.getIdA() == IdA){
                 accname = acclist1.getAccountName();

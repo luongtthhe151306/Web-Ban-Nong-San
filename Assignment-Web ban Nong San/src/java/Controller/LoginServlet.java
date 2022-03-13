@@ -64,49 +64,20 @@ public class LoginServlet extends HttpServlet {
         ArrayList<Account> acclist = md.getAccount();
         String accname = request.getParameter("accname");
         String pass = request.getParameter("pass");
-        int idA=0 ;
+        int IdA=0 ;
         boolean flaglogin = false;
         //find account
         for(int i=0; i<acclist.size(); i++){
             if(acclist.get(i).getAccountName().equals(accname)
                && acclist.get(i).getPassword().equals(pass)){
-                idA = acclist.get(i).getIdA();
+                IdA = acclist.get(i).getIdA();
                 flaglogin = true;
             }
         }
-        
-        //login success
-        if(flaglogin){
-            request.setAttribute("accname", accname);
-            request.setAttribute("idA", idA);
-            request.getRequestDispatcher("HomeServlet").forward(request, response);
-        }//login faile
-        else{
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<!DOCTYPE html>");
-            out.println("<html><head>");
-            out.println("</head><body>");
-            out.println("<form name=\"login\" action=\"LoginServlet\" method=\"post\">");
-            out.println("<table>");
-            out.println("<tr>");
-            out.println("<td>Account Name:</td>");
-            out.println("<td><input type=\"text\" name=\"accname\"/></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>Password:</td>");
-            out.println("<td><input type=\"text\" name=\"pass\"/></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td></td>");
-            out.println("<td><input type=\"submit\" value=\"Login\"/></td>");
-            out.println("</tr>");
-            out.println("</table>");
-            out.println("</form>");
-            out.println("<a href=\"CreateAccount.jsp\">Create Account</a>");
-            out.println("</table>");
-            out.println("</body></html>");
-        }
+        String idA = String.valueOf(IdA);
+        request.setAttribute("accname", accname);
+        request.setAttribute("idA", idA);
+        request.getRequestDispatcher("HomeServlet").forward(request, response);
     }
 
     /**

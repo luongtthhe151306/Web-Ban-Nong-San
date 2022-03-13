@@ -45,7 +45,7 @@ public class DeleteProductPageServlet extends HttpServlet {
             }
         }
         ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
-        ArrayList<Type> typelist = md.getProductType();
+        ArrayList<Type> typelist = md.getProductTypeByIdA(IdA);
         request.setAttribute("accname", accname);
         request.setAttribute("prolistbyIdA", prolistbyIdA);
         request.setAttribute("typelist", typelist);

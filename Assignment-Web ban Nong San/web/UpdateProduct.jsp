@@ -34,7 +34,16 @@
                                 <img width="100" height="100" src="../web/image/Happyfield_logos__primary_hollow_yellow_transparent+(1).png">
                             </a> -->
                     <li class="header-item">
-                        <a href="" class="header-item-link">Kênh người bán</a>
+                    <%ManagerDAO md = new ManagerDAO();
+                    ArrayList<Account> acclist = md.getAccount();
+                    int IdA = Integer.parseInt(request.getParameter("IdA"));
+                    Account acc = null;
+                    for(Account acclist1 : acclist){
+                        if(acclist1.getIdA() == IdA){
+                            acc = acclist1;
+                        }
+                    }%>
+                        <a href="SalerServlet?idA=<%= acc.getIdA() %>" class="header-item-link">Kênh người bán</a>
                     </li>
                 </ul>
                 <ul class="header-list">
@@ -61,15 +70,6 @@
                             </ul>
                         </div>
                     </li>
-                    <%ManagerDAO md = new ManagerDAO();
-                    ArrayList<Account> acclist = md.getAccount();
-                    int IdA = Integer.parseInt(request.getParameter("IdA"));
-                    Account acc = null;
-                    for(Account acclist1 : acclist){
-                        if(acclist1.getIdA() == IdA){
-                            acc = acclist1;
-                        }
-                    }%>
                     <li class="header-item">
                         <a href="" class="header-item-link"><%= acc.getAccountName() %></a>
                     </li>
@@ -80,7 +80,7 @@
             </nav>
             <div class="header-home-search">
                 <div class="home">
-                    <a class="logo" href="DemoHome.html">
+                    <a class="logo" href="HomeServlet?idA=<%= acc.getIdA() %>&accname=<%= acc.getAccountName() %>">
                         <i class="fa-solid fa-house home-logo-icon"></i>
                         <div class="header-item-link">Happy Field</div>
                     </a>
@@ -129,9 +129,9 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="navigation-bar">
-                    <a href="" class="navigation-bar-link">Home</a>
+                    <a href="HomeServlet?idA=<%= acc.getIdA() %>&accname=<%= acc.getAccountName() %>" class="navigation-bar-link">Home</a>
                     <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                    <a href="" class="navigation-bar-link">Kênh người bán</a>
+                    <a href="SalerServlet?idA=<%= acc.getIdA() %>" class="navigation-bar-link">Kênh người bán</a>
                     <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
                     <a href="" class="navigation-bar-link">Cập nhật sản phẩm</a>
                 </div>
@@ -142,16 +142,13 @@
                     </div>
                     <ul class="category-list">
                         <li class="category-item">
-                            <a href="" class="catagory-item-link">Thêm sản phẩm</a>
+                            <a href="CreateProduct.jsp?IdA=<%= acc.getIdA() %>" class="catagory-item-link">Thêm sản phẩm</a>
                         </li>
                         <li class="category-item">
-                            <a href="" class="catagory-item-link">Xóa sản phẩm</a>
+                            <a href="DeleteProductPageServlet?IdA=<%= acc.getIdA() %>" class="catagory-item-link">Xóa sản phẩm</a>
                         </li>
                         <li class="category-item">
-                            <a href="" class="catagory-item-link">Cập nhật lại sản phẩm</a>
-                        </li>
-                        <li class="category-item">
-                            <a href="" class="catagory-item-link">Cài đặt</a>
+                            <a href="UpdateProductPageServlet?IdA=<%= acc.getIdA() %>" class="catagory-item-link">Cập nhật lại sản phẩm</a>
                         </li>
                     </ul>
                 </nav>

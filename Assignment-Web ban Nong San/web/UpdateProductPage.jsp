@@ -4,7 +4,8 @@
     Author     : Admin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@
                                 <img width="100" height="100" src="../web/image/Happyfield_logos__primary_hollow_yellow_transparent+(1).png">
                             </a> -->
                         <li class="header-item">
-                            <a href="" class="header-item-link">Kênh người bán</a>
+                            <a href="SalerServlet?idA=${prolistbyIdA.get(0).getAccount().getIdA()}" class="header-item-link">Kênh người bán</a>
                         </li>
                     </ul>
                     <ul class="header-list">
@@ -63,7 +64,7 @@
                 </nav>
                 <div class="header-home-search">
                     <div class="home">
-                        <a class="logo" href="DemoHome.html">
+                        <a class="logo" href=HomeServlet?idA=${prolistbyIdA.get(0).getAccount().getIdA()}&accname=${accname}">
                             <i class="fa-solid fa-house home-logo-icon"></i>
                             <div class="header-item-link">Happy Field</div>
                         </a>
@@ -111,11 +112,11 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="navigation-bar" >
-                        <a href="" class="navigation-bar-link" >Home</a>
+                        <a href="HomeServlet?idA=${prolistbyIdA.get(0).getAccount().getIdA()}&accname=${accname}" class="navigation-bar-link" >Home</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="" class="navigation-bar-link" >Kênh người bán</a>
+                        <a href="SalerServlet?idA=${prolistbyIdA.get(0).getAccount().getIdA()}" class="navigation-bar-link" >Kênh người bán</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="" class="navigation-bar-link" >Cập nhật sản phẩm</a>
+                        <a href="UpdateProductPageServlet?IdA=${prolistbyIdA.get(0).getAccount().getIdA()}" class="navigation-bar-link" >Cập nhật sản phẩm</a>
                     </div>
                     <nav class="category">
                         <div class="category-heading">
@@ -124,17 +125,15 @@
                         </div>
                         <ul class="category-list">
                             <li class="category-item">
-                                <a href="" class="catagory-item-link">Thêm sản phẩm</a>
+                                <a href="CreateProduct.jsp?IdA=${prolistbyIdA.get(0).getAccount().getIdA()}" class="catagory-item-link">Thêm sản phẩm</a>
                             </li>
                             <li class="category-item">
-                                <a href="" class="catagory-item-link">Xóa sản phẩm</a>
+                                <a href="DeleteProductPageServlet?IdA=${prolistbyIdA.get(0).getAccount().getIdA()}" class="catagory-item-link">Xóa sản phẩm</a>
                             </li>
                             <li class="category-item">
-                                <a href="" class="catagory-item-link">Cập nhật lại sản phẩm</a>
+                                <a href="UpdateProductPageServlet?IdA=${prolistbyIdA.get(0).getAccount().getIdA()}" class="catagory-item-link">Cập nhật lại sản phẩm</a>
                             </li>
-                            <li class="category-item">
-                                <a href="" class="catagory-item-link">Cài đặt</a>
-                            </li>
+                            
                         </ul>
                     </nav>
                 </div>
@@ -142,7 +141,15 @@
                     <div class="home-product">
                         <div class="row">
                             <c:forEach items="${typelist}" var="type">
-                                <div class="product-list"><a class="product-list-link">${type.getTypeName()}</a></div>
+                                <div class="product-list" style="display: flex;">
+                                    <a class="product-list-link">${type.getTypeName()}</a>
+                                    <div class="delete-producttype" style="font-size: 15px;font-weight: 400;padding-left: 50px;">
+                                        <form action="UpdateProductTypeServlet?TypeId=${type.getIdType()}&IdA=${prolistbyIdA.get(0).getAccount().getIdA()}" method="post">Cập nhật tên loại: 
+                                            <input type="text" name="typename">
+                                            <input type="submit" value="Cập nhật" style="background-color: rgb(20, 138, 26); border: 1px solid; border-radius: 3px; color: #fff;">
+                                        </form>                                        
+                                    </div>
+                                </div>
                                 <c:forEach items="${prolistbyIdA}" var="pro">
                                     <c:if test="${type.getIdType() == pro.getType().getIdType()}">
                                     <div class="col-sm-3 " style=" margin-bottom: 15px;">

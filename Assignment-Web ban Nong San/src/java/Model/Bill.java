@@ -12,39 +12,33 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class Bill {
-    private int IDB;
-    private ArrayList<Order> Order;
+    private int IdB;
     private double TotalMoney;
-    private Account Buyer;
+    private int IdA;
     private String OrderTime;
-    private String DeliveryTime;
 
     public Bill() {
     }
 
-    public Bill(int IDB, ArrayList<Order> Order, double TotalMoney, Account Buyer, String OrderTime, String DeliveryTime) {
-        this.IDB = IDB;
-        this.Order = Order;
+    public Bill(double TotalMoney, int IdA, String OrderTime) {
         this.TotalMoney = TotalMoney;
-        this.Buyer = Buyer;
+        this.IdA = IdA;
         this.OrderTime = OrderTime;
-        this.DeliveryTime = DeliveryTime;
     }
 
-    public int getIDB() {
-        return IDB;
+    public Bill(int IdB, double TotalMoney, int IdA, String OrderTime) {
+        this.IdB = IdB;
+        this.TotalMoney = TotalMoney;
+        this.IdA = IdA;
+        this.OrderTime = OrderTime;
     }
 
-    public void setIDB(int IDB) {
-        this.IDB = IDB;
+    public int getIdB() {
+        return IdB;
     }
 
-    public ArrayList<Order> getOrder() {
-        return Order;
-    }
-
-    public void setOrder(ArrayList<Order> Order) {
-        this.Order = Order;
+    public void setIdB(int IdB) {
+        this.IdB = IdB;
     }
 
     public double getTotalMoney() {
@@ -55,12 +49,12 @@ public class Bill {
         this.TotalMoney = TotalMoney;
     }
 
-    public Account getBuyer() {
-        return Buyer;
+    public int getIdA() {
+        return IdA;
     }
 
-    public void setBuyer(Account Buyer) {
-        this.Buyer = Buyer;
+    public void setIdA(int IdA) {
+        this.IdA = IdA;
     }
 
     public String getOrderTime() {
@@ -70,14 +64,5 @@ public class Bill {
     public void setOrderTime(String OrderTime) {
         this.OrderTime = OrderTime;
     }
-
-    public String getDeliveryTime() {
-        return DeliveryTime;
-    }
-
-    public void setDeliveryTime(String DeliveryTime) {
-        this.DeliveryTime = DeliveryTime;
-    }
-    
-    
+ 
 }

@@ -81,7 +81,7 @@ public class CreateAccountServlet extends HttpServlet {
         
         ManagerDAO md = new ManagerDAO();
         md.createAccount(acc);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        request.getRequestDispatcher("Login.jsp").forward(request, response);
     }
 
     /**

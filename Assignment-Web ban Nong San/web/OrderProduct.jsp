@@ -1,25 +1,21 @@
 <%-- 
-    Document   : CreateProduct
-    Created on : Mar 12, 2022, 9:38:41 AM
+    Document   : OderProduct
+    Created on : Mar 13, 2022, 4:19:03 PM
     Author     : Admin
 --%>
 
-<%@page import="Model.Type"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="Model.Product"%>
 <%@page import="Model.Account"%>
 <%@page import="DAO.ManagerDAO"%>
-<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>--%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-<!DOCTYPE html>
 <html>
 
 <head>
-    <title>CreateProduct</title>
+    <title>Oder</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styleCreatProductPage.css">
+    <link rel="stylesheet" href="css/styleBuyProduct.css">
     <link rel="stylesheet" href="./font/fontawesome-free-6.0.0-web/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -30,21 +26,8 @@
         <div class="grid">
             <nav class="header-navbar">
                 <ul class="header-list">
-                    <!-- <a href="DemoHome.html" class="img-itema">
-                                <img width="100" height="100" src="../web/image/Happyfield_logos__primary_hollow_yellow_transparent+(1).png">
-                            </a> -->
                     <li class="header-item">
-                    <% int IdA = Integer.parseInt(request.getParameter("IdA"));
-                    ManagerDAO md = new ManagerDAO();
-                    ArrayList<Account> acclist = md.getAccount();
-                    Account acc = new Account() ;
-                    for(int i=0; i<acclist.size(); i++){
-                        if(acclist.get(i).getIdA() == IdA){
-                            acc = acclist.get(i);
-                        }                                                
-                    }
-                    %>
-                        <a href="SalerServlet?idA=<%= acc.getIdA() %>" class="header-item-link">Kênh người bán</a>
+                        <a href="" class="header-item-link">Kênh người bán</a>
                     </li>
                 </ul>
                 <ul class="header-list">
@@ -71,19 +54,21 @@
                             </ul>
                         </div>
                     </li>
+                    <%ManagerDAO md = new ManagerDAO();
+                    int IdA = Integer.parseInt(request.getParameter("IdA"));
+                    Account acc = md.getAccountById(IdA);
+                    %>
                     <li class="header-item">
                         <a href="" class="header-item-link"><%= acc.getAccountName() %></a>
                     </li>
                     <li class="header-item">
-                        <a href="" class="header-item-link">Đăng xuất</a>
+                        <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
                     </li>
-
-                    
                 </ul>
             </nav>
             <div class="header-home-search">
                 <div class="home">
-                    <a class="logo" href="HomeServlet?idA=<%= acc.getIdA() %>&accname=<%= acc.getAccountName() %>">
+                    <a class="logo" href="HomeServlet?accname=<%= acc.getAccountName() %>&idA=<%= acc.getIdA() %>">
                         <i class="fa-solid fa-house home-logo-icon"></i>
                         <div class="header-item-link">Happy Field</div>
                     </a>
@@ -93,12 +78,12 @@
                     <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
                 </div>
                 <div class="cart">
-                    <div class="logo">
-                        <a href="" class="logo-link">
-                            <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
-                        </a>
+                    <span class="cart-notify">3</span>
+                    <div class="logo">                       
+                        <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
                         <div class="cart-list">
                             <!-- <img src="./image/empty-cart.webp" class="empty-cart"> -->
+                            
                             <a href="" class="cart-item">
                                 <img src="./image/empty-cart.webp" class="img-cart">
                                 <div class="cart-content">
@@ -120,6 +105,7 @@
                                     <span class="cart-content-price">25.000vnd</span>
                                 </div>
                             </a>
+                            <a class="cart-view" href="">Xem giỏ hàng</a>
                         </div>
                     </div>
                 </div>
@@ -130,49 +116,60 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3">
-                <div class="navigation-bar">
-                    <a href="HomeServlet?idA=<%= acc.getIdA() %>&accname=<%= acc.getAccountName() %>" class="navigation-bar-link">Home</a>
+                <div class="navigation-bar">        
+                    <a href="HomeServlet?accname=<%= acc.getAccountName() %>&idA=<%= acc.getIdA() %>" class="navigation-bar-link">Home</a>
                     <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                    <a href="SalerServlet?idA=<%= acc.getIdA() %>" class="navigation-bar-link">Kênh người bán</a>
-                    <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                    <a href="CreateProduct.jsp?IdA=<%= acc.getIdA() %>" class="navigation-bar-link">Thêm sản phẩm</a>
+                    <a href="OrderProduct?IdS=${IdS}&IdA=<%= acc.getIdA() %>&IdP=${IdP}" class="navigation-bar-link">Mua hàng</a>
                 </div>
                 <nav class="category">
                     <div class="category-heading">
                         <i class="fa-solid fa-bars category-heading-icon"></i>
-                        Danh mục quản lý sản phẩm
+                        Danh mục quản lý
                     </div>
                     <ul class="category-list">
                         <li class="category-item">
-                            <a href="CreateProduct.jsp?IdA=<%= acc.getIdA() %>" class="catagory-item-link">Thêm sản phẩm</a>
+                            <a href="" class="catagory-item-link">Thêm sản phẩm</a>
                         </li>
                         <li class="category-item">
-                            <a href="DeleteProductPageServlet?IdA=<%= acc.getIdA() %>" class="catagory-item-link">Xóa sản phẩm</a>
+                            <a href="" class="catagory-item-link">Xóa sản phẩm</a>
                         </li>
                         <li class="category-item">
-                            <a href="UpdateProductPageServlet?IdA=<%= acc.getIdA() %>" class="catagory-item-link">Cập nhật lại sản phẩm</a>
+                            <a href="" class="catagory-item-link">Cập nhật lại sản phẩm</a>
                         </li>
-                        
+                        <li class="category-item">
+                            <a href="" class="catagory-item-link">Cài đặt</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
             <div class="col-sm-9">
-                <form class="create-product" action="CreateProductServlet?IdA=<%=IdA%>" method="post">
-                    <div class="input-infomation">Tên sản phẩm: <input type="text" name="ipName"placeholder="Nhập tên sản phẩm"></div>
-                    <div class="input-infomation">Giá bản: <input type="text" name="ipPrice" placeholder="Nhập giá bán"></div>
-                    <div class="input-infomation">Chọn loại sản phẩm:
-                        <%ArrayList<Type> typelist = md.getProductType();
-                        int s = typelist.size();
-                        for(int i=0; i<=s-1; i++){ %>
-                        <input type="checkbox" name="checkType" value="<%= typelist.get(i).getIdType()%>"><%= typelist.get(i).getTypeName() %>        
-                        <%}%>
+                <div class="row">
+                    <% int IdP = Integer.parseInt(request.getParameter("IdP"));
+                            Product pro = md.getProductByIdP(IdP);
+                        %>
+                    <div class="col-sm-4" style="padding-top: 50px;">
+                        <div class="store"><i class="fa-solid fa-store store-icon"></i><h4><%= acc.getAccountName() %></h4></div>
+                        <div class="update-img" style="background-image: url(<%= pro.getImg() %>);"></div>
+                        
                     </div>
-                    <div class="input-infomation">Nhập loại sản phẩm mới:<input type="text" name="ipType" placeholder="Nhập loại sản phẩm"></div>
-                    <div class="input-infomation">Xuất xứ: <input type="text" name="ipOrigin" placeholder="Xuất xứ"></div>
-                    <div class="input-infomation">Hình Ảnh: <input type="text" name="ipImg" placeholder="Link địa chỉ ảnh"></div>
-                    <div class="input-infomation">Số lượng trong kho: <input type="text" name="ipQuantityStock" placeholder="Nhập số lượng"></div>
-                    <input type="submit" value="Thêm Sản Phẩm">
-                </form>
+                    <div class="col-sm-7">
+                        <form class="create-product" action="OrderProductServlet?IdA=<%= acc.getIdA()%>&IdP=<%= pro.getIdP() %>">
+                            <table>
+                            <tr class="infomation"><td>Tên sản phẩm: <%= pro.getName() %></td></tr>
+                            <tr class="infomation"><td>Giá bán: <%= pro.getPrice() %>00vnd</td></tr>
+                            <tr class="infomation"><td>Xuất xứ: <%= pro.getOrigin() %></td></tr>
+                            <tr class="infomation"><td>Số lượng trong kho: <%= pro.getQuantityStock() %></td></tr>
+                            <tr class="infomation"><td>Đã bán: <%= pro.getQuantitySold() %></td></tr>
+                            <tr><td>Số lượng: <input type="text" name="quantity" class="ipquantity"></td></tr>
+                            <tr>${error}</tr>
+                            <tr>
+                                <td class="submit"><input class="submit-item" type="submit" name="submit" value="Thêm vào giỏ hàng"></td>
+                                <td class="submit"><input class=" submit-item-link" type="submit" name="submit" value="Mua hàng"></td>
+                            </tr> 
+                            </table>             
+                        </form>
+                    </div>
+                </div>       
             </div>
         </div>
     </div>

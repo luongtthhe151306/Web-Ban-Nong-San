@@ -59,28 +59,27 @@
                             </li>
                             <c:choose>
                                 <c:when test="${accname == null}">
-                                <li class="header-item">
-                                    <a href="Login.jsp" class="header-item-link">Đăng nhập</a>
-                                </li>
-                                <li class="header-item">
-                                    <a href="" class="header-item-link">Đăng ký</a>
-                                </li>
+                                    <li class="header-item">
+                                        <a href="Login.jsp" class="header-item-link">Đăng nhập</a>
+                                    </li>
+                                    <li class="header-item">
+                                        <a href="" class="header-item-link">Đăng ký</a>
+                                    </li>
                                 </c:when>
                                 <c:when test="${accname != null}">
-                                <li class="header-item">
-                                    <a href="" class="header-item-link">${accname}</a>
-                                </li>
-                                <li class="header-item">
-                                    <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
-                                </li>  
+                                    <li class="header-item">
+                                        <a href="" class="header-item-link">${accname}</a>
+                                    </li>
+                                    <li class="header-item">
+                                        <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
+                                    </li>  
                                 </c:when>
-                            </c:choose>
-                            
+                            </c:choose>                            
                         </ul>
                     </nav>
                     <div class="header-home-search">
                         <div class="home">
-                            <a class="logo" href="HomeServlet">
+                            <a class="logo" href="HomeServlet?accname=${accname}&idA=${idA}">
                                 <i class="fa-solid fa-house home-logo-icon"></i>
                                 <div class="header-item-link">Happy Field</div>
                             </a>
@@ -127,7 +126,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-3">
-                        <a href="HomeServlet" style="text-decoration: none;"><h3 style="margin-left: 10px 0 0 35px; color: #fff">Home</h3></a>
+                        <a href="HomeServlet?accname=${accname}&idA=${idA}" style="text-decoration: none;"><h3 style="margin-left: 10px 0 0 35px; color: #fff">Home</h3></a>
                         <nav class="category">
                             <div class="category-heading">
                                 <i class="fa-solid fa-bars category-heading-icon"></i>
@@ -136,7 +135,7 @@
                             <ul class="category-list">
                                 <c:forEach items="${typelist}" var="type">
                                     <li class="category-item">
-                                        <a href="ProductTypeServlet?idT=${type.getIdType()}" class="catagory-item-link">${type.getTypeName()}</a>
+                                        <a href="ProductTypeServlet?idT=${type.getIdType()}&IdA=${idA}" class="catagory-item-link">${type.getTypeName()}</a>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -144,26 +143,31 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="home-product">
+                            <% ManagerDAO md = new ManagerDAO();
+                                ArrayList<Type> typelist = (ArrayList<Type>) request.getAttribute("typelist");
+                                for (Type typelist1 : typelist) {%>
                             <div class="row">
-                                <%ManagerDAO md = new ManagerDAO();
-                                    ArrayList<Type> typelist = (ArrayList) request.getAttribute("typelist");
-                                    for (int i = 0; i < typelist.size(); i++) {%>
-                                <div class="product-list"><a href="ProductTypeServlet?idT=<%=typelist.get(i).getIdType()%>" class="product-list-link"><%= typelist.get(i).getTypeName()%></a></div>
-                                    <%ArrayList<Product> prolist = md.getProduct(typelist.get(i).getIdType());
-                                            for (int j = 0; j < 4; j++) {%>
-                                <div class="col-sm-3 ">
-                                    <div class="product-item">
-                                        <a href="" class="product-item-link">
-                                            <img src= "<%= prolist.get(j).getImg()%>" class="product-item-img" style="height: 170px">
-                                            <p class="product-item-name"><%= prolist.get(j).getName()%></p>
-                                            <p class="product-item-price"><%= prolist.get(j).getPrice()%>00vnd</p>
-                                        </a>
+                            <div class="product-list">
+                                <a class="product-list-link" href="ProductTypeServlet?idT=<%= typelist1.getIdType()%>&IdA=${idA}"><%= typelist1.getTypeName()%></a>
+                            </div>
+                            
+                                <%ArrayList<Product> prolist = new ArrayList();
+                                    prolist = md.getProduct(typelist1.getIdType());
+                                    request.setAttribute("prolist", prolist);%>
+                                <c:forEach begin="0" end="3" items="${requestScope.prolist}" var="pro">
+                                    <div class="col-sm-3">
+                                        <div class="product-item">
+                                            <a href="OrderProduct.jsp?IdS=${pro.getAccount().getIdA()}&IdA=${idA}&IdP=${ pro.getIdP}" class="product-item-link">
+                                                <image class="product-item-img" src="${pro.getImg()}" style="height: 170px">
+                                                <p class="product-item-name">${pro.getName()}</p>
+                                                <p class="product-item-price">${pro.getPrice()}</p>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                        <%} %>
-                                        <a  href = "ProductTypeServlet?idT=<%=typelist.get(i).getIdType()%>" class="product-viewall">Xem tất cả</a >
-                                     <%}%>
-                            </div>                    
+                                </c:forEach>
+                                <a class="product-viewall" href="ProductTypeServlet?idT=<%= typelist1.getIdType()%>&IdA=${idA}">Xem tất cả</a>
+                            </div>
+                            <%}%>
                         </div>
                     </div>
                 </div>

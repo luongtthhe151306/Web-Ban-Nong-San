@@ -35,13 +35,26 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         ManagerDAO  md = new ManagerDAO();
         ArrayList<Type> typelist = md.getProductType();
-        String accname = (String)request.getAttribute("accname");
-//        int idA = (Integer)request.getAttribute("idA");
-        int idA = 1;
-        request.setAttribute("accname",accname);
-        request.setAttribute("idA", idA);
-        request.setAttribute("typelist", typelist);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+//        PrintWriter out = response.getWriter();
+//        out.print(typelist.size());
+        String accname;
+        String IdA;
+        if(request.getParameter("idA") == null){
+            accname = (String)request.getAttribute("accname");
+            IdA = (String)request.getAttribute("idA");
+        }else{
+            IdA = request.getParameter("idA");
+            accname = request.getParameter("accname");
+        }
+        
+        if(accname == null){
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }else{
+            request.setAttribute("accname",accname);
+            request.setAttribute("idA", IdA);
+            request.setAttribute("typelist", typelist);
+            request.getRequestDispatcher("Home.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

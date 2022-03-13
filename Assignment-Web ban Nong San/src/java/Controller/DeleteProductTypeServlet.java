@@ -6,9 +6,7 @@
 package Controller;
 
 import DAO.ManagerDAO;
-import Model.Account;
 import Model.Product;
-import Model.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class ProductTypeServlet extends HttpServlet {
+public class DeleteProductTypeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,30 +32,27 @@ public class ProductTypeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ManagerDAO  md = new ManagerDAO();
-//        String idT = request.getParameter("idT");
-//        String IdA = request.getParameter("IdA");
-        int idT = Integer.parseInt(request.getParameter("idT"));
-        String IdA = request.getParameter("IdA");
-        String accname = md.getAccountById(Integer.parseInt(IdA)).getAccountName();
-        ArrayList<Type> typelist = md.getProductType();
-        ArrayList<Product> prolist = md.getProduct(idT);
-        String typename = "";
-        for (Type typelist1 : typelist) {
-            if(typelist1.getIdType() == idT){
-                typename = typelist1.getTypeName();
+        response.setContentType("text/html;charset=UTF-8");
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+        int IdType = Integer.parseInt(request.getParameter("IdType"));
+        
+//        PrintWriter out = response.getWriter();
+//        out.println(request.getParameter("IdA"));
+//        out.println(request.getParameter("IdType"));
+        ManagerDAO md = new ManagerDAO();
+        md.DeleteAllTypeProductByIdA(IdA, IdType);
+        boolean f = false;
+        ArrayList<Product> prolist = md.getAllProduct();
+        for(Product prolist1 : prolist){
+            if(prolist1.getType().getIdType() == IdType){
+                f = true;
             }
         }
-//        PrintWriter out = response.getWriter();
-//        out.print(idT);
-//        out.print(IdA);
+        if(!f){
+            md.DeleteProductType(IdType);
+        }
         request.setAttribute("IdA", IdA);
-        request.setAttribute("accname", accname);
-        request.setAttribute("idT", idT);
-        request.setAttribute("typename", typename);
-        request.setAttribute("typelist", typelist);
-        request.setAttribute("prolist", prolist);
-        request.getRequestDispatcher("ProductTypePage.jsp").forward(request, response);
+        request.getRequestDispatcher("DeleteProductPageServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

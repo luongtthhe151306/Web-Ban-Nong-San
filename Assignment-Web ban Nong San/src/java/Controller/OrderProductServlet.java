@@ -7,8 +7,9 @@ package Controller;
 
 import DAO.ManagerDAO;
 import Model.Account;
+import Model.Bill;
+import Model.Order;
 import Model.Product;
-import Model.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class ProductTypeServlet extends HttpServlet {
+public class OrderProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,30 +35,49 @@ public class ProductTypeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ManagerDAO  md = new ManagerDAO();
-//        String idT = request.getParameter("idT");
-//        String IdA = request.getParameter("IdA");
-        int idT = Integer.parseInt(request.getParameter("idT"));
-        String IdA = request.getParameter("IdA");
-        String accname = md.getAccountById(Integer.parseInt(IdA)).getAccountName();
-        ArrayList<Type> typelist = md.getProductType();
-        ArrayList<Product> prolist = md.getProduct(idT);
-        String typename = "";
-        for (Type typelist1 : typelist) {
-            if(typelist1.getIdType() == idT){
-                typename = typelist1.getTypeName();
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
+        String submit = request.getParameter("submit");
+        ManagerDAO md = new ManagerDAO();
+        int IdP = Integer.parseInt(request.getParameter("IdP"));
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        Product pro = md.getProductByIdP(IdP);
+        Account acc = md.getAccountById(IdA);
+        int sold = pro.getQuantitySold();
+        int stock = pro.getQuantityStock();
+        pro.setQuantitySold(sold + quantity);
+        pro.setQuantityStock(stock - quantity);
+
+        //update product quantitysold, stock
+        ArrayList<Bill> billlist = md.getTotalBill(IdA);
+        int IdB = 0;
+        if (billlist.isEmpty()) {
+            md.CreateTotalBill(IdA);
+        } else {
+            boolean f = false;
+            for (Bill bill : billlist) {
+                if (bill.getOrderTime() == null) {
+                    f = true;
+                    IdB = bill.getIdB();
+                }
+            }
+            if (!f) {
+                md.CreateTotalBill(IdA);
+                ArrayList<Bill> billlist1 = md.getTotalBill(IdA);
+                for (Bill bill1 : billlist1) {
+                    if (bill1.getOrderTime() == null) {
+                        IdB = bill1.getIdB();
+                    }
+                }
+                Order order = new Order(acc, IdB, pro, quantity);
+                md.CreateOrder(order);
+            } else {
+                Order order = new Order(acc, IdB, pro, quantity);
+                md.CreateOrder(order);
             }
         }
-//        PrintWriter out = response.getWriter();
-//        out.print(idT);
-//        out.print(IdA);
-        request.setAttribute("IdA", IdA);
-        request.setAttribute("accname", accname);
-        request.setAttribute("idT", idT);
-        request.setAttribute("typename", typename);
-        request.setAttribute("typelist", typelist);
-        request.setAttribute("prolist", prolist);
-        request.getRequestDispatcher("ProductTypePage.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

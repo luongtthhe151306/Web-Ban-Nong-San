@@ -8,37 +8,30 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="css/styleCreateAccount.css">
         <title>Create Account</title>
     </head>
     <body>
-        <form name="createAccount" action="CreateAccountServlet" method="post">
-            <table>
-                <tr>
-                    <td>Name:</td>
-                    <td><input type="text" name="namecreate"/></td>
-                </tr>
-                <tr>
-                    <td>Address:</td>
-                    <td><input type="text" name="addcreate"/></td>
-                </tr>
-                <tr>
-                    <td>Phone Number:</td>
-                    <td><input type="text" name="phonecreate"/></td>
-                </tr>
-                <tr>
-                    <td>Account Name:</td>
-                    <td><input type="text" name="accnamecreate"/></td>
-                </tr>
-                <tr>
-                    <td>Password: </td>
-                    <td><input type="text" name="passcreate"/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Create Account"/></td>
-                </tr>
-            </table>
-        </form>
+        <div class="container">
+            <div class="image"></div>
+            <div class="createaccount">
+                <div style="text-align: center;padding-bottom: 10px; font-size: 30px;">Tạo tài khoản</div>
+                <form name="createAccount" action="CreateAccountServlet" method="post">
+                    <label>Tên:</label>
+                    <input type="text" name="namecreate"/></br>
+                    <label>Địa chỉ:</label>
+                    <input type="text" name="addcreate"/></br>
+                    <label>Số điện thoại:</label>
+                    <input type="text" name="phonecreate"/></br>
+                    <label>Tên tài khoản:</label>
+                    <input type="text" name="accnamecreate"/></br>
+                    <label>Mật khẩu:</label>
+                    <input type="text" name="passcreate"/></br>
+                    <div>${error}</div>
+                    <div class="submit"><input type="submit" value="Tạo tài khoản"/></div>            
+                </form></div>
+        </div>
     </body>
 </html>
