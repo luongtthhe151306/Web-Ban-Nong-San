@@ -19,7 +19,7 @@
         <title>Cart</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/styleCartPage.css">
+        <link rel="stylesheet" href="css/styleAccountPage.css">
         <link rel="stylesheet" href="./font/fontawesome-free-6.0.0-web/css/all.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -127,7 +127,7 @@
                     <div class="navigation-bar">
                         <a href="HomeServlet?accname=<%= acc.getAccountName()%>&idA=<%=IdA%>" class="navigation-bar-link">Home</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="CartPage.jsp?IdA=<%=IdA%>" class="navigation-bar-link">Giỏ hàng</a>
+                        <a href="AccountPage.jsp?IdA=<%=IdA%>" class="navigation-bar-link">Quản lý tài khoản</a>
                     </div>
                     <nav class="category">
                         <div class="category-heading">
@@ -147,30 +147,34 @@
                     </nav>
                 </div>
                 <div class="col-sm-9">
-                    <form class="order" action="BillServlet" method="post">
-                        <input type="hidden" name="IdA" value="<%=IdA%>">
-                        <ul class="row order-list">                       
-                            <c:forEach items="${requestScope.orderlist}" var="order" varStatus="loop">
-                            <li class="order-item">
-                                <div class="row">
-                                    <div class="col-sm-4"><img src="${order.getProduct().getImg()}" class="img-order" style="height: 90px;"></div>
-                                    <div class="col-sm-8 order-content">
-                                        <span class="order-content-name"><c:out value="${order.getProduct().getName()}"></c:out><input type="checkbox" name="choose" value="${order.getIdO()}"></span></br>
-                                        <span class="order-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd</span>
-                                        <span class="order-content-quantity"><c:out value="${order.getQuantity()}"></c:out></span>
-                                        <a href="ChangeOrderQuantityServlet?IdA=<%=IdA%>&IdO=${order.getIdO()}&IdP=${order.getProduct().getIdP()}" style="text-decoration: none ;margin-right: 50px;">Thay đổi số lượng</a>
-                                        <a href="DeleteOrder?IdA=<%=IdA%>&IdO=${order.getIdO()}" style="text-decoration: none ;" onclick="if (!confirm('Bạn muốn xóa sản phẩm?')) { return false; }">Xóa sản phẩm</a>
-                                    </div>                                    
-                                </div>
-                            </li>
-                            </c:forEach>
-                            <li class="buy"><div style="color: red; margin-left: 20px;">${error}</div></li>
-                            <li class="buy">
-                                <input class="buy-btn" type="submit" value="Mua hàng">
-                                <a href="HistoryBillServlet?IdA=<%= IdA %>" class="buy-btn" style="text-decoration: none; color: #fff; margin-left: 30px;">Lịch sử mua hàng</a>
-                            </li>
-                        </ul>
-                    </form>
+                    <form action="ManagerAccountServlet" method="post">
+                        <input type="hidden" name="IdA" value="<%= IdA %>"/>
+                        <div class="account-info">
+                            <div class="title">Tên:</div>
+                            <div class="content"><input type="text" name="name" value="<%= acc.getName()%>"/></div>
+                        </div>
+                        <div class="account-info">
+                            <div class="title">Địa chỉ:</div>
+                            <div class="content"><input type="text" name="add" value="<%= acc.getAddress() %>"/></div>
+                        </div>
+                        <div class="account-info">
+                            <div class="title">Số điện thoại:</div>
+                            <div class="content"><input type="text" name="phone" value="<%= acc.getPhone() %>"/></div>
+                        </div>
+                        <div class="account-info">
+                            <div class="title">Tên tài khoản:</div>
+                            <div class="content"><input type="text" name="accname" value="<%= acc.getAccountName()%>"/></div>
+                        </div>
+                        <div class="account-info">
+                            <div class="title">Mật khẩu:</div>
+                            <div class="content"><input type="text" name="pass" value="<%= acc.getPassword() %>"/></div>
+                        </div>
+                        <div>${error}</div>
+                        <div class="submit">
+                            <input type="submit" name="submit" value="Thay đổi thông tin tài khoản"/>
+                            <input type="submit" name="submit" value="Xóa tài khoản" onclick="if (!confirm('Bạn muốn xóa tài khoản?')) { return false; }"/>
+                        </div>            
+                    </form></div>
                 </div>
             </div>
         </div>

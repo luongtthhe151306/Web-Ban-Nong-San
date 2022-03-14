@@ -60,6 +60,26 @@
         <servlet-name>OrderProductServlet</servlet-name>
         <servlet-class>Controller.OrderProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BillServlet</servlet-name>
+        <servlet-class>Controller.BillServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HistoryBillServlet</servlet-name>
+        <servlet-class>Controller.HistoryBillServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteOrder</servlet-name>
+        <servlet-class>Controller.DeleteOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeOrderQuantityServlet</servlet-name>
+        <servlet-class>Controller.ChangeOrderQuantityServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerAccountServlet</servlet-name>
+        <servlet-class>Controller.ManagerAccountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -111,6 +131,26 @@
     <servlet-mapping>
         <servlet-name>OrderProductServlet</servlet-name>
         <url-pattern>/OrderProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BillServlet</servlet-name>
+        <url-pattern>/BillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HistoryBillServlet</servlet-name>
+        <url-pattern>/HistoryBillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteOrder</servlet-name>
+        <url-pattern>/DeleteOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeOrderQuantityServlet</servlet-name>
+        <url-pattern>/ChangeOrderQuantityServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerAccountServlet</servlet-name>
+        <url-pattern>/ManagerAccountServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

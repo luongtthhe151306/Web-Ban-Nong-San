@@ -315,59 +315,43 @@
     color: rgb(20, 138, 26);
 }
 
-.order{
-    display: flex;
-    padding-top: 20px;
-    padding-right: 15px;
+.createaccount{
+    padding-top: 10%;
+    width: 35%;
+    height: 100%;
+    float: right;
 }
 
-.order-list{
-    margin: 20px 20px;
-    list-style: none;
-}
-
-.order-item{
-    height: 100px;
-    width: 95%;
-    margin: 20px 10px;
-    background-color: #fff; 
-}
-
-.img-order{
-    height: 90px!important;
-    margin: 5px 0px;
-}
-
-.order-content{
-    padding-top: 15px;
-}
-
-.order-content-price{
-    line-height: 40px;
-    color: rgb(240, 72, 72);
-}
-
-.order-content-quantity{
-    color: rgb(20, 138, 26);
-    margin: 0px 30px;
-}
-
-.bill{
-    background-color: #ffc107;
-    margin: 20px 0px;
-    padding: 10px 0px;
-    color: #fff;
-    font-style: oblique;
-}
-
-.buy{
-    font-size: 20px;
-}
-
-.buy-btn{
-    background-color: rgb(20, 138, 26);
+form{
+    width:90%;
+    /* height: auto; */
+    padding: 10px 20px;
+    border: 1px solid black ;
     border-radius: 5px;
-    border: 1px solid rgba(44, 43, 43, 0.993);;
+    margin: 20px 10px;
+}
+
+.account-info{
+    display: flex;    
+}
+
+.submit{
+    text-align: center;
+}
+
+.content{
+    flex: 1;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.content input{
+    width: 100%;
+}
+
+.title{
+    margin: 10px 15px;
+    font-size: 17px;
 }
 
 /* footer */

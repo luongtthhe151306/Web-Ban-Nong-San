@@ -44,6 +44,12 @@ public class OrderProductServlet extends HttpServlet {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         Order orderIdP = md.getOrderIdP(IdA, IdP);
         Product pro = md.getProductByIdP(IdP);
+        if(quantity > pro.getQuantityStock()){
+            String error = "Quá số lượng trong kho!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
+            return;
+        }
         Account acc = md.getAccountById(IdA);
         int sold = pro.getQuantitySold();
         int stock = pro.getQuantityStock();
@@ -63,27 +69,33 @@ public class OrderProductServlet extends HttpServlet {
 //        out.print(orderIdP);
         //update product quantitysold, stock
         Bill bill = md.getTotalBillNull(IdA);
-//        out.print(billlist);
+//        out.print(bill);
         Order order = null;
  
         if(bill == null){
             md.CreateTotalBill(IdA);
             Bill b = md.getTotalBillNull(IdA);
             int IdB = b.getIdB();
-            order = new Order(acc, IdB, pro, quantity);
+            order = new Order(acc, IdB, pro, quantity,0);
             md.CreateOrder(order);
-            md.UpdateProduct(pro);
         }else{
             int IdB = bill.getIdB();
-            if(order == null){
-                order = new Order(acc, IdB, pro, quantity);
+            if(orderIdP == null){
+                order = new Order(acc, IdB, pro, quantity,0);
                 md.CreateOrder(order);
             }else{
-                int i = order.getQuantity();
-                order.setQuantity(i+quantity);
-                md.UpdateOrder(order);
+                int i = orderIdP.getQuantity();
+                int total = i+quantity;
+                if(total <= orderIdP.getProduct().getQuantityStock()){
+                    orderIdP.setQuantity(total);
+//                    out.print(orderIdP.getQuantity());
+                    md.UpdateOrderQuantity(orderIdP);
+                }else{
+                    String error = "Giỏ hàng đã có "+orderIdP.getQuantity()+" sản phẩm!";
+                    request.setAttribute("error", error);
+                    request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
+                }
             }
-            md.UpdateProduct(pro);
         }
         if (submit.equals("Thêm vào giỏ hàng")) {
             String idA = Integer.toString(IdA);
@@ -91,7 +103,7 @@ public class OrderProductServlet extends HttpServlet {
             request.setAttribute("accname", acc.getAccountName());
             request.getRequestDispatcher("HomeServlet").forward(request, response);
         } else {
-
+            request.getRequestDispatcher("CartPage.jsp?IdA="+IdA).forward(request, response);
         }
     }
 

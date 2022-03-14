@@ -67,7 +67,7 @@
                                 </c:when>
                                 <c:when test="${accname != null}">
                                     <li class="header-item">
-                                        <a href="" class="header-item-link">${accname}</a>
+                                        <a href="AccountPage.jsp?IdA=${idA}" class="header-item-link">${accname}</a>
                                     </li>
                                     <li class="header-item">
                                         <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -99,7 +99,7 @@
                                     <img src="./image/empty-cart.webp" class="empty-cart">
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=${idA}">Xem giỏ hàng</a>
                                     </c:if>
-                                    <c:if test="${orderlist.size() < 2}">
+                                    <c:if test="${orderlist.size() < 2 && orderlist.size()!=0}">
                                         <c:forEach begin="0" end="${orderlist.size()}" items="${orderlist}" var="order">
                                     <a href="" class="cart-item">
                                         <img src="${order.getProduct().getImg()}" class="img-cart">

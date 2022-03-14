@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -99,7 +101,7 @@ public class ManagerDAO {
         ManagerDAO n = new ManagerDAO();
 //        ArrayList<Account> a = n.getAccount();
 //        System.out.println(a.get(0).getAccountName());
-//        Account acc = n.getAccountById(1);
+        Account acc = n.getAccountById(3);
 //        System.out.println(acc.getAccountName());
 //        ArrayList<Product> list = n.getProductByIdA(1);
 //        System.out.println(list.get(0).getName());
@@ -112,9 +114,13 @@ public class ManagerDAO {
 //        n.UpdateProduct(p);
 //        Type t = new Type(6, "Hoa hoét");
 //        n.UpdateProductType(t);
-//        Product p = n.getProductByIdP(7);
-        ArrayList<Order> p = n.getOrder(3);
-        System.out.println(p.get(0).getIdB());
+        Product p = n.getProductByIdP(7);
+        n.CreateOrder(new Order( acc, 1, p, 20, 0));
+        Order p1 = n.getOrderIdP(3, 7);
+//        p.setQuantity(200);
+//        n.UpdateOrder(p);
+        ArrayList<Bill> billlist = n.getTotalBillPayment(3);
+        System.out.println(billlist.get(0).getOrderTime());
     }
 
     public Account getAccountById(int id) {
@@ -127,6 +133,35 @@ public class ManagerDAO {
         return null;
     }
 
+    public void UpdateAccount(Account acc) {
+        try {
+            String sql = "UPDATE [Account] SET [Name]= N'"+acc.getName()+"', [Address]=N'"+acc.getAddress()+"', \n" +
+                            "[Phone] = '"+acc.getPhone()+"', [AccountName]= N'"+acc.getAccountName()+"', [Password]='"+acc.getPassword()+"'\n"+
+                            "WHERE IdC = "+acc.getIdA();
+            Connection conn = new BaseDAO().getConnection();
+            Statement state = conn.createStatement();
+            state.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void DeleteAccount(int IdA) {
+        try {
+            String sql = "DELETE FROM [Account] WHERE IdC=" + IdA;
+            Connection conn = new BaseDAO().getConnection();
+//            PreparedStatement state = conn.prepareStatement("DELETE FROM [Product] WHERE IdP=" + IdP);
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public ArrayList getProduct(int ID) {
         try {
             ArrayList<Product> prolist = new ArrayList<>();
@@ -362,6 +397,20 @@ public class ManagerDAO {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void UpdateBill(Bill bill) {
+        try {
+            String sql = "UPDATE [ToTalBill] SET [TotalMoney]= "+bill.getTotalMoney()+", [OrderTime] =  CAST('"+bill.getOrderTime()+"' AS DATETIME)\n" +
+                            "WHERE IdTB = "+bill.getIdB();
+            Connection conn = new BaseDAO().getConnection();
+            Statement state = conn.createStatement();
+            state.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void CreateTotalBill(int IdA) {
         try {
@@ -417,13 +466,41 @@ public class ManagerDAO {
         }
         return null;
     }
+    
+    public ArrayList getTotalBillPayment(int IdA) {
+        try {
+            ArrayList<Bill> billlist = new ArrayList();
+            Connection conn = new BaseDAO().getConnection();
+            PreparedStatement state = conn.prepareStatement("SELECT * FROM [TotalBill] WHERE IdC = " + IdA 
+                                        +" AND OrderTime is not null");
+            ResultSet rs = state.executeQuery();
+            while (rs.next()) {
+                
+                int id = rs.getInt("IdTB");
+                int idA = rs.getInt("IdC");
+                double totalmoney = rs.getFloat("TotalMoney");
+                java.sql.Timestamp dbSqlDate = rs.getTimestamp("OrderTime");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
+                String OrderTime = dateFormat.format(dbSqlDate);  
+                Bill bill = new Bill(id, totalmoney, idA, OrderTime);
+                billlist.add(bill);
+                
+            }
+            return billlist;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     public void CreateOrder(Order order) {
         try {
-            String sql = "INSERT INTO [Orders] ([IdC],[IdTb],[IdP],[NameP],[PriceP],[Quantity])\n"
+            String sql = "INSERT INTO [Orders] ([IdC],[IdTb],[IdP],[NameP],[PriceP],[Quantity],[payment])\n"
                     + "VALUES(" + order.getAccount().getIdA() + "," + order.getIdB() + ","
                     + order.getProduct().getIdP() + ",N'" + order.getProduct().getName() + "',"
-                    + order.getProduct().getPrice() + "," + order.getQuantity() + ")";
+                    + order.getProduct().getPrice() + "," + order.getQuantity() +","+order.getPayment()+ ")";
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();
             state.executeUpdate(sql);
@@ -434,11 +511,11 @@ public class ManagerDAO {
         }
     }
 
-    public ArrayList getOrder(int IdA) {
+    public ArrayList getOrderInCart(int IdA) {
         try {
             ArrayList<Order> orderlist = new ArrayList<>();
             Connection conn = new BaseDAO().getConnection();
-            PreparedStatement state = conn.prepareStatement("SELECT * FROM [Orders] WHERE IdC =" + IdA);
+            PreparedStatement state = conn.prepareStatement("SELECT * FROM [Orders] WHERE IdC =" + IdA +" AND payment = 0");
             ResultSet rs = state.executeQuery();
             while (rs.next()) {
                 int idO = rs.getInt("IdO");
@@ -446,7 +523,33 @@ public class ManagerDAO {
                 int idB = rs.getInt("IdTB");
                 Product pro = getProductByIdP(rs.getInt("IdP"));
                 int quantity = rs.getInt("Quantity");
-                Order order = new Order(idO, acc, idB, pro, quantity);
+                int payment = rs.getInt("payment");
+                Order order = new Order(idO, acc, idB, pro, quantity,payment);
+                orderlist.add(order);
+            }
+            return orderlist;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList getOrderPayment(int IdA) {
+        try {
+            ArrayList<Order> orderlist = new ArrayList<>();
+            Connection conn = new BaseDAO().getConnection();
+            PreparedStatement state = conn.prepareStatement("SELECT * FROM [Orders] WHERE IdC =" + IdA +" AND payment = 1");
+            ResultSet rs = state.executeQuery();
+            while (rs.next()) {
+                int idO = rs.getInt("IdO");
+                Account acc = getAccountById(rs.getInt("IdC"));
+                int idB = rs.getInt("IdTB");
+                Product pro = getProductByIdP(rs.getInt("IdP"));
+                int quantity = rs.getInt("Quantity");
+                int payment = rs.getInt("payment");
+                Order order = new Order(idO, acc, idB, pro, quantity,payment);
                 orderlist.add(order);
             }
             return orderlist;
@@ -463,7 +566,7 @@ public class ManagerDAO {
            
             Connection conn = new BaseDAO().getConnection();
             PreparedStatement state = conn.prepareStatement("SELECT * FROM [Orders] WHERE IdC =" + IdA
-                                                            +" AND IdP = "+IdP);
+                                                            +" AND IdP = "+IdP+" AND payment=0");
             ResultSet rs = state.executeQuery();
             while (rs.next()) {
                 int idO = rs.getInt("IdO");
@@ -471,7 +574,33 @@ public class ManagerDAO {
                 int idB = rs.getInt("IdTB");
                 Product pro = getProductByIdP(rs.getInt("IdP"));
                 int quantity = rs.getInt("Quantity");
-                Order order = new Order(idO, acc, idB, pro, quantity);
+                int payment = rs.getInt("payment");
+                Order order = new Order(idO, acc, idB, pro, quantity,payment);
+                return order;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public Order getOrderIdO(int IdO) {
+        try {
+           
+            Connection conn = new BaseDAO().getConnection();
+            PreparedStatement state = conn.prepareStatement("SELECT * FROM [Orders] WHERE IdO =" + IdO);
+            ResultSet rs = state.executeQuery();
+            while (rs.next()) {
+                int idO = rs.getInt("IdO");
+                Account acc = getAccountById(rs.getInt("IdC"));
+                int idB = rs.getInt("IdTB");
+                Product pro = getProductByIdP(rs.getInt("IdP"));
+                int quantity = rs.getInt("Quantity");
+                int payment = rs.getInt("payment");
+                Order order = new Order(idO, acc, idB, pro, quantity,payment);
                 return order;
             }
             
@@ -483,13 +612,41 @@ public class ManagerDAO {
         return null;
     }
 
-    public void UpdateOrder(Order order) {
+    public void UpdateOrderQuantity(Order order) {
         try {
             String sql = "UPDATE [Orders] SET [Quantity]=" + order.getQuantity()+"\n"+
+                            "WHERE IdO = "+order.getIdO()+" AND payment = 0";
+            Connection conn = new BaseDAO().getConnection();
+            Statement state = conn.createStatement();
+            state.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void UpdateOrderPayment(Order order) {
+        try {
+            String sql = "UPDATE [Orders] SET [payment]= " + order.getPayment()+"\n"+
                             "WHERE IdO ="+order.getIdO();
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();
             state.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void DeleteOrder(int IdO) {
+        try {
+            String sql = "DELETE FROM [Orders] WHERE IdO=" + IdO;
+            Connection conn = new BaseDAO().getConnection();
+//            PreparedStatement state = conn.prepareStatement("DELETE FROM [Product] WHERE IdP=" + IdP);
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

@@ -12,12 +12,12 @@ Origin nvarchar(30) not null, image varchar(5000) not null, QuantityStock int no
 QuantitySold int not null, IdC int foreign key references Account(IdC) not null)
 
 create table TotalBill(IdTB int identity(1,1) primary key, TotalMoney float, 
-IdC int foreign key references Account(IdC), OrderTime date)
+IdC int foreign key references Account(IdC), OrderTime datetime)
 
 create table Orders(IdO int identity(1,1) primary key,
 IdC int foreign key references Account(IdC) not null,
 IdTB int foreign key references TotalBill(IdTB) not null, 
 IdP int not null, NameP nvarchar(100) not null, PriceP float not null,
-Quantity int not null)
+Quantity int not null, payment bit not null)
 
 drop database NongSan

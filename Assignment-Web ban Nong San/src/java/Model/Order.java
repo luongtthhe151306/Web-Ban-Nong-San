@@ -15,23 +15,26 @@ public class Order {
     private int IdB;
     private Product Product;
     private int Quantity;
+    private int payment;
 
-    public Order() {
-    }
-
-    public Order(Account Account, int IdB, Product Product, int Quantity) {
+    public Order(Account Account, int IdB, Product Product, int Quantity, int payment) {
         this.Account = Account;
         this.IdB = IdB;
         this.Product = Product;
         this.Quantity = Quantity;
+        this.payment = payment;
     }
 
-    public Order(int IdO, Account Account, int IdB, Product Product, int Quantity) {
+    public Order() {
+    }
+
+    public Order(int IdO, Account Account, int IdB, Product Product, int Quantity, int payment) {
         this.IdO = IdO;
         this.Account = Account;
         this.IdB = IdB;
         this.Product = Product;
         this.Quantity = Quantity;
+        this.payment = payment;
     }
 
     public int getIdO() {
@@ -73,6 +76,13 @@ public class Order {
     public void setQuantity(int Quantity) {
         this.Quantity = Quantity;
     }
-    
+
+    public int getPayment() {
+        return payment;
+    }
+
+    public void setPayment(int payment) {
+        this.payment = payment;
+    }
     
 }

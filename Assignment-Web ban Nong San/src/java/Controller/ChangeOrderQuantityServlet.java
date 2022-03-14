@@ -7,11 +7,8 @@ package Controller;
 
 import DAO.ManagerDAO;
 import Model.Order;
-import Model.Product;
-import Model.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class HomeServlet extends HttpServlet {
+public class ChangeOrderQuantityServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,35 +32,14 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("utf-8");
-        ManagerDAO  md = new ManagerDAO();
-        ArrayList<Type> typelist = md.getProductType();
-//        PrintWriter out = response.getWriter();
-//        out.print("a");
-        String accname;
-        String IdA;
-        
-        if(request.getParameter("idA") == null){
-            accname = (String)request.getAttribute("accname");
-            IdA = (String)request.getAttribute("idA");
-        }else{
-            IdA = request.getParameter("idA");
-            accname = request.getParameter("accname");
-        }
-//        out.print(request.getAttribute("accname"));
-//        out.print(request.getAttribute("idA"));
-        ArrayList<Order> orderlist = md.getOrderInCart(Integer.parseInt(IdA));
-        ArrayList<Product> prolist = md.getAllProduct();
-        if(accname == null){
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
-        }else{
-            request.setAttribute("accname",accname);
-            request.setAttribute("idA", IdA);
-            request.setAttribute("orderlist", orderlist);
-            request.setAttribute("prolist", prolist);
-            request.setAttribute("typelist", typelist);
-            request.getRequestDispatcher("Home.jsp").forward(request, response);
-        }
+        ManagerDAO md = new ManagerDAO();
+        int IdP = Integer.parseInt(request.getParameter("IdP"));
+        int IdO = Integer.parseInt(request.getParameter("IdO"));
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+        Order orderIdP = md.getOrderIdP(IdA, IdP);
+        orderIdP.setQuantity(0);
+        md.UpdateOrderQuantity(orderIdP);
+        request.getRequestDispatcher("OrderProduct.jsp?IdS="+orderIdP.getProduct().getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

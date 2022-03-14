@@ -60,12 +60,17 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         ManagerDAO md = new ManagerDAO();
         ArrayList<Account> acclist = md.getAccount();
         String accname = request.getParameter("accname");
         String pass = request.getParameter("pass");
         int IdA=0 ;
         boolean flaglogin = false;
+        PrintWriter out = response.getWriter();
+        out.println(acclist);
+        out.println(accname);
+        out.println(pass);
         //find account
         for(int i=0; i<acclist.size(); i++){
             if(acclist.get(i).getAccountName().equals(accname)

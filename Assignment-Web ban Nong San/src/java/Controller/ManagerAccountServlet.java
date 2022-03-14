@@ -6,9 +6,7 @@
 package Controller;
 
 import DAO.ManagerDAO;
-import Model.Order;
-import Model.Product;
-import Model.Type;
+import Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class HomeServlet extends HttpServlet {
+public class ManagerAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,34 +34,62 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
-        ManagerDAO  md = new ManagerDAO();
-        ArrayList<Type> typelist = md.getProductType();
-//        PrintWriter out = response.getWriter();
-//        out.print("a");
-        String accname;
-        String IdA;
+        ManagerDAO md = new ManagerDAO();
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+        String name = request.getParameter("name");
+        String add = request.getParameter("add");
+        String phone = request.getParameter("phone");
+        String accname = request.getParameter("accname");
+        String pass = request.getParameter("pass");
+        String submit = request.getParameter("submit");
         
-        if(request.getParameter("idA") == null){
-            accname = (String)request.getAttribute("accname");
-            IdA = (String)request.getAttribute("idA");
-        }else{
-            IdA = request.getParameter("idA");
-            accname = request.getParameter("accname");
+//        PrintWriter out = response.getWriter();
+//        out.println(IdA);
+//        out.println(name);
+//        out.println(add);
+//        out.println(phone);
+//        out.println(accname);
+//        out.println(pass);
+//        out.println(submit);
+        
+        if(phone.length() != 10){
+            String error = "Số điện thoại có 10 chữ số!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
+            return;
         }
-//        out.print(request.getAttribute("accname"));
-//        out.print(request.getAttribute("idA"));
-        ArrayList<Order> orderlist = md.getOrderInCart(Integer.parseInt(IdA));
-        ArrayList<Product> prolist = md.getAllProduct();
-        if(accname == null){
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
-        }else{
-            request.setAttribute("accname",accname);
-            request.setAttribute("idA", IdA);
-            request.setAttribute("orderlist", orderlist);
-            request.setAttribute("prolist", prolist);
-            request.setAttribute("typelist", typelist);
-            request.getRequestDispatcher("Home.jsp").forward(request, response);
+        
+        if(pass.length() > 10 || pass.length() < 6){
+            String error = "Mật khẩu từ 6 - 10 ký tự!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
+            return;
         }
+        
+        ArrayList<Account> acclist = md.getAccount();
+//        out.println(acclist);
+        for(Account acclist1 : acclist){
+            if(acclist1.getAccountName().equals(accname) && acclist1.getIdA() != IdA){
+                String error = "Tên tài khoản đã tồn tại!";
+                request.setAttribute("error", error);
+                request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
+                return;
+            }
+        }
+        
+        if(submit.equals("Thay đổi thông tin tài khoản")){
+            Account acc = md.getAccountById(IdA);
+            acc.setName(name);
+            acc.setAddress(add);
+            acc.setPhone(phone);
+            acc.setAccountName(accname);
+            acc.setPassword(pass);
+            md.UpdateAccount(acc);
+            request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
+        }else{
+            md.DeleteAccount(IdA);
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

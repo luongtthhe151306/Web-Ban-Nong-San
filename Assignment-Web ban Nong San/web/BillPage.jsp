@@ -16,7 +16,7 @@
 <html>
 
     <head>
-        <title>Cart</title>
+        <title>Bill</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/styleCartPage.css">
@@ -78,21 +78,21 @@
                         <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
                     </div>
                     <div class="cart">
-                        <%ArrayList<Order> orderlist = md.getOrderInCart(IdA);
-                        request.setAttribute("orderlist", orderlist);
+                        <%ArrayList<Order> orderlist1 = md.getOrderInCart(IdA);
+                        request.setAttribute("orderlist1", orderlist1);
                         %>
-                        <span class="cart-notify" style="position: absolute;padding: 0px 4px;background-color: #fff;color: rgb(20, 138, 26);font-size: 14px;border-radius: 17px;top: -8px;right: 38px;">${requestScope.orderlist.size()}</span>
+                        <span class="cart-notify" style="position: absolute;padding: 0px 4px;background-color: #fff;color: rgb(20, 138, 26);font-size: 14px;border-radius: 17px;top: -8px;right: 38px;">${requestScope.orderlist1.size()}</span>
                         <div class="logo">
                             <a href="" class="logo-link">
                                 <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
                             </a>
                             <div class="cart-list">
-                                <c:if test="${requestScope.orderlist.size() == 0}">
+                                <c:if test="${requestScope.orderlist1.size() == 0}">
                                     <img src="./image/empty-cart.webp" class="empty-cart">
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
                                 </c:if>
-                                <c:if test="${requestScope.orderlist.size() < 2 && requestScope.orderlist.size()!= 0}">
-                                    <c:forEach begin="0" end="${requestScope.orderlist.size()}" items="${orderlist}" var="order">
+                                <c:if test="${requestScope.orderlist1.size() < 2 && requestScope.orderlist.size()!=0}">
+                                    <c:forEach begin="0" end="${requestScope.orderlist1.size()}" items="${orderlist1}" var="order">
                                         <a href="" class="cart-item">
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
@@ -103,8 +103,8 @@
                                     </c:forEach>
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
                                 </c:if>
-                                <c:if test="${requestScope.orderlist.size() >= 2}">
-                                    <c:forEach begin="0" end="1" items="${requestScope.orderlist}" var="order">
+                                <c:if test="${requestScope.orderlist1.size() >= 2}">
+                                    <c:forEach begin="0" end="1" items="${requestScope.orderlist1}" var="order">
                                         <a href="" class="cart-item">
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
@@ -127,7 +127,7 @@
                     <div class="navigation-bar">
                         <a href="HomeServlet?accname=<%= acc.getAccountName()%>&idA=<%=IdA%>" class="navigation-bar-link">Home</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="CartPage.jsp?IdA=<%=IdA%>" class="navigation-bar-link">Giỏ hàng</a>
+                        <a href="" class="navigation-bar-link">Hoá đơn</a>
                     </div>
                     <nav class="category">
                         <div class="category-heading">
@@ -147,28 +147,35 @@
                     </nav>
                 </div>
                 <div class="col-sm-9">
-                    <form class="order" action="BillServlet" method="post">
-                        <input type="hidden" name="IdA" value="<%=IdA%>">
-                        <ul class="row order-list">                       
-                            <c:forEach items="${requestScope.orderlist}" var="order" varStatus="loop">
-                            <li class="order-item">
-                                <div class="row">
-                                    <div class="col-sm-4"><img src="${order.getProduct().getImg()}" class="img-order" style="height: 90px;"></div>
-                                    <div class="col-sm-8 order-content">
-                                        <span class="order-content-name"><c:out value="${order.getProduct().getName()}"></c:out><input type="checkbox" name="choose" value="${order.getIdO()}"></span></br>
-                                        <span class="order-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd</span>
-                                        <span class="order-content-quantity"><c:out value="${order.getQuantity()}"></c:out></span>
-                                        <a href="ChangeOrderQuantityServlet?IdA=<%=IdA%>&IdO=${order.getIdO()}&IdP=${order.getProduct().getIdP()}" style="text-decoration: none ;margin-right: 50px;">Thay đổi số lượng</a>
-                                        <a href="DeleteOrder?IdA=<%=IdA%>&IdO=${order.getIdO()}" style="text-decoration: none ;" onclick="if (!confirm('Bạn muốn xóa sản phẩm?')) { return false; }">Xóa sản phẩm</a>
-                                    </div>                                    
-                                </div>
-                            </li>
+                    <form class="order" style="padding-top: 20px;">
+                        <ul class="row order-list">
+                            <c:forEach items="${billlist}" var="bill">
+                                <c:forEach items="${orderlist}" var="order" varStatus="loop">
+                                    <c:if test="${bill.getIdB() == order.getIdB()}">
+                                <li class="order-item">
+                                    <div class="row">
+                                        <div class="col-sm-4"><img src="${order.getProduct().getImg()}" class="img-order" style="height: 90px;"></div>
+                                        <div class="col-sm-8 order-content">
+                                            <span class="order-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
+                                            <span class="order-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd</span>
+                                            <span class="order-content-quantity"><c:out value="${order.getQuantity()}"></c:out></span>                                        
+                                        </div>
+                                    </div>
+                                </li> 
+                                    </c:if>
+                                </c:forEach> 
+                                <li class="bill">                        
+                                    <span>Mã đơn hàng: ${bill.getIdB()}</span></br>
+                                    <span>Tổng tiền: ${bill.getTotalMoney()}00vnd</span></br>
+                                    <span>Địa chỉ giao hàng: <%= acc.getAddress() %></span></br>
+                                    <span>Người nhận: <%= acc.getName() %></span></br>
+                                    <span>Số điện thoại người nhận: <%= acc.getPhone() %></span></br>
+                                    <span>Thời gian đặt hàng: ${bill.getOrderTime()}</span>
+                                </li>
+                                <li class="buy">                                    
+                                </li>
                             </c:forEach>
-                            <li class="buy"><div style="color: red; margin-left: 20px;">${error}</div></li>
-                            <li class="buy">
-                                <input class="buy-btn" type="submit" value="Mua hàng">
-                                <a href="HistoryBillServlet?IdA=<%= IdA %>" class="buy-btn" style="text-decoration: none; color: #fff; margin-left: 30px;">Lịch sử mua hàng</a>
-                            </li>
+                            <a href="HistoryBillServlet?IdA=<%= IdA %>" class="buy-btn" style="text-decoration: none; color: #fff; margin-left: 30%; width: 150px">Lịch sử mua hàng</a>
                         </ul>
                     </form>
                 </div>

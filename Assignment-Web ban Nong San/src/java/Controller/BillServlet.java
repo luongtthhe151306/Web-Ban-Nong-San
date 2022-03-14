@@ -6,11 +6,13 @@
 package Controller;
 
 import DAO.ManagerDAO;
+import Model.Bill;
 import Model.Order;
 import Model.Product;
-import Model.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class HomeServlet extends HttpServlet {
+public class BillServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,35 +37,54 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("utf-8");
-        ManagerDAO  md = new ManagerDAO();
-        ArrayList<Type> typelist = md.getProductType();
-//        PrintWriter out = response.getWriter();
-//        out.print("a");
-        String accname;
-        String IdA;
-        
-        if(request.getParameter("idA") == null){
-            accname = (String)request.getAttribute("accname");
-            IdA = (String)request.getAttribute("idA");
-        }else{
-            IdA = request.getParameter("idA");
-            accname = request.getParameter("accname");
+        PrintWriter out = response.getWriter();
+        ManagerDAO md = new ManagerDAO();
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+        String[] choose = request.getParameterValues("choose");
+        if(choose == null){
+            String error = "Chọn sản phẩm muốn mua!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("CartPage.jsp?IdA="+IdA).forward(request, response);
+            return;
         }
-//        out.print(request.getAttribute("accname"));
-//        out.print(request.getAttribute("idA"));
-        ArrayList<Order> orderlist = md.getOrderInCart(Integer.parseInt(IdA));
-        ArrayList<Product> prolist = md.getAllProduct();
-        if(accname == null){
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
-        }else{
-            request.setAttribute("accname",accname);
-            request.setAttribute("idA", IdA);
-            request.setAttribute("orderlist", orderlist);
-            request.setAttribute("prolist", prolist);
-            request.setAttribute("typelist", typelist);
-            request.getRequestDispatcher("Home.jsp").forward(request, response);
+        ArrayList<Order> orderlist = new ArrayList();
+        double totalmoney = 0;
+        for(int i=0; i<choose.length; i++){
+            int IdO = Integer.parseInt(choose[i]);
+            Order order = md.getOrderIdO(IdO);
+            int IdP = order.getProduct().getIdP();
+            Product pro = md.getProductByIdP(IdP);
+            if(pro.getQuantityStock() >= order.getQuantity()){
+                order.setPayment(1);
+                md.UpdateOrderPayment(order);
+                orderlist.add(order);
+                totalmoney += order.getProduct().getPrice()*order.getQuantity();
+            }else{
+                String error = "Số lượng "+pro.getName()+ " không đủ! Thay đổi số lượng.";
+                request.setAttribute("error", error);
+                request.getRequestDispatcher("CartPage.jsp?IdA="+IdA).forward(request, response);
+                return;
+            }
         }
+            
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String ordertime = dtf.format(now);
+        Bill bill = md.getTotalBillNull(IdA);
+        bill.setOrderTime(ordertime);
+        bill.setTotalMoney(totalmoney);
+        ArrayList<Bill> billlist = new ArrayList();
+        billlist.add(bill);
+//            out.println(IdA);
+//            out.println(choose);
+//            out.println(orderlist);
+//            out.println(totalmoney);
+//            out.println(bill);
+//            out.println(ordertime);
+        md.UpdateBill(bill);
+        request.setAttribute("orderlist", orderlist);
+        request.setAttribute("billlist", billlist);
+        request.getRequestDispatcher("BillPage.jsp?IdA="+IdA).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
