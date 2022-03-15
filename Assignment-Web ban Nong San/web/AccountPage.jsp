@@ -11,12 +11,13 @@
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="DAO.ManagerDAO"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <!DOCTYPE html>
 <html>
 
     <head>
-        <title>Cart</title>
+        <title>Account</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/styleAccountPage.css">
@@ -59,7 +60,7 @@
                             </div>
                         </li>
                         <li class="header-item">
-                            <a href="" class="header-item-link"><%= acc.getAccountName()%></a>
+                            <a href="AccountPage.jsp?IdA=<%=IdA%>" class="header-item-link"><%= acc.getAccountName()%></a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -74,8 +75,12 @@
                         </a>
                     </div>
                     <div class="search">
-                        <input class="search-input" type="text" placeholder="Nhập tên sản phẩm">
-                        <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
+                        <form style="display: flex; border: none; margin: 0px; padding: 0px; width: 98%;" action="FindServlet" method="post">
+                            <input style="flex: 1; height: 32px;" class="search-input" type="text" placeholder="Nhập thông tin" name="find">
+                            <div><button type="submit" style="border: none; background-color: #fff;"><i class="fa-solid fa-magnifying-glass find-icon" style=" padding: 8px 11px!important;"></i></button></div>
+                            <input type="hidden" value="<%=IdA%>" name="IdA">
+                        </form>
+                        
                     </div>
                     <div class="cart">
                         <%ArrayList<Order> orderlist = md.getOrderInCart(IdA);
@@ -147,7 +152,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-9">
-                    <form action="ManagerAccountServlet" method="post">
+                    <form class="form" action="ManagerAccountServlet" method="post">
                         <input type="hidden" name="IdA" value="<%= IdA %>"/>
                         <div class="account-info">
                             <div class="title">Tên:</div>
@@ -172,7 +177,7 @@
                         <div>${error}</div>
                         <div class="submit">
                             <input type="submit" name="submit" value="Thay đổi thông tin tài khoản"/>
-                            <input type="submit" name="submit" value="Xóa tài khoản" onclick="if (!confirm('Bạn muốn xóa tài khoản?')) { return false; }"/>
+<!--                            <input type="submit" name="submit" value="Xóa tài khoản" onclick="if (!confirm('Bạn muốn xóa tài khoản?')) { return false; }"/>-->
                         </div>            
                     </form></div>
                 </div>

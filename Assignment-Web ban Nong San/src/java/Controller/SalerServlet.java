@@ -34,6 +34,8 @@ public class SalerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         int IdA = Integer.parseInt(request.getParameter("idA"));
 //        int IdA = 1;
         String accname = "";
@@ -52,6 +54,7 @@ public class SalerServlet extends HttpServlet {
         request.setAttribute("typelist", typelist);
         request.getRequestDispatcher("SalerPage.jsp").forward(request, response);
 //        PrintWriter out = response.getWriter();
+//        out.print(IdA);
 //        out.print(prolistbyIdA);
 //        out.print(acclist);
 //        out.print(typelist.get(0).getTypeName());

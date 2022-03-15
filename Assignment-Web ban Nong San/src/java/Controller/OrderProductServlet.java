@@ -13,10 +13,12 @@ import Model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.jms.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,6 +37,7 @@ public class OrderProductServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         String submit = request.getParameter("submit");
@@ -42,6 +45,10 @@ public class OrderProductServlet extends HttpServlet {
         int IdP = Integer.parseInt(request.getParameter("IdP"));
         int IdA = Integer.parseInt(request.getParameter("IdA"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
+        Account acc = md.getAccountById(IdA);
+////        Account acc = (Account)request.getSession().getAttribute("user");
+//        //
+         
         Order orderIdP = md.getOrderIdP(IdA, IdP);
         Product pro = md.getProductByIdP(IdP);
         if(quantity > pro.getQuantityStock()){
@@ -50,24 +57,26 @@ public class OrderProductServlet extends HttpServlet {
             request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
             return;
         }
-        Account acc = md.getAccountById(IdA);
+        
+
         int sold = pro.getQuantitySold();
         int stock = pro.getQuantityStock();
         pro.setQuantitySold(sold + quantity);
         pro.setQuantityStock(stock - quantity);
 
-//        PrintWriter out = response.getWriter();
-//        out.println(submit);
-//        out.println(request.getParameter("IdP"));
-//        out.println(request.getParameter("IdA"));
-////        out.println(IdA);
-//        out.println(quantity);
-//        out.println(pro);
-//        out.println(acc);
-//        out.println(sold);
-//        out.println(stock);
-//        out.print(orderIdP);
-        //update product quantitysold, stock
+        PrintWriter out = response.getWriter();
+        out.println("a");
+////        out.println(submit);
+////        out.println(request.getParameter("IdP"));
+////        out.println(request.getParameter("IdA"));
+//////        out.println(IdA);
+////        out.println(quantity);
+////        out.println(pro);
+////        out.println(acc);
+////        out.println(sold);
+////        out.println(stock);
+////        out.print(orderIdP);
+//        //update product quantitysold, stock
         Bill bill = md.getTotalBillNull(IdA);
 //        out.print(bill);
         Order order = null;
@@ -87,8 +96,9 @@ public class OrderProductServlet extends HttpServlet {
                 int i = orderIdP.getQuantity();
                 int total = i+quantity;
                 if(total <= orderIdP.getProduct().getQuantityStock()){
+                    orderIdP.setQuantity(0);
                     orderIdP.setQuantity(total);
-//                    out.print(orderIdP.getQuantity());
+//                    out.print(total);
                     md.UpdateOrderQuantity(orderIdP);
                 }else{
                     String error = "Giỏ hàng đã có "+orderIdP.getQuantity()+" sản phẩm!";

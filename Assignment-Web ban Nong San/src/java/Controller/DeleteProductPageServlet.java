@@ -34,6 +34,8 @@ public class DeleteProductPageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         ManagerDAO md = new ManagerDAO();
         int IdA = Integer.parseInt(request.getParameter("IdA"));
 //        int IdA = 1;

@@ -61,6 +61,8 @@ public class DeleteProductItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         int IdP = Integer.parseInt(request.getParameter("IdP"));        
         ManagerDAO md = new ManagerDAO();
         ArrayList<Product> prolist = md.getAllProduct();
@@ -74,12 +76,18 @@ public class DeleteProductItemServlet extends HttpServlet {
         }
         md.DeleteProduct(IdP);
         ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
-        ArrayList<Type> typelist = md.getProductByIdA(IdA);
-        request.setAttribute("IdA", IdA);
+        ArrayList<Type> typelist = md.getProductTypeByIdA(IdA);
+        
+//        PrintWriter out = response.getWriter();
+//        out.print(IdP);
+//        out.print(prolist);
+//        out.print(IdA);
+//        out.print(prolistbyIdA);
+//        out.print(typelist);
         request.setAttribute("accname", accname);
         request.setAttribute("prolistbyIdA", prolistbyIdA);
         request.setAttribute("typelist", typelist);
-        request.getRequestDispatcher("DeleteProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("DeleteProduct.jsp?IdA="+IdA).forward(request, response);
     }
 
     /**

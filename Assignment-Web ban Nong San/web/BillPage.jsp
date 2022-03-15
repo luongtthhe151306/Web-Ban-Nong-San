@@ -11,7 +11,8 @@
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="DAO.ManagerDAO"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <!DOCTYPE html>
 <html>
 
@@ -59,7 +60,7 @@
                             </div>
                         </li>
                         <li class="header-item">
-                            <a href="" class="header-item-link"><%= acc.getAccountName()%></a>
+                            <a href="AccountPage.jsp?IdA=<%=IdA%>" class="header-item-link"><%= acc.getAccountName()%></a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -74,8 +75,11 @@
                         </a>
                     </div>
                     <div class="search">
-                        <input class="search-input" type="text" placeholder="Nhập tên sản phẩm">
-                        <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
+                        <form style="display: flex; border: none; margin: 0px; padding: 0px; width: 98%;" action="FindServlet" method="post">
+                            <input style="flex: 1; height: 32px;" class="search-input" type="text" placeholder="Nhập thông tin" name="find">
+                            <div><button type="submit" style="border: none; background-color: #fff;"><i class="fa-solid fa-magnifying-glass find-icon" style=" padding: 8px 11px!important;"></i></button></div>
+                            <input type="hidden" value="<%=IdA%>" name="IdA">
+                        </form>
                     </div>
                     <div class="cart">
                         <%ArrayList<Order> orderlist1 = md.getOrderInCart(IdA);
@@ -91,25 +95,25 @@
                                     <img src="./image/empty-cart.webp" class="empty-cart">
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
                                 </c:if>
-                                <c:if test="${requestScope.orderlist1.size() < 2 && requestScope.orderlist.size()!=0}">
-                                    <c:forEach begin="0" end="${requestScope.orderlist1.size()}" items="${orderlist1}" var="order">
+                                <c:if test="${requestScope.orderlist1.size() < 2 && requestScope.orderlist1.size()!= 0}">
+                                    <c:forEach begin="0" end="${requestScope.orderlist.size()}" items="${orderlist}" var="order">
                                         <a href="" class="cart-item">
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
                                 </c:if>
                                 <c:if test="${requestScope.orderlist1.size() >= 2}">
-                                    <c:forEach begin="0" end="1" items="${requestScope.orderlist1}" var="order">
+                                    <c:forEach begin="0" end="1" items="${requestScope.orderlist}" var="order">
                                         <a href="" class="cart-item">
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>                        
@@ -148,8 +152,11 @@
                 </div>
                 <div class="col-sm-9">
                     <form class="order" style="padding-top: 20px;">
-                        <ul class="row order-list">
+                        <ul class="row order-list">                
                             <c:forEach items="${billlist}" var="bill">
+                                <li class="bill">
+                                    <span>Mã đơn hàng: ${bill.getIdB()}</span></br>
+                                </li>
                                 <c:forEach items="${orderlist}" var="order" varStatus="loop">
                                     <c:if test="${bill.getIdB() == order.getIdB()}">
                                 <li class="order-item">
@@ -157,7 +164,7 @@
                                         <div class="col-sm-4"><img src="${order.getProduct().getImg()}" class="img-order" style="height: 90px;"></div>
                                         <div class="col-sm-8 order-content">
                                             <span class="order-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                            <span class="order-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd</span>
+                                            <span class="order-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd</span>
                                             <span class="order-content-quantity"><c:out value="${order.getQuantity()}"></c:out></span>                                        
                                         </div>
                                     </div>
@@ -165,8 +172,7 @@
                                     </c:if>
                                 </c:forEach> 
                                 <li class="bill">                        
-                                    <span>Mã đơn hàng: ${bill.getIdB()}</span></br>
-                                    <span>Tổng tiền: ${bill.getTotalMoney()}00vnd</span></br>
+                                    <span>Tổng tiền: ${bill.getTotalMoney()}vnd</span></br>
                                     <span>Địa chỉ giao hàng: <%= acc.getAddress() %></span></br>
                                     <span>Người nhận: <%= acc.getName() %></span></br>
                                     <span>Số điện thoại người nhận: <%= acc.getPhone() %></span></br>

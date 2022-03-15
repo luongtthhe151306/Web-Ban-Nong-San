@@ -55,9 +55,27 @@ public class FilterOrder implements Filter {
             String error = "Vui lòng nhập số lượng muốn mua!";
             request.setAttribute("error", error);
             request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
-        }else{
-            request.getRequestDispatcher("OrderProductServlet").forward(request, response);
+            return;
         }
+        for(int i=0; i<quantity.trim().length(); i++){
+            char j = quantity.charAt(i);
+            if(Character.isLetter(j)){
+                String error = "Vui lòng nhập số !";
+                request.setAttribute("error", error);
+                request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
+                return;
+            }
+        }
+        
+        if(Integer.parseInt(quantity) <= 0){
+            String error = "Vui lòng nhập số lớn hơn 0!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
+            return;
+        }
+//        else{
+//           // request.getRequestDispatcher("OrderProductServlet").forward(request, response);
+//        }
         // Write code here to process the request and/or response before
         // the rest of the filter chain is invoked.
         // For example, a logging filter might log items on the request object,

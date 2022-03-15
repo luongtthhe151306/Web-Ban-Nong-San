@@ -1,21 +1,24 @@
 <%-- 
-    Document   : DeleteProduct
-    Created on : Mar 11, 2022, 8:41:59 PM
+    Document   : SalerPage
+    Created on : Mar 11, 2022, 4:34:26 PM
     Author     : Admin
 --%>
 
 <%@page import="Model.Order"%>
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Model.Account"%>
 <%@page import="DAO.ManagerDAO"%>
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
     <head>
-        <title>DeleteProduct</title>
+        <title>Store</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/styleSalerPage.css">
@@ -25,17 +28,11 @@
     </head>
     <body>
         <header class="header">
-            <% ManagerDAO md = new ManagerDAO();
-            int IdA = Integer.parseInt(request.getParameter("IdA"));
-            Account acc = md.getAccountById(IdA);%>
             <div class="grid">
                 <nav class="header-navbar">
                     <ul class="header-list">
-                        <!-- <a href="DemoHome.html" class="img-itema">
-                                <img width="100" height="100" src="../web/image/Happyfield_logos__primary_hollow_yellow_transparent+(1).png">
-                            </a> -->
                         <li class="header-item">
-                            <a href="SalerServlet?idA=<%= IdA %>" class="header-item-link">Kênh người bán</a>
+                            <a href="SalerServlet?idA=${IdA}" class="header-item-link">Kênh người bán</a>
                         </li>
                     </ul>
                     <ul class="header-list">
@@ -47,7 +44,9 @@
                                     <div>Thông báo mới</div>
                                 </header>
                                 <ul class="notifi-list">
-                                    <% ArrayList<Product> prolist1 = md.getAllProduct();
+                                    <% ManagerDAO md = new ManagerDAO();
+                                        int IdA = Integer.parseInt(request.getParameter("IdA"));
+                                        ArrayList<Product> prolist1 = md.getAllProduct();
                                     for (int i = prolist1.size() - 1; i > prolist1.size() - 4; i--) {%>
                                     <li class="notifi-item">
                                         <a href="OrderProduct.jsp?IdS=<%= prolist1.get(i).getAccount().getIdA()%>&IdA=<%= IdA%>&IdP=<%= prolist1.get(i).getIdP()%>" class="notifi-item" style="text-decoration: none; font-size: 16px; font-weight: 400px">
@@ -60,7 +59,7 @@
                             </div>
                         </li>
                         <li class="header-item">
-                            <a href="AccountPage.jsp?IdA=<%=IdA%>" class="header-item-link">${accname}</a>
+                            <a href="AccountPage.jsp?IdA=${IdA}" class="header-item-link">${accname}</a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -69,7 +68,7 @@
                 </nav>
                 <div class="header-home-search">
                     <div class="home">
-                        <a class="logo" href="HomeServlet?idA=<%= IdA %>&accname=${prolistbyIdA.get(0).getAccount().getAccountName()}">
+                        <a class="logo" href="HomeServlet?idA=${IdA}&accname=${accname}">
                             <i class="fa-solid fa-house home-logo-icon"></i>
                             <div class="header-item-link">Happy Field</div>
                         </a>
@@ -131,28 +130,21 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="navigation-bar" >
-                        <a href="HomeServlet?idA=<%= IdA %>&accname=${prolistbyIdA.get(0).getAccount().getAccountName()}" class="navigation-bar-link" >Home</a>
+                        <a href="HomeServlet?idA=${IdA}&accname=${accname}" class="navigation-bar-link" >Home</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="SalerServlet?idA=<%= IdA %>" class="navigation-bar-link" >Kênh người bán</a>
-                        <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="DeleteProductPageServlet?IdA=<%= IdA %>" class="navigation-bar-link" >Xóa sản phẩm</a>
+                        <a href="SalerServlet?idA=${IdA}" class="navigation-bar-link" >Cửa hàng ${storename}</a>
                     </div>
                     <nav class="category">
                         <div class="category-heading">
                             <i class="fa-solid fa-bars category-heading-icon"></i>
-                            Danh mục quản lý sản phẩm
+                            Danh mục sản phẩm
                         </div>
                         <ul class="category-list">
+                            <c:forEach items="${typelist1}" var="type1">
                             <li class="category-item">
-                                <a href="CreateProduct.jsp?IdA=<%= IdA %>" class="catagory-item-link">Thêm sản phẩm</a>
+                                <a href="CreateProduct.jsp?IdA=${IdA}" class="catagory-item-link">${type1.getTypeName()}</a>
                             </li>
-                            <li class="category-item">
-                                <a href="DeleteProductPageServlet?IdA=<%= IdA %>" class="catagory-item-link">Xóa sản phẩm</a>
-                            </li>
-                            <li class="category-item">
-                                <a href="UpdateProductPageServlet?IdA=<%= IdA %>" class="catagory-item-link">Cập nhật lại sản phẩm</a>
-                            </li>
-                            
+                            </c:forEach>
                         </ul>
                     </nav>
                 </div>
@@ -160,23 +152,15 @@
                     <div class="home-product">
                         <div class="row">
                             <c:forEach items="${typelist}" var="type">
-                                <div class="product-list" style="display: flex;">
-                                    <a class="product-list-link">${type.getTypeName()}</a>
-                                    <div class="delete-producttype" style="font-size: 15px;font-weight: 400;padding-left: 50px;">
-                                        <a href="DeleteProductTypeServlet?IdA=<%= IdA %>&IdType=${type.getIdType()}" class="product-item-link">Xóa ${type.getTypeName()}</a>
-                                    </div>
-                                </div>
+                                <div class="product-list"><a class="product-list-link">${type.getTypeName()}</a></div>
                                 <c:forEach items="${prolistbyIdA}" var="pro">
                                     <c:if test="${type.getIdType() == pro.getType().getIdType()}">
                                     <div class="col-sm-3 " style=" margin-bottom: 15px;">
                                     <div class="product-item">
-                                        <a href="" class="product-item-link">
+                                        <a href="OrderProduct.jsp?IdS=${pro.getAccount().getIdA()}&IdA=${IdA}&IdP=${ pro.getIdP()}" class="product-item-link">
                                             <img src="${pro.getImg()}" class="product-item-img" style="height: 170px">
                                             <p class="product-item-name">${pro.getName()}</p>
                                             <p class="product-item-price">${pro.getPrice()}vnd</p>
-                                            <p>Đã bán: ${pro.getQuantitySold()}</p>
-                                            <p>Còn lại: ${pro.getQuantityStock()}</p>
-                                            <a class="delete-link" href="DeleteProductItemServlet?IdP=${pro.getIdP()}" onclick="if (!confirm('Bạn muốn xóa sản phẩm?')) { return false; }">Xóa Sản phẩm</a>
                                         </a>
                                     </div>
                                     </div>

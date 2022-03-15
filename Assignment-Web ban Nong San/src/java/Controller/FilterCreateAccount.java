@@ -40,6 +40,8 @@ public class FilterCreateAccount implements Filter {
         if (debug) {
             log("FilterCreateAccount:DoBeforeProcessing");
         }
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         String name = request.getParameter("namecreate").trim();
         String add = request.getParameter("addcreate").trim();
         String phone = request.getParameter("phonecreate").trim();
@@ -65,14 +67,23 @@ public class FilterCreateAccount implements Filter {
                 request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
             }else{
                 int l = pass.length();
-                if(l>= 6 && l <=10){
-                    request.getRequestDispatcher("CreateAccountServlet").forward(request, response);
-                }else{
+                if(l< 6 || l >10){
                     error = "Mật khẩu từ 6 - 10 ký tự!";
                     request.setAttribute("error", error);
                     request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
                 }
+                if(phone.length() != 10){
+                    error = "Số điện thoại có 10 chữ số!";
+                    request.setAttribute("error", error);
+                    request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
+                }
             }
+        }
+        
+        if(accname.contains(" ")){
+            error="Tên tài khoản không chứa dấu cách!!!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
         }
         // Write code here to process the request and/or response before
         // the rest of the filter chain is invoked.

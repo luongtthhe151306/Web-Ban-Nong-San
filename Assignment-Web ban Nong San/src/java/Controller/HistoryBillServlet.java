@@ -34,10 +34,15 @@ public class HistoryBillServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         ManagerDAO md = new ManagerDAO();
         int IdA = Integer.parseInt(request.getParameter("IdA"));
         ArrayList<Order> orderlist = md.getOrderPayment(IdA);
         ArrayList<Bill> billlist = md.getTotalBillPayment(IdA);
+        
+//        PrintWriter out = response.getWriter();
+//        out.print(orderlist);
+//        out.print(billlist);
         request.setAttribute("orderlist", orderlist);
         request.setAttribute("billlist", billlist);
         request.getRequestDispatcher("BillPage.jsp?IdA="+IdA).forward(request, response);

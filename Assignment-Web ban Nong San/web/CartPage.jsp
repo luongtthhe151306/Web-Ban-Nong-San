@@ -11,7 +11,8 @@
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="DAO.ManagerDAO"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <!DOCTYPE html>
 <html>
 
@@ -59,7 +60,7 @@
                             </div>
                         </li>
                         <li class="header-item">
-                            <a href="" class="header-item-link"><%= acc.getAccountName()%></a>
+                            <a href="AccountPage.jsp?IdA=<%=IdA%>" class="header-item-link"><%= acc.getAccountName()%></a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -74,8 +75,11 @@
                         </a>
                     </div>
                     <div class="search">
-                        <input class="search-input" type="text" placeholder="Nhập tên sản phẩm">
-                        <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
+                        <form style="display: flex; border: none; margin: 0px; padding: 0px; width: 98%;" action="FindServlet" method="post">
+                            <input style="flex: 1; height: 32px;" class="search-input" type="text" placeholder="Nhập thông tin" name="find">
+                            <div><button type="submit" style="border: none; background-color: #fff;"><i class="fa-solid fa-magnifying-glass find-icon" style=" padding: 8px 11px!important;"></i></button></div>
+                            <input type="hidden" value="<%=IdA%>" name="IdA">
+                        </form>
                     </div>
                     <div class="cart">
                         <%ArrayList<Order> orderlist = md.getOrderInCart(IdA);
@@ -97,7 +101,7 @@
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>
@@ -109,7 +113,7 @@
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>                        

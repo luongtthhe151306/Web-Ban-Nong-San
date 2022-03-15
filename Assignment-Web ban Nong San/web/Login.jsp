@@ -31,7 +31,7 @@ and open the template in the editor.
                 <label>Tên tài khoản:</label></br>
                 <input class="ip" type="text" name="accname" /></br>
                 <label>Mật khẩu:</label></br>
-                <input class="ip" type="text" name="pass" /></br>
+                <input class="ip" type="password" name="pass" /></br>
                 <div>${error}</div>
                 <input class="submit" type="submit" value="Đăng nhập" /></br>
                 <a href="CreateAccount.jsp">Tạo tài khoản mới</a>

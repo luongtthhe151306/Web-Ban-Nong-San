@@ -31,6 +31,7 @@ public class DeleteOrder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         int IdO = Integer.parseInt(request.getParameter("IdO"));
         int IdA = Integer.parseInt(request.getParameter("IdA"));
         

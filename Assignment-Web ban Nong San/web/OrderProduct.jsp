@@ -61,7 +61,7 @@
                         </li>
 
                         <li class="header-item">
-                            <a href="" class="header-item-link"><%= acc.getAccountName()%></a>
+                            <a href="AccountPage.jsp?IdA=<%= acc.getIdA()%>" class="header-item-link"><%= acc.getAccountName()%></a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -76,44 +76,50 @@
                         </a>
                     </div>
                     <div class="search">
-                        <input class="search-input" type="text" placeholder="Nhập tên sản phẩm">
-                        <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
+                        <form style="display: flex; border: none; margin: 0px; padding: 0px; width: 98%;" action="FindServlet" method="post">
+                            <input style="flex: 1; height: 32px;" class="search-input" type="text" placeholder="Nhập thông tin" name="find">
+                            <div><button type="submit" style="border: none; background-color: #fff;"><i class="fa-solid fa-magnifying-glass find-icon" style=" padding: 8px 11px!important;"></i></button></div>
+                            <input type="hidden" value="<%=IdA%>" name="IdA">
+                        </form>
                     </div>
                     <div class="cart">
-                        <span class="cart-notify">3</span>
-                        <div class="logo">                       
-                            <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
+                        <%ArrayList<Order> orderlist = md.getOrderInCart(IdA);
+                        request.setAttribute("orderlist", orderlist);
+                        %>
+                        <span class="cart-notify" style="position: absolute;padding: 0px 4px;background-color: #fff;color: rgb(20, 138, 26);font-size: 14px;border-radius: 17px;top: -8px;right: 38px;">${requestScope.orderlist.size()}</span>
+                        <div class="logo">
+                            <a href="" class="logo-link">
+                                <i class="fa-solid fa-cart-shopping cart-logo-icon"></i>
+                            </a>
                             <div class="cart-list">
-                                <% ArrayList<Order> orderlist = md.getOrderInCart(IdA);
-                                request.setAttribute("orderlist", orderlist); %>
                                 <c:if test="${requestScope.orderlist.size() == 0}">
                                     <img src="./image/empty-cart.webp" class="empty-cart">
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
-                                    </c:if>
-                                    <c:if test="${requestScope.orderlist.size() < 2}">
-                                        <c:forEach begin="0" end="${requestScope.orderlist.size()}" items="${orderlist}" var="order">
-                                    <a href="" class="cart-item">
-                                        <img src="${order.getProduct().getImg()}" class="img-cart">
-                                        <div class="cart-content">
-                                            <span class="cart-content-name">${order.getProduct().getName()}</span></br>
-                                            <span class="cart-content-price">${order.getProduct().getPrice()}</span>
-                                        </div>
-                                    </a>
-                                        </c:forEach>
-                                        <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
-                                    </c:if>
-                                    <c:if test="${requestScope.orderlist.size() >= 2}">
-                                        <c:forEach begin="0" end="1" items="${orderlist}" var="order">
-                                    <a href="" class="cart-item">
-                                        <img src="${order.getProduct().getImg()}" class="img-cart">
-                                        <div class="cart-content">
-                                            <span class="cart-content-name">${order.getProduct().getName()}</span></br>
-                                            <span class="cart-content-price">${order.getProduct().getPrice()}</span>
-                                        </div>
-                                    </a>
-                                        </c:forEach>                        
-                                        <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
-                                    </c:if>
+                                </c:if>
+                                <c:if test="${requestScope.orderlist.size() < 2 && requestScope.orderlist.size()!= 0}">
+                                    <c:forEach begin="0" end="${requestScope.orderlist.size()}" items="${orderlist}" var="order">
+                                        <a href="" class="cart-item">
+                                            <img src="${order.getProduct().getImg()}" class="img-cart">
+                                            <div class="cart-content">
+                                                <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
+                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                            </div>
+                                        </a>
+                                    </c:forEach>
+                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
+                                </c:if>
+                                <c:if test="${requestScope.orderlist.size() >= 2}">
+                                    <c:forEach begin="0" end="1" items="${requestScope.orderlist}" var="order">
+                                        <a href="" class="cart-item">
+                                            <img src="${order.getProduct().getImg()}" class="img-cart">
+                                            <div class="cart-content">
+                                                <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
+                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                            </div>
+                                        </a>
+                                    </c:forEach>                        
+                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -166,7 +172,7 @@
                             <form class="create-product" action="OrderProductServlet" method="get">
                                 <table>
                                     <tr class="infomation"><td>Tên sản phẩm: <%= pro.getName()%></td></tr>
-                                    <tr class="infomation"><td>Giá bán: <%= pro.getPrice()%>00vnd</td></tr>
+                                    <tr class="infomation"><td>Giá bán: <%= pro.getPrice()%>vnd</td></tr>
                                     <tr class="infomation"><td>Xuất xứ: <%= pro.getOrigin()%></td></tr>
                                     <tr class="infomation"><td>Số lượng trong kho: <%= pro.getQuantityStock()%></td></tr>
                                     <tr class="infomation"><td>Đã bán: <%= pro.getQuantitySold()%></td></tr>

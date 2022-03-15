@@ -84,8 +84,11 @@
                             </a>
                         </div>
                         <div class="search">
-                            <input class="search-input" type="text" placeholder="Nhập tên sản phẩm">
-                            <a href=""><i class="fa-solid fa-magnifying-glass find-icon"></i></a>
+                            <form style="display: flex; border: none; margin: 0px; padding: 0px; width: 98%;" action="FindServlet" method="post">
+                                <input style="flex: 1; height: 32px;" class="search-input" type="text" placeholder="Nhập thông tin" name="find">
+                                <div><button type="submit" style="border: none; background-color: #fff;"><i class="fa-solid fa-magnifying-glass find-icon" style=" padding: 8px 11px!important;"></i></button></div>
+                            <input type="hidden" value="${idA}" name="IdA">
+                        </form>
                         </div>
                         <div class="cart">      
                             
@@ -105,7 +108,7 @@
                                         <img src="${order.getProduct().getImg()}" class="img-cart">
                                         <div class="cart-content">
                                             <span class="cart-content-name">${order.getProduct().getName()}</span></br>
-                                            <span class="cart-content-price">${order.getProduct().getPrice()}</span>
+                                            <span class="cart-content-price">${order.getProduct().getPrice()}vnd  x ${order.getQuantity()}</span>
                                         </div>
                                     </a>
                                         </c:forEach>
@@ -117,7 +120,7 @@
                                         <img src="${order.getProduct().getImg()}" class="img-cart">
                                         <div class="cart-content">
                                             <span class="cart-content-name">${order.getProduct().getName()}</span></br>
-                                            <span class="cart-content-price">${order.getProduct().getPrice()}</span>
+                                            <span class="cart-content-price">${order.getProduct().getPrice()}vnd  x ${order.getQuantity()}</span>
                                         </div>
                                     </a>
                                         </c:forEach>                        
@@ -128,6 +131,7 @@
                         </div>
 
                     </div>
+                            <div style="text-align: center; color: red;">${error}</div>
                 </div>
             </header>
             <div class="container-fluid">
@@ -167,7 +171,7 @@
                                             <a href="OrderProduct.jsp?IdS=${pro.getAccount().getIdA()}&IdA=${idA}&IdP=${ pro.getIdP()}" class="product-item-link">
                                                 <image class="product-item-img" src="${pro.getImg()}" style="height: 170px">
                                                 <p class="product-item-name">${pro.getName()}</p>
-                                                <p class="product-item-price">${pro.getPrice()}</p>
+                                                <p class="product-item-price">${pro.getPrice()}vnd</p>
                                             </a>
                                         </div>
                                     </div>

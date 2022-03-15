@@ -34,6 +34,8 @@ public class ProductTypeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         ManagerDAO  md = new ManagerDAO();
 //        String idT = request.getParameter("idT");
 //        String IdA = request.getParameter("IdA");

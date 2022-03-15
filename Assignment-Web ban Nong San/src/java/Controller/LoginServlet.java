@@ -61,6 +61,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         ManagerDAO md = new ManagerDAO();
         ArrayList<Account> acclist = md.getAccount();
         String accname = request.getParameter("accname");
@@ -82,6 +83,10 @@ public class LoginServlet extends HttpServlet {
         String idA = String.valueOf(IdA);
         request.setAttribute("accname", accname);
         request.setAttribute("idA", idA);
+//        
+//        Account acc = md.getAccountById(IdA);
+//        request.getSession().setAttribute("user",acc);
+
         request.getRequestDispatcher("HomeServlet").forward(request, response);
     }
 

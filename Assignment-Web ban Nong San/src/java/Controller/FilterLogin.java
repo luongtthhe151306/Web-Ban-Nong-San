@@ -42,6 +42,8 @@ public class FilterLogin implements Filter {
         if (debug) {
             log("FilterLogin:DoBeforeProcessing");
         }
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         ManagerDAO md = new ManagerDAO();
         ArrayList<Account> acclist = md.getAccount();
         String accname = request.getParameter("accname").trim();
@@ -75,6 +77,8 @@ public class FilterLogin implements Filter {
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             }
         }
+        
+        
         // Write code here to process the request and/or response before
         // the rest of the filter chain is invoked.
         // For example, a logging filter might log items on the request object,

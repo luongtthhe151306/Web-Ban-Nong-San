@@ -6,7 +6,7 @@
 package Controller;
 
 import DAO.ManagerDAO;
-import Model.Order;
+import Model.Account;
 import Model.Product;
 import Model.Type;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class HomeServlet extends HttpServlet {
+public class FindServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,36 +36,47 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
-        ManagerDAO  md = new ManagerDAO();
-        ArrayList<Type> typelist = md.getProductType();
-//        PrintWriter out = response.getWriter();
-//        out.print("a");
-        String accname;
-        String IdA;
-        
-        if(request.getParameter("idA") == null){
-            accname = (String)request.getAttribute("accname");
-            IdA = (String)request.getAttribute("idA");
-        }else{
-            IdA = request.getParameter("idA");
-            accname = request.getParameter("accname");
-        }
-//        out.print(request.getAttribute("accname"));
-//        out.print(request.getAttribute("idA"));
-        ArrayList<Order> orderlist = md.getOrderInCart(Integer.parseInt(IdA));
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+        String find = request.getParameter("find");
+        ManagerDAO md = new ManagerDAO();
         ArrayList<Product> prolist = md.getAllProduct();
-        if(accname == null){
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
-        }else{
-            String error = (String)request.getAttribute("error");
-            request.setAttribute("error",error);
-            request.setAttribute("accname",accname);
-            request.setAttribute("idA", IdA);
-            request.setAttribute("orderlist", orderlist);
-            request.setAttribute("prolist", prolist);
-            request.setAttribute("typelist", typelist);
-            request.getRequestDispatcher("Home.jsp").forward(request, response);
+        ArrayList<Type> typelist = md.getProductType();
+        ArrayList<Account> acclist = md.getAccount();
+        
+        PrintWriter out = response.getWriter();
+        out.print(find);
+        
+        String findToLower = find.toLowerCase();
+        for(Product pro:prolist){
+            if(pro.getName().toLowerCase().contains(findToLower)){
+                request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+pro.getIdP()).forward(request, response);
+                return;
+            }
         }
+        
+        for(Type type:typelist){
+            if(type.getTypeName().toLowerCase().contains(findToLower)){
+                request.getRequestDispatcher("ProductTypeServlet?idT="+type.getIdType()+"&IdA="+IdA).forward(request, response);
+                return;
+            }
+        }
+        
+        for(Account acc:acclist){
+            if(acc.getAccountName().toLowerCase().contains(findToLower)){
+                request.setAttribute("typelist1", typelist);
+                request.setAttribute("typelist", md.getProductTypeByIdA(IdA));
+                request.setAttribute("prolistbyIdA", md.getProductByIdA(IdA));
+                request.setAttribute("IdA", IdA);
+                request.setAttribute("accname", md.getAccountById(IdA).getAccountName());
+                request.setAttribute("storename", acc.getAccountName());
+                request.getRequestDispatcher("StorePage.jsp").forward(request, response);
+                return;
+            }
+        }
+        
+        String error = "Không tìm thấy!";
+        request.setAttribute("error", error);
+        request.getRequestDispatcher("HomeServlet?accname="+md.getAccountById(IdA).getAccountName()+"&idA="+IdA).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

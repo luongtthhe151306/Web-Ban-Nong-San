@@ -77,7 +77,7 @@ public class ManagerAccountServlet extends HttpServlet {
             }
         }
         
-        if(submit.equals("Thay đổi thông tin tài khoản")){
+//        if(submit.equals("Thay đổi thông tin tài khoản")){
             Account acc = md.getAccountById(IdA);
             acc.setName(name);
             acc.setAddress(add);
@@ -86,9 +86,9 @@ public class ManagerAccountServlet extends HttpServlet {
             acc.setPassword(pass);
             md.UpdateAccount(acc);
             request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
-        }else{
-            md.DeleteAccount(IdA);
-        }
+//        }else{
+//            md.DeleteAccount(IdA);
+//        }
         
     }
 
