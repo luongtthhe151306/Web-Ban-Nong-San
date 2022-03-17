@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -114,13 +115,23 @@ public class ManagerDAO {
 //        n.UpdateProduct(p);
 //        Type t = new Type(6, "Hoa hoét");
 //        n.UpdateProductType(t);
-        Product p = n.getProductByIdP(7);
-        n.CreateOrder(new Order( acc, 1, p, 20, 0));
-        Order p1 = n.getOrderIdP(3, 7);
-//        p.setQuantity(200);
-//        n.UpdateOrder(p);
-        ArrayList<Bill> billlist = n.getTotalBillPayment(3);
-        System.out.println(billlist.get(0).getOrderTime());
+//        Product p = n.getProductByIdP(7);
+//        n.CreateOrder(new Order( acc, 1, p, 20, 0));
+//        Order p1 = n.getOrderIdP(3, 7);
+////        p.setQuantity(200);
+////        n.UpdateOrder(p);
+//        ArrayList<Bill> billlist = n.getTotalBillPayment(3);
+//        System.out.println(billlist.get(0).getOrderTime());
+
+        double doubleNumber = 10000d;
+         
+    // khai báo 1 DecimalFormat có tên là dcf
+    // để định dạng số doubleNumber theo mẫu "#.##"
+    // tức là phần thập phân của số doubleNumber sau khi định dạng sẽ có 2 chữ số
+    DecimalFormat dcf = new DecimalFormat("####,###,###");
+    String a = dcf.format(doubleNumber);
+    System.out.println("Số " + doubleNumber + " sau khi định dạng = " + 
+        dcf.format(doubleNumber));
     }
 
     public Account getAccountById(int id) {
@@ -335,7 +346,7 @@ public class ManagerDAO {
         try {
             String sql = "UPDATE [Product] SET [Name]=N'" + pro.getName() + "', [Price]=" + pro.getPrice()
                     + ", [TypeId]=" + pro.getType().getIdType() + ", [Origin]=N'" + pro.getOrigin()
-                    + "', [image]='" + pro.getImg() + "', [QuantityStock]=" + pro.getQuantityStock()
+                    + "', [image]='" + pro.getImg() + "', [QuantityStock]=" + pro.getQuantityStock()+",[QuantitySold]="+pro.getQuantitySold()
                     + " WHERE IdP = " + pro.getIdP();
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();

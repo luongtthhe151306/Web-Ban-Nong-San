@@ -14,6 +14,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <!DOCTYPE html>
 <html>
 
@@ -113,7 +114,8 @@
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                                <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>
@@ -125,7 +127,8 @@
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                                <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>                        

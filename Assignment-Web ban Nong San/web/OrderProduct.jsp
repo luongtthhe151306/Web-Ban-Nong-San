@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="Model.Order"%>
 <%@page import="Model.Type"%>
 <%@page import="java.util.ArrayList"%>
@@ -13,6 +14,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <html>
 
     <head>
@@ -102,7 +104,8 @@
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                                <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>
@@ -114,7 +117,8 @@
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                                <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>                        
@@ -160,7 +164,7 @@
                         %>
                         <div class="col-sm-5" style="padding-top: 50px;">
                             <div style="display: flex;">
-                                <div class="store"><i class="fa-solid fa-store store-icon"></i><h4><%= saler.getAccountName()%></h4></div>
+                                <div class="store"><a href="StoreServlet?IdA=<%= acc.getIdA()%>&IdS=<%= saler.getIdA()%>" style="text-decoration: none;"><i class="fa-solid fa-store store-icon"></i><h4><%= saler.getAccountName()%></h4></a></div>
                                 <div class="store" style="display: block;">
                                     <div><%= saler.getAddress()%></div>
                                     <div><%= saler.getPhone()%></div>
@@ -172,7 +176,8 @@
                             <form class="create-product" action="OrderProductServlet" method="get">
                                 <table>
                                     <tr class="infomation"><td>Tên sản phẩm: <%= pro.getName()%></td></tr>
-                                    <tr class="infomation"><td>Giá bán: <%= pro.getPrice()%>vnd</td></tr>
+                                    <fmt:parseNumber var="j" integerOnly="true" type="number" value="<%= String.valueOf( pro.getPrice()) %>" />
+                                    <tr class="infomation"><td>Giá bán: ${j}vnd</td></tr>
                                     <tr class="infomation"><td>Xuất xứ: <%= pro.getOrigin()%></td></tr>
                                     <tr class="infomation"><td>Số lượng trong kho: <%= pro.getQuantityStock()%></td></tr>
                                     <tr class="infomation"><td>Đã bán: <%= pro.getQuantitySold()%></td></tr>

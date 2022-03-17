@@ -12,6 +12,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <!DOCTYPE html>
 <html>
     <head>
@@ -93,24 +94,26 @@
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
                                 </c:if>
                                 <c:if test="${requestScope.orderlist1.size() < 2 && requestScope.orderlist1.size()!= 0}">
-                                    <c:forEach begin="0" end="${requestScope.orderlist.size()}" items="${orderlist}" var="order">
+                                    <c:forEach begin="0" end="${requestScope.orderlist1.size()}" items="${orderlist1}" var="order">
                                         <a href="" class="cart-item">
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                                <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
                                 </c:if>
                                 <c:if test="${requestScope.orderlist1.size() >= 2}">
-                                    <c:forEach begin="0" end="1" items="${requestScope.orderlist}" var="order">
+                                    <c:forEach begin="0" end="1" items="${requestScope.orderlist1}" var="order">
                                         <a href="" class="cart-item">
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                                <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>                        
@@ -172,7 +175,8 @@
                                         <a href="" class="product-item-link">
                                             <img src="${pro.getImg()}" class="product-item-img" style="height: 170px">
                                             <p class="product-item-name">${pro.getName()}</p>
-                                            <p class="product-item-price">${pro.getPrice()}vnd</p>
+                                            <fmt:parseNumber var="j" integerOnly="true" type="number" value="${pro.getPrice()}" />
+                                            <p class="product-item-price">${j}vnd</p>
                                             <p>Đã bán: ${pro.getQuantitySold()}</p>
                                             <p>Còn lại: ${pro.getQuantityStock()}</p>
                                             <a class="delete-link" href="UpdateProduct.jsp?IdP=${pro.getIdP()}&IdA=${pro.getAccount().getIdA()}">Cập nhật</a>

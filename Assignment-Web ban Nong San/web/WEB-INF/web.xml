@@ -84,6 +84,10 @@
         <servlet-name>FindServlet</servlet-name>
         <servlet-class>Controller.FindServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StoreServlet</servlet-name>
+        <servlet-class>Controller.StoreServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>FindServlet</servlet-name>
         <url-pattern>/FindServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreServlet</servlet-name>
+        <url-pattern>/StoreServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -44,13 +44,40 @@ public class OrderProductServlet extends HttpServlet {
         ManagerDAO md = new ManagerDAO();
         int IdP = Integer.parseInt(request.getParameter("IdP"));
         int IdA = Integer.parseInt(request.getParameter("IdA"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        Order orderIdP = md.getOrderIdP(IdA, IdP);
+        Product pro = md.getProductByIdP(IdP);
         Account acc = md.getAccountById(IdA);
+        String quantitys = request.getParameter("quantity");
+        //check quantity
+        if(quantitys.isEmpty()){
+            String error = "Vui lòng nhập số lượng muốn mua!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
+            return;
+        }
+        for(int i=0; i<quantitys.trim().length(); i++){
+            char j = quantitys.charAt(i);
+            if(Character.isLetter(j)){
+                String error = "Vui lòng nhập số !";
+                request.setAttribute("error", error);
+                request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
+                return;
+            }
+        }        
+        if(Integer.parseInt(quantitys) <= 0){
+            String error = "Vui lòng nhập số lớn hơn 0!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
+            return;
+        }
+        
+        int quantity = Integer.parseInt(quantitys);
+                
+        
 ////        Account acc = (Account)request.getSession().getAttribute("user");
 //        //
          
-        Order orderIdP = md.getOrderIdP(IdA, IdP);
-        Product pro = md.getProductByIdP(IdP);
+        
         if(quantity > pro.getQuantityStock()){
             String error = "Quá số lượng trong kho!";
             request.setAttribute("error", error);
@@ -109,9 +136,10 @@ public class OrderProductServlet extends HttpServlet {
         }
         if (submit.equals("Thêm vào giỏ hàng")) {
             String idA = Integer.toString(IdA);
-            request.setAttribute("idA", idA);
-            request.setAttribute("accname", acc.getAccountName());
-            request.getRequestDispatcher("HomeServlet").forward(request, response);
+//            request.setAttribute("idA", idA);
+//            request.setAttribute("accname", acc.getAccountName());
+//            request.getRequestDispatcher("HomeServlet").forward(request, response);
+            response.sendRedirect("HomeServlet?idA="+idA+"&accname="+acc.getAccountName());
         } else {
             request.getRequestDispatcher("CartPage.jsp?IdA="+IdA).forward(request, response);
         }

@@ -58,6 +58,12 @@ public class BillServlet extends HttpServlet {
             if(pro.getQuantityStock() >= order.getQuantity()){
                 order.setPayment(1);
                 md.UpdateOrderPayment(order);
+                int sold = pro.getQuantitySold();
+                int stock = pro.getQuantityStock();
+                int quantity = order.getQuantity();
+                pro.setQuantitySold(sold+quantity);
+                pro.setQuantityStock(stock-quantity);
+                md.UpdateProduct(pro);
                 orderlist.add(order);
                 totalmoney += order.getProduct().getPrice()*order.getQuantity();
             }else{

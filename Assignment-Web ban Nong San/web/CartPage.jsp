@@ -13,6 +13,7 @@
 <%@page import="DAO.ManagerDAO"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <!DOCTYPE html>
 <html>
 
@@ -101,7 +102,8 @@
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                                <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>
@@ -113,7 +115,8 @@
                                             <img src="${order.getProduct().getImg()}" class="img-cart">
                                             <div class="cart-content">
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
-                                                <span class="cart-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                                <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                             </div>
                                         </a>
                                     </c:forEach>                        
@@ -160,7 +163,8 @@
                                     <div class="col-sm-4"><img src="${order.getProduct().getImg()}" class="img-order" style="height: 90px;"></div>
                                     <div class="col-sm-8 order-content">
                                         <span class="order-content-name"><c:out value="${order.getProduct().getName()}"></c:out><input type="checkbox" name="choose" value="${order.getIdO()}"></span></br>
-                                        <span class="order-content-price"><c:out value="${order.getProduct().getPrice()}"></c:out>00vnd</span>
+                                        <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                        <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                         <span class="order-content-quantity"><c:out value="${order.getQuantity()}"></c:out></span>
                                         <a href="ChangeOrderQuantityServlet?IdA=<%=IdA%>&IdO=${order.getIdO()}&IdP=${order.getProduct().getIdP()}" style="text-decoration: none ;margin-right: 50px;">Thay đổi số lượng</a>
                                         <a href="DeleteOrder?IdA=<%=IdA%>&IdO=${order.getIdO()}" style="text-decoration: none ;" onclick="if (!confirm('Bạn muốn xóa sản phẩm?')) { return false; }">Xóa sản phẩm</a>

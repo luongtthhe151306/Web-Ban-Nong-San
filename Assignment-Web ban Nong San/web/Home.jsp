@@ -12,6 +12,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <!DOCTYPE html>
 <html>
 
@@ -108,7 +109,8 @@
                                         <img src="${order.getProduct().getImg()}" class="img-cart">
                                         <div class="cart-content">
                                             <span class="cart-content-name">${order.getProduct().getName()}</span></br>
-                                            <span class="cart-content-price">${order.getProduct().getPrice()}vnd  x ${order.getQuantity()}</span>
+                                            <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                            <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                         </div>
                                     </a>
                                         </c:forEach>
@@ -120,7 +122,8 @@
                                         <img src="${order.getProduct().getImg()}" class="img-cart">
                                         <div class="cart-content">
                                             <span class="cart-content-name">${order.getProduct().getName()}</span></br>
-                                            <span class="cart-content-price">${order.getProduct().getPrice()}vnd  x ${order.getQuantity()}</span>
+                                            <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
+                                            <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
                                         </div>
                                     </a>
                                         </c:forEach>                        
@@ -171,7 +174,8 @@
                                             <a href="OrderProduct.jsp?IdS=${pro.getAccount().getIdA()}&IdA=${idA}&IdP=${ pro.getIdP()}" class="product-item-link">
                                                 <image class="product-item-img" src="${pro.getImg()}" style="height: 170px">
                                                 <p class="product-item-name">${pro.getName()}</p>
-                                                <p class="product-item-price">${pro.getPrice()}vnd</p>
+                                                <fmt:parseNumber var="j" integerOnly="true" type="number" value="${pro.getPrice()}" />
+                                                <p class="product-item-price">${j}vnd</p>
                                             </a>
                                         </div>
                                     </div>
