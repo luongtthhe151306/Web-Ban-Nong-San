@@ -40,6 +40,7 @@ public class ProductTypeServlet extends HttpServlet {
 //        String idT = request.getParameter("idT");
 //        String IdA = request.getParameter("IdA");
         int idT = Integer.parseInt(request.getParameter("idT"));
+        int page = Integer.parseInt(request.getParameter("page"));
         String IdA = request.getParameter("IdA");
         String accname = md.getAccountById(Integer.parseInt(IdA)).getAccountName();
         ArrayList<Type> typelist = md.getProductType();
@@ -51,7 +52,7 @@ public class ProductTypeServlet extends HttpServlet {
             }
         }
 //        PrintWriter out = response.getWriter();
-//        out.print(idT);
+//        out.print(page);
 //        out.print(IdA);
         request.setAttribute("IdA", IdA);
         request.setAttribute("accname", accname);
@@ -59,7 +60,7 @@ public class ProductTypeServlet extends HttpServlet {
         request.setAttribute("typename", typename);
         request.setAttribute("typelist", typelist);
         request.setAttribute("prolist", prolist);
-        request.getRequestDispatcher("ProductTypePage.jsp").forward(request, response);
+        request.getRequestDispatcher("ProductTypePage.jsp?page="+page).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

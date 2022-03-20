@@ -32,9 +32,27 @@
             <div class="grid">
                 <nav class="header-navbar">
                     <ul class="header-list">                        
+                        <% if (acc.isIsAdmin() && acc.isIsSaler()) {%>
                         <li class="header-item">
-                            <a href="SalerServlet?idA=${prolistbyIdA.get(0).getAccount().getIdA()}" class="header-item-link">Kênh người bán</a>
+                            <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                         </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                        </li>
+                        <% } else if (acc.isIsAdmin()) {
+                        %>
+                        <li class="header-item">
+                            <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
+                        </li>
+                        <% } else if (acc.isIsSaler()) {%>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                        </li>
+                        <% } else {%>
+                        <li class="header-item">
+                            <a href="" class="header-item-link">Xin chào <%= acc.getAccountName()%></a>
+                        </li>
+                        <%}%>
                     </ul>
                     <ul class="header-list">
                         <li class="header-item link-has-notifi">

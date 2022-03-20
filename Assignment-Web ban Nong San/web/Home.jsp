@@ -117,7 +117,7 @@
                         </form>
                         </div>
                         <div class="cart">      
-                            
+                            <% if(isCustommer){ %>
                             <span class="cart-notify" style="position: absolute;padding: 0px 4px;background-color: #fff;color: rgb(20, 138, 26);font-size: 14px;border-radius: 17px;top: -8px;right: 38px;">${orderlist.size()}</span>
                             <div class="logo">
                                 <a href="" class="logo-link">
@@ -156,6 +156,7 @@
                                     </c:if>
                                 </div>
                             </div>
+                            <%}%>
                         </div>
 
                     </div>
@@ -174,7 +175,7 @@
                             <ul class="category-list">
                                 <c:forEach items="${typelist}" var="type">
                                     <li class="category-item">
-                                        <a href="ProductTypeServlet?idT=${type.getIdType()}&IdA=${idA}" class="catagory-item-link">${type.getTypeName()}</a>
+                                        <a href="ProductTypeServlet?idT=${type.getIdType()}&IdA=${idA}&page=1" class="catagory-item-link">${type.getTypeName()}</a>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -187,7 +188,7 @@
                                 for (Type typelist1 : typelist) {%>
                             <div class="row">
                             <div class="product-list">
-                                <a class="product-list-link" href="ProductTypeServlet?idT=<%= typelist1.getIdType()%>&IdA=${idA}"><%= typelist1.getTypeName()%></a>
+                                <a class="product-list-link" href="ProductTypeServlet?idT=<%= typelist1.getIdType()%>&IdA=${idA}&page=1"><%= typelist1.getTypeName()%></a>
                             </div>
                             
                                 <%ArrayList<Product> prolist = new ArrayList();
@@ -205,7 +206,7 @@
                                         </div>
                                     </div>
                                 </c:forEach>
-                                <a class="product-viewall" href="ProductTypeServlet?idT=<%= typelist1.getIdType()%>&IdA=${idA}">Xem tất cả</a>
+                                <a class="product-viewall" href="ProductTypeServlet?idT=<%= typelist1.getIdType()%>&IdA=${idA}&page=1">Xem tất cả</a>
                             </div>
                             <%}%>
                         </div>

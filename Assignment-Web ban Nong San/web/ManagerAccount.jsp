@@ -36,10 +36,19 @@
         <header class="header">
             <div class="grid">
                 <nav class="header-navbar">
-                    <ul class="header-list">                    
+                    <ul class="header-list">  
+                        <%if (acc.isIsAdmin() && acc.isIsSaler()) { %>
+                        <li class="header-item">
+                            <a href="ManagerAccount.jsp?IdA=<%= IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
+                        </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%= IdA%>" class="header-item-link">Kênh người bán</a>
+                        </li>
+                        <% } else if (acc.isIsAdmin() && !acc.isIsSaler()) {%>
                         <li class="header-item">
                             <a href="ManagerAccount?IdA=<%= IdA%>" class="header-item-link">Quản lý tài khoản</a>
                         </li>
+                        <% } %>
                     </ul>
                     <ul class="header-list">
                         <li class="header-item link-has-notifi">
@@ -91,7 +100,7 @@
                 </div>
             </div>
         </header>
-        <div class="container-fluid">
+        <div class="container-fluid" style="background-color: rgb(196, 245, 184);">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="navigation-bar">
@@ -109,7 +118,7 @@
                                 for (int i = 0; i < typelist.size(); i++) {
                             %>
                             <li class="category-item">
-                                <a href="ProductTypeServlet?idT=<%=typelist.get(i).getIdType()%>&IdA=<%=IdA%>" class="catagory-item-link"><%= typelist.get(i).getTypeName()%></a>
+                                <a href="ProductTypeServlet?idT=<%=typelist.get(i).getIdType()%>&IdA=<%=IdA%>&page=1" class="catagory-item-link"><%= typelist.get(i).getTypeName()%></a>
                             </li>
                             <%}%>
 
@@ -118,7 +127,7 @@
                 </div>
                 <div class="col-sm-9">
                     <form action="ManagerAccountServlet" method="get">
-                        <table style="border: 1px solid; background-color: #fff;margin: 30px 0px;">
+                        <table style="border: 1px solid; background-color: #fff;margin: 30px 30px 10px 30px;width: 95%;height: 70%;">
                             <tr>
                                 <th style="border: 1px solid;">ID</th>
                                 <th style="border: 1px solid;">Name</th>
@@ -130,23 +139,22 @@
                                 <th style="border: 1px solid;">isAdmin</th>
                             </tr>
                             <% ArrayList<Account> allacc = md.getAccount();
-                            int z = 0;
-                            int n = 5;
-                            int size = allacc.size();
-                            if( size% n == 0){
-                                z = size / n;
-                            }else{
-                                z = (size / n) + (size % n);
-                            }
-                            
-                            int e = n*p - 1;
-                            int b = n*p - n;
+                                int z = 0;
+                                int n = 5;
+                                int size = allacc.size();
+                                if (size % n == 0) {
+                                    z = size / n;
+                                } else {
+                                    z = (size / n) + 1;
+                                }
+
+                                int e = n * p - 1;
+                                int b = n * p - n;
                                 request.setAttribute("end", e);
                                 request.setAttribute("begin", b);
                                 request.setAttribute("zpage", z);
                                 request.setAttribute("allacc", allacc);%>
-                                <h3><%= z %></h3>
-                                <c:forEach begin="${requestScope.begin}" end="${requestScope.end}" items="${requestScope.allacc}" var="acc">
+                            <c:forEach begin="${requestScope.begin}" end="${requestScope.end}" items="${requestScope.allacc}" var="acc">
                                 <tr>
                                     <td style="border: 1px solid;">${acc.getIdA()}</td>
                                     <td style="border: 1px solid;">${acc.getName()}</td>
@@ -191,24 +199,25 @@
                             </tr>
                         </table>
                     </form>
+                    <div class="pagging" style="display: flex;padding-left: 90%;">
+                        <c:choose>
+                            <c:when test="${requestScope.page == 1}">
+                                <div class="pagging-link" style="padding: 5px 10px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=<%= p%>"><%= p%></a></div>  
+                                <div class="pagging-link" style="padding: 5px 5px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=<%= p + 1%>">>></a></div>    
+                            </c:when>
+                            <c:when test="${requestScope.page > 1 && requestScope.page < requestScope.zpage}">
+                                <div class="pagging-link" style="padding: 5px 5px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=<%= p - 1%>"><<</a></div>
+                                <div class="pagging-link" style="padding: 5px 10px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=<%= p%>"><%= p%></a></div>  
+                                <div class="pagging-link" style="padding: 5px 5px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=<%= p + 1%>">>></a></div>    
+                            </c:when>
+                            <c:when test="${requestScope.page == requestScope.zpage}">
+                                <div class="pagging-link" style="padding: 5px 5px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=<%= p - 1%>"><<</a></div>
+                                <div class="pagging-link" style="padding: 5px 10px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=<%= p%>"><%= p%></a></div>    
+                                </c:when>  
+                            </c:choose>
+                    </div>
                 </div>
-                <div class="pagging" style="display: flex;">
-                    <c:choose>
-                        <c:when test="${requestScope.page == 1}">
-                            <div style="padding: 5px 5px; border: 1px solid;"><a style="text-decoration: none;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=${requestScope.page}">${requestScope.page}</a></div>  
-                            <div style="padding: 5px 5px; border: 1px solid;"><a style="text-decoration: none;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=${requestScope.page}">>></a></div>    
-                        </c:when>
-                        <c:when test="${requestScope.page > 1 && requestScope.page < requestScope.zpage}">
-                            <div style="padding: 5px 5px; border: 1px solid;"><a style="text-decoration: none;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=${requestScope.page-1}"><<</a></div>
-                            <div style="padding: 5px 5px; border: 1px solid;"><a style="text-decoration: none;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=${requestScope.page}">${requestScope.page}</a></div>  
-                            <div style="padding: 5px 5px; border: 1px solid;"><a style="text-decoration: none;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=${requestScope.page+1}">>></a></div>    
-                        </c:when>
-                        <c:when test="${requestScope.page == requestScope.zpage}">
-                            <div style="padding: 5px 5px; border: 1px solid;"><a style="text-decoration: none;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=${requestScope.page-1}"><<</a></div>
-                            <div style="padding: 5px 5px; border: 1px solid;"><a style="text-decoration: none;" href="ManagerAccount.jsp?IdA=<%=IdA%>&page=${requestScope.page}">${requestScope.page}</a></div>    
-                            </c:when>  
-                    </c:choose>
-                </div>
+
             </div>
         </div>
         <footer class="footer">

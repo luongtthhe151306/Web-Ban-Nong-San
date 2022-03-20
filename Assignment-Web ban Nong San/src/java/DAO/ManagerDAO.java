@@ -322,6 +322,20 @@ public class ManagerDAO {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void DeleteProductIdC(int IdC) {
+        try {
+            String sql = "DELETE FROM [Product] WHERE IdC=" + IdC;
+            Connection conn = new BaseDAO().getConnection();
+//            PreparedStatement state = conn.prepareStatement("DELETE FROM [Product] WHERE IdP=" + IdP);
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void DeleteAllTypeProductByIdA(int IdA, int IdType) {
         try {

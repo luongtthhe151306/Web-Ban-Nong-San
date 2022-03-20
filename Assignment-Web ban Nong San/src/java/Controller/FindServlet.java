@@ -62,10 +62,10 @@ public class FindServlet extends HttpServlet {
         }
         
         for(Account acc:acclist){
-            if(acc.getAccountName().toLowerCase().contains(findToLower)){
+            if(acc.getAccountName().toLowerCase().contains(findToLower) && acc.isIsSaler()){
                 request.setAttribute("typelist1", typelist);
-                request.setAttribute("typelist", md.getProductTypeByIdA(IdA));
-                request.setAttribute("prolistbyIdA", md.getProductByIdA(IdA));
+                request.setAttribute("typelist", md.getProductTypeByIdA(acc.getIdA()));
+                request.setAttribute("prolistbyIdA", md.getProductByIdA(acc.getIdA()));
                 request.setAttribute("IdA", IdA);
                 request.setAttribute("accname", md.getAccountById(IdA).getAccountName());
                 request.setAttribute("storename", acc.getAccountName());

@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="Model.Account"%>
 <%@page import="Model.Order"%>
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
@@ -31,10 +32,32 @@ and open the template in the editor.
         <header class="header">
             <div class="grid">
                 <nav class="header-navbar">
+                    <% ManagerDAO md = new ManagerDAO();
+                        int IdA = (Integer)request.getAttribute("IdA");
+                        Account acc = md.getAccountById(IdA);
+                        %>
                     <ul class="header-list">
+                        <% if (acc.isIsAdmin() && acc.isIsSaler()) {%>
                         <li class="header-item">
-                            <a href="SalerServlet?idA=${IdA}" class="header-item-link">Kênh người bán</a>
+                            <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                         </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                        </li>
+                        <% } else if (acc.isIsAdmin()) {
+                        %>
+                        <li class="header-item">
+                            <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
+                        </li>
+                        <% } else if (acc.isIsSaler()) {%>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                        </li>
+                        <% } else {%>
+                        <li class="header-item">
+                            <a href="" class="header-item-link">Xin chào <%= acc.getAccountName()%></a>
+                        </li>
+                        <%}%>
                     </ul>
                     <ul class="header-list">
                         <li class="header-item link-has-notifi">
@@ -45,8 +68,7 @@ and open the template in the editor.
                                     <div>Thông báo mới</div>
                                 </header>
                                 <ul class="notifi-list">
-                                    <% ManagerDAO md = new ManagerDAO();
-                                        int IdA = (Integer)request.getAttribute("IdA");
+                                    <% 
                                         ArrayList<Product> prolist1 = md.getAllProduct();
                                     for (int i = prolist1.size() - 1; i > prolist1.size() - 4; i--) {%>
                                     <li class="notifi-item">

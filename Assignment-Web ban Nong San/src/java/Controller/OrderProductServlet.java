@@ -44,8 +44,15 @@ public class OrderProductServlet extends HttpServlet {
         ManagerDAO md = new ManagerDAO();
         int IdP = Integer.parseInt(request.getParameter("IdP"));
         int IdA = Integer.parseInt(request.getParameter("IdA"));
-        Order orderIdP = md.getOrderIdP(IdA, IdP);
         Product pro = md.getProductByIdP(IdP);
+        if(!md.getAccountById(IdA).isIsCustommser()){
+            String error = "Bạn không phải là khách hàng!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("OrderProduct.jsp?IdS="+pro.getAccount().getIdA()+"&IdA="+IdA+"&IdP="+IdP).forward(request, response);
+            return;
+        }
+        Order orderIdP = md.getOrderIdP(IdA, IdP);
+        
         Account acc = md.getAccountById(IdA);
         String quantitys = request.getParameter("quantity");
         //check quantity

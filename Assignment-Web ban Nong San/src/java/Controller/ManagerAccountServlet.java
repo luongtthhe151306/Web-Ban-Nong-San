@@ -32,7 +32,7 @@ public class ManagerAccountServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,38 +56,47 @@ public class ManagerAccountServlet extends HttpServlet {
         String[] isS = request.getParameterValues("isS");
         String[] isAdmin = request.getParameterValues("isAdmin");
         PrintWriter out = response.getWriter();
-        out.print(end);
+        out.print(begin);
         ManagerDAO md = new ManagerDAO();
         ArrayList<Account> acclist = md.getAccount();
-        if(end > acclist.size()){
+        if (end > acclist.size()) {
             end = acclist.size();
         }
         out.print(end);
-        for(int x = begin; x<end; x++){
+        for (int x = begin; x < end; x++) {
             boolean flag = false;
-            for (String c : isC) {
-                if (Integer.parseInt(c) == acclist.get(x).getIdA()) {
-                    flag = true;
+            if (isC != null) {
+                for (String c : isC) {
+                    if (Integer.parseInt(c) == acclist.get(x).getIdA()) {
+                        flag = true;
+                    }
                 }
+                acclist.get(x).setIsCustommser(flag);
             }
-            acclist.get(x).setIsCustommser(flag);
-            flag = false;
-            for (String item : isS) {
-                if (Integer.parseInt(item) == acclist.get(x).getIdA()) {
-                    flag = true;
+            if (isS != null) {
+                flag = false;
+                for (String item : isS) {
+                    if (Integer.parseInt(item) == acclist.get(x).getIdA()) {
+                        flag = true;
+                    }
                 }
-            }
-            acclist.get(x).setIsSaler(flag);
-            flag = false;
-            for (String admin : isAdmin) {
-                if (Integer.parseInt(admin) == acclist.get(x).getIdA()) {
-                    flag = true;
+                if(!flag){
+                    md.DeleteProductIdC(acclist.get(x).getIdA());
                 }
+                acclist.get(x).setIsSaler(flag);
             }
-            acclist.get(x).setIsAdmin(flag);
+            if (isAdmin != null) {
+                flag = false;
+                for (String admin : isAdmin) {
+                    if (Integer.parseInt(admin) == acclist.get(x).getIdA()) {
+                        flag = true;
+                    }
+                }
+                acclist.get(x).setIsAdmin(flag);
+            }
             md.UpdateAccount(acclist.get(x));
         }
-        request.getRequestDispatcher("ManagerAccount.jsp?IdA="+IdA+"&page=1").forward(request, response);
+        request.getRequestDispatcher("ManagerAccount.jsp?IdA=" + IdA + "&page=1").forward(request, response);
     }
 
     /**
@@ -111,7 +120,7 @@ public class ManagerAccountServlet extends HttpServlet {
         String accname = request.getParameter("accname");
         String pass = request.getParameter("pass");
         String submit = request.getParameter("submit");
-        
+
 //        PrintWriter out = response.getWriter();
 //        out.println(IdA);
 //        out.println(name);
@@ -120,45 +129,44 @@ public class ManagerAccountServlet extends HttpServlet {
 //        out.println(accname);
 //        out.println(pass);
 //        out.println(submit);
-        
-        if(phone.length() != 10){
+        if (phone.length() != 10) {
             String error = "Số điện thoại có 10 chữ số!";
             request.setAttribute("error", error);
-            request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
+            request.getRequestDispatcher("AccountPage.jsp?IdA=" + IdA).forward(request, response);
             return;
         }
-        
-        if(pass.length() > 10 || pass.length() < 6){
+
+        if (pass.length() > 10 || pass.length() < 6) {
             String error = "Mật khẩu từ 6 - 10 ký tự!";
             request.setAttribute("error", error);
-            request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
+            request.getRequestDispatcher("AccountPage.jsp?IdA=" + IdA).forward(request, response);
             return;
         }
-        
+
         ArrayList<Account> acclist = md.getAccount();
 //        out.println(acclist);
-        for(Account acclist1 : acclist){
-            if(acclist1.getAccountName().equals(accname) && acclist1.getIdA() != IdA){
+        for (Account acclist1 : acclist) {
+            if (acclist1.getAccountName().equals(accname) && acclist1.getIdA() != IdA) {
                 String error = "Tên tài khoản đã tồn tại!";
                 request.setAttribute("error", error);
-                request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
+                request.getRequestDispatcher("AccountPage.jsp?IdA=" + IdA).forward(request, response);
                 return;
             }
         }
-        
+
 //        if(submit.equals("Thay đổi thông tin tài khoản")){
-            Account acc = md.getAccountById(IdA);
-            acc.setName(name);
-            acc.setAddress(add);
-            acc.setPhone(phone);
-            acc.setAccountName(accname);
-            acc.setPassword(pass);
-            md.UpdateAccount(acc);
-            request.getRequestDispatcher("AccountPage.jsp?IdA="+IdA).forward(request, response);
+        Account acc = md.getAccountById(IdA);
+        acc.setName(name);
+        acc.setAddress(add);
+        acc.setPhone(phone);
+        acc.setAccountName(accname);
+        acc.setPassword(pass);
+        md.UpdateAccount(acc);
+        request.getRequestDispatcher("AccountPage.jsp?IdA=" + IdA).forward(request, response);
 //        }else{
 //            md.DeleteAccount(IdA);
 //        }
-        
+
     }
 
     /**

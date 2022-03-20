@@ -9,6 +9,7 @@ import DAO.ManagerDAO;
 import Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -80,6 +81,50 @@ public class CreateAccountServlet extends HttpServlet {
         String accname = request.getParameter("accnamecreate");
         String pass = request.getParameter("passcreate");
         Account acc = new Account(name,add,phone,accname,pass);
+        
+        String error;
+        if(name.isEmpty() || add.isEmpty() || phone.isEmpty() || accname.isEmpty() || pass.isEmpty()){
+            error = "Điền đầy đủ thông tin!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
+            return;
+        }else{
+            ManagerDAO md = new ManagerDAO();
+            ArrayList<Account> acclist = md.getAccount();
+            boolean f = false;
+            for(Account acclist1 : acclist){
+                if(acclist1.getAccountName().equals(accname)){
+                    f = true;
+                }
+            }
+            if(f){
+                error = "Tên tài khoản đã tồn tại!";
+                request.setAttribute("error", error);
+                request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
+                return;
+            }else{
+                int l = pass.length();
+                if(l< 6 || l >10){
+                    error = "Mật khẩu từ 6 - 10 ký tự!";
+                    request.setAttribute("error", error);
+                    request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
+                    return;
+                }
+                if(phone.length() != 10){
+                    error = "Số điện thoại có 10 chữ số!";
+                    request.setAttribute("error", error);
+                    request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
+                    return;
+                }
+            }
+        }
+        
+        if(accname.contains(" ")){
+            error="Tên tài khoản không chứa dấu cách!!!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("CreateAccount.jsp").forward(request, response);
+            return;
+        }
         
         ManagerDAO md = new ManagerDAO();
         md.createAccount(acc);

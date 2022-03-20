@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="Model.Account"%>
 <%@page import="Model.Order"%>
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
@@ -29,12 +30,34 @@ and open the template in the editor.
     </head>
     <body>
         <header class="header">
+            <%ManagerDAO md = new ManagerDAO();
+                int IdA = Integer.parseInt(request.getParameter("IdA"));
+                Account acc = md.getAccountById(IdA);
+            %>
             <div class="grid">
                 <nav class="header-navbar">
                     <ul class="header-list">
+                        <% if (acc.isIsAdmin() && acc.isIsSaler()) {%>
                         <li class="header-item">
-                            <a href="SalerServlet?idA=${IdA}" class="header-item-link">Kênh người bán</a>
+                            <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                         </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                        </li>
+                        <% } else if (acc.isIsAdmin()) {
+                        %>
+                        <li class="header-item">
+                            <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
+                        </li>
+                        <% } else if (acc.isIsSaler()) {%>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                        </li>
+                        <% } else {%>
+                        <li class="header-item">
+                            <a href="" class="header-item-link">Xin chào <%= acc.getAccountName()%></a>
+                        </li>
+                        <%}%>
                     </ul>
                     <ul class="header-list">
                         <li class="header-item link-has-notifi">
@@ -45,10 +68,10 @@ and open the template in the editor.
                                     <div>Thông báo mới</div>
                                 </header>
                                 <ul class="notifi-list">
-                                    <% ManagerDAO md = new ManagerDAO();
-                                        int IdA = Integer.parseInt(request.getParameter("IdA"));
+                                    <%
+
                                         ArrayList<Product> prolist1 = md.getAllProduct();
-                                    for (int i = prolist1.size() - 1; i > prolist1.size() - 4; i--) {%>
+                                        for (int i = prolist1.size() - 1; i > prolist1.size() - 4; i--) {%>
                                     <li class="notifi-item">
                                         <a href="OrderProduct.jsp?IdS=<%= prolist1.get(i).getAccount().getIdA()%>&IdA=<%= IdA%>&IdP=<%= prolist1.get(i).getIdP()%>" class="notifi-item" style="text-decoration: none; font-size: 16px; font-weight: 400px">
                                             <img src="<%= prolist1.get(i).getImg()%>" class="notifi-item-img">
@@ -82,9 +105,11 @@ and open the template in the editor.
                         </form>
                     </div>
                     <div class="cart">
-                        <% 
+                        <%
                             ArrayList<Order> orderlist = md.getOrderInCart(IdA);
-                        request.setAttribute("orderlist", orderlist);
+                            request.setAttribute("orderlist", orderlist);
+
+                            if (acc.isIsCustommser()) {
                         %>
                         <span class="cart-notify" style="position: absolute;padding: 0px 4px;background-color: #fff;color: rgb(20, 138, 26);font-size: 14px;border-radius: 17px;top: -8px;right: 38px;">${requestScope.orderlist.size()}</span>
                         <div class="logo">
@@ -104,8 +129,8 @@ and open the template in the editor.
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
                                                 <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
                                                 <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
-                                            </div>
-                                        </a>
+                                                </div>
+                                            </a>
                                     </c:forEach>
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
                                 </c:if>
@@ -117,13 +142,14 @@ and open the template in the editor.
                                                 <span class="cart-content-name"><c:out value="${order.getProduct().getName()}"></c:out></span></br>
                                                 <fmt:parseNumber var="j" integerOnly="true" type="number" value="${order.getProduct().getPrice()}" />
                                                 <span class="cart-content-price"><c:out value="${j}"></c:out>vnd  x <c:out value="${order.getQuantity()}"></c:out></span>
-                                            </div>
-                                        </a>
+                                                </div>
+                                            </a>
                                     </c:forEach>                        
                                     <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
                                 </c:if>
                             </div>
                         </div>
+                        <%}%>
                     </div>
 
                 </div>
@@ -144,9 +170,9 @@ and open the template in the editor.
                         </div>
                         <ul class="category-list">
                             <c:forEach items="${typelist1}" var="type1">
-                            <li class="category-item">
-                                <a href="CreateProduct.jsp?IdA=${IdA}" class="catagory-item-link">${type1.getTypeName()}</a>
-                            </li>
+                                <li class="category-item">
+                                    <a href="ProductTypeServlet?idT=${type1.getIdType()}&IdA=${IdA}&page=1" class="catagory-item-link">${type1.getTypeName()}</a>
+                                </li>
                             </c:forEach>
                         </ul>
                     </nav>
@@ -156,18 +182,18 @@ and open the template in the editor.
                         <div class="row">
                             <c:forEach items="${typelist}" var="type">
                                 <div class="product-list"><a class="product-list-link">${type.getTypeName()}</a></div>
-                                <c:forEach items="${prolistbyIdA}" var="pro">
-                                    <c:if test="${type.getIdType() == pro.getType().getIdType()}">
-                                    <div class="col-sm-3 " style=" margin-bottom: 15px;">
-                                    <div class="product-item">
-                                        <a href="OrderProduct.jsp?IdS=${pro.getAccount().getIdA()}&IdA=${IdA}&IdP=${ pro.getIdP()}" class="product-item-link">
-                                            <img src="${pro.getImg()}" class="product-item-img" style="height: 170px">
-                                            <p class="product-item-name">${pro.getName()}</p>
-                                            <fmt:parseNumber var="j" integerOnly="true" type="number" value="${pro.getPrice()}" />
-                                            <p class="product-item-price">${j}vnd</p>
-                                        </a>
-                                    </div>
-                                    </div>
+                                    <c:forEach items="${prolistbyIdA}" var="pro">
+                                        <c:if test="${type.getIdType() == pro.getType().getIdType()}">
+                                        <div class="col-sm-3 " style=" margin-bottom: 15px;">
+                                            <div class="product-item">
+                                                <a href="OrderProduct.jsp?IdS=${pro.getAccount().getIdA()}&IdA=${IdA}&IdP=${ pro.getIdP()}" class="product-item-link">
+                                                    <img src="${pro.getImg()}" class="product-item-img" style="height: 170px">
+                                                    <p class="product-item-name">${pro.getName()}</p>
+                                                    <fmt:parseNumber var="j" integerOnly="true" type="number" value="${pro.getPrice()}" />
+                                                    <p class="product-item-price">${j}vnd</p>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </c:if>
                                 </c:forEach> 
                             </c:forEach>

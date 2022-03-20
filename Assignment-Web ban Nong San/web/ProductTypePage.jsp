@@ -31,14 +31,34 @@
         <div class="web">
             <header class="header">
                 <% ManagerDAO md = new ManagerDAO();
+                    int p = Integer.parseInt(request.getParameter("page"));
+                    request.setAttribute("page", p);
                     int IdA = Integer.parseInt(request.getParameter("IdA"));
                     Account acc = md.getAccountById(IdA);%>
                 <div class="grid">
                     <nav class="header-navbar">
                         <ul class="header-list">
+                            <% if (acc.isIsAdmin() && acc.isIsSaler()) {%>
                             <li class="header-item">
-                                <a href="SalerServlet?idA=${idA}" class="header-item-link">Kênh người bán</a>
+                                <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                             </li>
+                            <li class="header-item">
+                                <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                            </li>
+                            <% } else if (acc.isIsAdmin()) {
+                            %>
+                            <li class="header-item">
+                                <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
+                            </li>
+                            <% } else if (acc.isIsSaler()) {%>
+                            <li class="header-item">
+                                <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                            </li>
+                            <% } else {%>
+                            <li class="header-item">
+                                <a href="" class="header-item-link">Xin chào <%= acc.getAccountName()%></a>
+                            </li>
+                            <%}%>
                         </ul>
                         <ul class="header-list">
                             <li class="header-item link-has-notifi">
@@ -50,7 +70,7 @@
                                     </header>
                                     <ul class="notifi-list">
                                         <% ArrayList<Product> prolist1 = md.getAllProduct();
-                                        for (int i = prolist1.size() - 1; i > prolist1.size() - 4; i--) {%>
+                                            for (int i = prolist1.size() - 1; i > prolist1.size() - 4; i--) {%>
                                         <li class="notifi-item">
                                             <a href="OrderProduct.jsp?IdS=<%= prolist1.get(i).getAccount().getIdA()%>&IdA=<%= IdA%>&IdP=<%= prolist1.get(i).getIdP()%>" class="notifi-item" style="text-decoration: none; font-size: 16px; font-weight: 400px">
                                                 <img src="<%= prolist1.get(i).getImg()%>" class="notifi-item-img">
@@ -86,6 +106,7 @@
                         <div class="cart">
                             <%ArrayList<Order> orderlist = md.getOrderInCart(IdA);
                                 request.setAttribute("orderlist", orderlist);
+                                if (acc.isIsCustommser()) {
                             %>
                             <span class="cart-notify" style="position: absolute;padding: 0px 4px;background-color: #fff;color: rgb(20, 138, 26);font-size: 14px;border-radius: 17px;top: -8px;right: 38px;">${requestScope.orderlist.size()}</span>
                             <div class="logo">
@@ -125,6 +146,7 @@
                                     </c:if>
                                 </div>
                             </div>
+                            <%}%>
                         </div>
 
                     </div>
@@ -146,7 +168,7 @@
                             <ul class="category-list">
                                 <c:forEach items="${typelist}" var="type">
                                     <li class="category-item">
-                                        <a href="ProductTypeServlet?idT=${type.getIdType()}&IdA=${IdA}" class="catagory-item-link">${type.getTypeName()}</a>
+                                        <a href="ProductTypeServlet?idT=${type.getIdType()}&IdA=${IdA}&page=1" class="catagory-item-link">${type.getTypeName()}</a>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -155,9 +177,27 @@
                     <div class="col-sm-9">
                         <div class="home-product">
                             <div class="row">
-                                <% ArrayList<Product> prolist = (ArrayList<Product>) request.getAttribute("prolist"); %>                            
+                                <% ArrayList<Product> prolist = (ArrayList<Product>) request.getAttribute("prolist");
+                                    int z = 0;
+                                    int n = 12;
+                                    int size = prolist.size();
+                                    if (size % n == 0) {
+                                        z = size / n;
+                                    } else {
+                                        z = (size / n) + 1;
+                                    }
+
+                                    int e = n * p ;
+                                    int b = n * p - n;
+                                    if (e > size) {
+                                        e = size;
+                                    }
+                                    request.setAttribute("end", e);
+                                    request.setAttribute("begin", b);
+                                    request.setAttribute("zpage", z);
+                                %> 
                                 <div class="product-list"><a href="ProductTypeServlet?idT=${idT}&IdA=${IdA}" class="product-list-link">${ typename}</a></div>
-                                    <% for (int j = 0; j < prolist.size(); j++) {%>
+                                    <% for (int j = b; j < e; j++) {%>
                                 <div class="col-sm-3 " style="margin-top: 20px">
                                     <div class="product-item">
                                         <a href="OrderProduct.jsp?IdA=${IdA}&IdS=<%= prolist.get(j).getAccount().getIdA()%>&IdP=<%= prolist.get(j).getIdP()%>" class="product-item-link">
@@ -170,6 +210,26 @@
                                 </div>                                            
                                 <%}%>       
                             </div>                                    
+                        </div>
+                        <div class="pagging" style="display: flex;padding-left: 90%;">
+                            <c:choose>
+                                <c:when test="${requestScope.page == 1 && requestScope.zpage > 1}">
+                                    <div class="pagging-link" style="padding: 5px 10px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ProductTypeServlet?idT=${idT}&IdA=${IdA}&page=<%= p%>"><%= p%></a></div>  
+                                    <div class="pagging-link" style="padding: 5px 5px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ProductTypeServlet?idT=${idT}&IdA=${IdA}&page=<%= p + 1%>">>></a></div>    
+                                </c:when>
+                                <c:when test="${requestScope.page == 1 && requestScope.zpage == 1}">
+                                    <div class="pagging-link" style="padding: 5px 10px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ProductTypeServlet?idT=${idT}&IdA=${IdA}&page=<%= p%>"><%= p%></a></div>  
+                                </c:when>
+                                <c:when test="${requestScope.page > 1 && requestScope.page < requestScope.zpage}">
+                                    <div class="pagging-link" style="padding: 5px 5px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ProductTypeServlet?idT=${idT}&IdA=${IdA}&page=<%= p - 1%>"><<</a></div>
+                                    <div class="pagging-link" style="padding: 5px 10px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ProductTypeServlet?idT=${idT}&IdA=${IdA}&page=<%= p%>"><%= p%></a></div>  
+                                    <div class="pagging-link" style="padding: 5px 5px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ProductTypeServlet?idT=${idT}&IdA=${IdA}&page=<%= p + 1%>">>></a></div>    
+                                </c:when>
+                                <c:when test="${requestScope.page == requestScope.zpage}">
+                                    <div class="pagging-link" style="padding: 5px 5px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ProductTypeServlet?idT=${idT}&IdA=${IdA}&page=<%= p - 1%>"><<</a></div>
+                                    <div class="pagging-link" style="padding: 5px 10px;border: 1px solid;background-color: #fff;"><a style="text-decoration: none;color: black;" href="ProductTypeServlet?idT=${idT}&IdA=${IdA}&page=<%= p%>"><%= p%></a></div>    
+                                    </c:when>  
+                                </c:choose>
                         </div>
                     </div>
                 </div>
