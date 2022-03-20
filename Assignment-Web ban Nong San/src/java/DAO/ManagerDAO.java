@@ -41,7 +41,19 @@ public class ManagerDAO {
                 String Phone = rs.getString("Phone");
                 String AccountName = rs.getString("AccountName");
                 String Password = rs.getString("Password");
-                Account acc = new Account(id, Name, Address, Phone, AccountName, Password);
+                boolean isC = false;
+                if(rs.getInt("isCustommer") == 1){
+                    isC = true;
+                }
+                boolean isS = false;
+                if(rs.getInt("isSaler") == 1){
+                    isS = true;
+                }
+                boolean isAdmin = false;
+                if(rs.getInt("isAdmin") == 1){
+                    isAdmin = true;
+                }
+                Account acc = new Account(id, Name, Address, Phone, AccountName, Password, isS, isC, isAdmin);
                 acclist.add(acc);
             }
             return acclist;
@@ -54,9 +66,9 @@ public class ManagerDAO {
 
     public void createAccount(Account acc) {
         try {
-            String sql = "INSERT INTO [Account]( [Name], [Address], [Phone], [AccountName], [Password])\n"
+            String sql = "INSERT INTO [Account]( [Name], [Address], [Phone], [AccountName], [Password],[isCustommer],[isSaler],[isAdmin])\n"
                     + "VALUES('" + acc.getName() + "','" + acc.getAddress() + "','" + acc.getPhone() + "','"
-                    + acc.getAccountName() + "','" + acc.getPassword() + "')";
+                    + acc.getAccountName() + "','" + acc.getPassword() + "',1,0,0)";
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();
             state.executeUpdate(sql);
@@ -128,10 +140,13 @@ public class ManagerDAO {
     // khai báo 1 DecimalFormat có tên là dcf
     // để định dạng số doubleNumber theo mẫu "#.##"
     // tức là phần thập phân của số doubleNumber sau khi định dạng sẽ có 2 chữ số
-    DecimalFormat dcf = new DecimalFormat("####,###,###");
-    String a = dcf.format(doubleNumber);
-    System.out.println("Số " + doubleNumber + " sau khi định dạng = " + 
-        dcf.format(doubleNumber));
+//    DecimalFormat dcf = new DecimalFormat("####,###,###");
+//    String a = dcf.format(doubleNumber);
+//    System.out.println("Số " + doubleNumber + " sau khi định dạng = " + 
+//        dcf.format(doubleNumber));
+
+        ArrayList<Account> acclist = n.getAccount();
+        System.out.println(acclist.get(3).isIsCustommser());
     }
 
     public Account getAccountById(int id) {
@@ -146,9 +161,19 @@ public class ManagerDAO {
 
     public void UpdateAccount(Account acc) {
         try {
+            int s = 0, c=0, a =0;
+            if(acc.isIsSaler()){
+                s = 1;
+            }
+            if(acc.isIsCustommser()){
+                c = 1;
+            }
+            if(acc.isIsAdmin()){
+                a = 1;
+            }
             String sql = "UPDATE [Account] SET [Name]= N'"+acc.getName()+"', [Address]=N'"+acc.getAddress()+"', \n" +
-                            "[Phone] = '"+acc.getPhone()+"', [AccountName]= N'"+acc.getAccountName()+"', [Password]='"+acc.getPassword()+"'\n"+
-                            "WHERE IdC = "+acc.getIdA();
+                            "[Phone] = '"+acc.getPhone()+"', [AccountName]= N'"+acc.getAccountName()+"', [Password]='"+acc.getPassword()+"',\n"+
+                            "[isSaler] = "+s+", [isCustommer] = "+c+", [isAdmin] = "+a+"\n WHERE IdC = "+acc.getIdA();
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();
             state.executeUpdate(sql);

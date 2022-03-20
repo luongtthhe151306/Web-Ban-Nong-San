@@ -4,7 +4,8 @@ use NongSan
 create table Type (ID int identity(1,1) primary key, NameType nvarchar(100) not null)
 
 create table Account (IdC int identity(1,1) primary key, Name nvarchar(50) not null, Address nvarchar(200) not null,
-Phone varchar(10) not null, AccountName nvarchar(30) not null, Password varchar(10)not null)
+Phone varchar(10) not null, AccountName nvarchar(30) not null, Password varchar(10)not null,
+isCustommer bit, isSaler bit, isAdmin bit)
 
 create table Product(IdP int identity(1,1) primary key, Name nvarchar(100) not null, Price float not null, 
 TypeID int foreign key references Type (ID) not null,
@@ -21,3 +22,4 @@ IdP int not null, NameP nvarchar(100) not null, PriceP float not null,
 Quantity int not null, payment bit not null)
 
 drop database NongSan
+select * from Account

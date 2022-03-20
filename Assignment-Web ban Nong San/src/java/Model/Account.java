@@ -16,8 +16,17 @@ public class Account {
     private String Phone;
     private String AccountName;
     private String Password;
+    private boolean isSaler;
+    private boolean isCustommser;
+    private boolean isAdmin;
 
-    public Account() {
+    public Account(String Name, String Address, String Phone, String AccountName, String Password, boolean isCustommser) {
+        this.Name = Name;
+        this.Address = Address;
+        this.Phone = Phone;
+        this.AccountName = AccountName;
+        this.Password = Password;
+        this.isCustommser = isCustommser;
     }
 
     public Account(String Name, String Address, String Phone, String AccountName, String Password) {
@@ -28,29 +37,19 @@ public class Account {
         this.Password = Password;
     }
 
-    public Account(int IdA, String Name, String Address, String Phone, String AccountName, String Password) {
+    public Account(int IdA, String Name, String Address, String Phone, String AccountName, String Password, boolean isSaler, boolean isCustommser, boolean isAdmin) {
         this.IdA = IdA;
         this.Name = Name;
         this.Address = Address;
         this.Phone = Phone;
         this.AccountName = AccountName;
         this.Password = Password;
+        this.isSaler = isSaler;
+        this.isCustommser = isCustommser;
+        this.isAdmin = isAdmin;
     }
 
-    public String getAccountName() {
-        return AccountName;
-    }
-
-    public void setAccountName(String AccountName) {
-        this.AccountName = AccountName;
-    }
-
-    public String getPassword() {
-        return Password;
-    }
-
-    public void setPassword(String Password) {
-        this.Password = Password;
+    public Account() {
     }
 
     public int getIdA() {
@@ -83,6 +82,46 @@ public class Account {
 
     public void setPhone(String Phone) {
         this.Phone = Phone;
+    }
+
+    public String getAccountName() {
+        return AccountName;
+    }
+
+    public void setAccountName(String AccountName) {
+        this.AccountName = AccountName;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
+
+    public boolean isIsSaler() {
+        return isSaler;
+    }
+
+    public void setIsSaler(boolean isSaler) {
+        this.isSaler = isSaler;
+    }
+
+    public boolean isIsCustommser() {
+        return isCustommser;
+    }
+
+    public void setIsCustommser(boolean isCustommser) {
+        this.isCustommser = isCustommser;
+    }
+
+    public boolean isIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
     
     

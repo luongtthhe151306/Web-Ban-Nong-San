@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="Model.Account"%>
 <%@page import="Model.Order"%>
 <%@page import="Model.Type"%>
 <%@page import="Model.Product"%>
@@ -32,9 +33,33 @@
                 <div class="grid">
                     <nav class="header-navbar">
                         <ul class="header-list">
+                            <% ManagerDAO md = new ManagerDAO();
+                            int Id = Integer.parseInt((String)request.getAttribute("idA"));
+                            Account acc = md.getAccountById(Id);
+                            boolean isSaler = acc.isIsSaler();
+                            boolean isCustommer = acc.isIsCustommser();
+                            boolean isAdmin = acc.isIsAdmin();
+                            if(isAdmin && isSaler){ %>
+                            <li class="header-item">
+                                <a href="ManagerAccount.jsp?IdA=${idA}&page=1" class="header-item-link">Quản lý tài khoản</a>
+                            </li>
                             <li class="header-item">
                                 <a href="SalerServlet?idA=${idA}" class="header-item-link">Kênh người bán</a>
                             </li>
+                             <% }else if(isAdmin){
+                            %>
+                            <li class="header-item">
+                                <a href="ManagerAccount.jsp?IdA=${idA}&page=1" class="header-item-link">Quản lý tài khoản</a>
+                            </li>
+                            <% } else if(isSaler) { %>
+                            <li class="header-item">
+                                <a href="SalerServlet?idA=${idA}" class="header-item-link">Kênh người bán</a>
+                            </li>
+                            <% } else { %>
+                            <li class="header-item">
+                                <a href="" class="header-item-link">Xin chào <%= acc.getAccountName() %></a>
+                            </li>
+                            <%}%>
                         </ul>
                         <ul class="header-list">
                             <li class="header-item link-has-notifi">
@@ -157,7 +182,7 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="home-product">
-                            <% ManagerDAO md = new ManagerDAO();
+                            <% 
                                 ArrayList<Type> typelist = (ArrayList<Type>) request.getAttribute("typelist");
                                 for (Type typelist1 : typelist) {%>
                             <div class="row">
