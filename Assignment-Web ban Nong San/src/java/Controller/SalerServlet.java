@@ -40,9 +40,16 @@ public class SalerServlet extends HttpServlet {
 //        int IdA = 1;
         String accname = "";
         ManagerDAO md = new ManagerDAO();
-        ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
+        ArrayList<Product> prolistbyIdA;
+        ArrayList<Type> typelist;
+        if( IdA != 1){
+            prolistbyIdA = md.getProductByIdA(IdA);
+            typelist = md.getProductTypeByIdA(IdA);
+        }else{
+            prolistbyIdA = md.getAllProduct();
+            typelist = md.getProductType();
+        }
         ArrayList<Account> acclist = md.getAccount();
-        ArrayList<Type> typelist = md.getProductTypeByIdA(IdA);
         for (Account acclist1 : acclist) {
             if(acclist1.getIdA() == IdA){
                 accname = acclist1.getAccountName();
@@ -57,7 +64,7 @@ public class SalerServlet extends HttpServlet {
 //        out.print(IdA);
 //        out.print(prolistbyIdA);
 //        out.print(acclist);
-//        out.print(typelist.get(0).getTypeName());
+//        out.print(typelist);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -28,27 +28,30 @@
 
     <body>
         <% ManagerDAO md = new ManagerDAO();
-            int IdA = Integer.parseInt(request.getParameter("IdA"));
-            Account acc = md.getAccountById(IdA);%>
+            int IdC = Integer.parseInt(request.getParameter("IdC"));
+            Account acc = md.getAccountById(IdC);%>
         <header class="header">
             <div class="grid">
                 <nav class="header-navbar">
                     <ul class="header-list">                    
                         <% if (acc.isIsAdmin() && acc.isIsSaler()) {%>
                         <li class="header-item">
-                            <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
+                            <a href="ManagerAccount.jsp?IdA=<%=IdC%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                         </li>
                         <li class="header-item">
-                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                            <a href="SalerServlet?idA=<%=IdC%>" class="header-item-link">Kênh người bán</a>
                         </li>
                         <% } else if (acc.isIsAdmin()) {
                         %>
                         <li class="header-item">
-                            <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
+                            <a href="ManagerAccount.jsp?IdA=<%=IdC%>&page=1" class="header-item-link">Quản lý tài khoản</a>
+                        </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdC%>" class="header-item-link">Quản lý sản phẩm</a>
                         </li>
                         <% } else if (acc.isIsSaler()) {%>
                         <li class="header-item">
-                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
+                            <a href="SalerServlet?idA=<%=IdC%>" class="header-item-link">Kênh người bán</a>
                         </li>
                         <% } else {%>
                         <li class="header-item">
@@ -68,7 +71,7 @@
                                     <% ArrayList<Product> prolist1 = md.getAllProduct();
                                     for (int i = prolist1.size() - 1; i > prolist1.size() - 4; i--) {%>
                                     <li class="notifi-item">
-                                        <a href="OrderProduct.jsp?IdS=<%= prolist1.get(i).getAccount().getIdA()%>&IdA=<%= IdA%>&IdP=<%= prolist1.get(i).getIdP()%>" class="notifi-item" style="text-decoration: none; font-size: 16px; font-weight: 400px">
+                                        <a href="OrderProduct.jsp?IdS=<%= prolist1.get(i).getAccount().getIdA()%>&IdA=<%= IdC%>&IdP=<%= prolist1.get(i).getIdP()%>" class="notifi-item" style="text-decoration: none; font-size: 16px; font-weight: 400px">
                                             <img src="<%= prolist1.get(i).getImg()%>" class="notifi-item-img">
                                             <div class="notifi-item-content">Sản phẩm mới từ <%= prolist1.get(i).getAccount().getAccountName()%> </div>
                                         </a>
@@ -78,7 +81,7 @@
                             </div>
                         </li>
                         <li class="header-item">
-                            <a href="AccountPage.jsp?IdA=<%=IdA%>" class="header-item-link"><%= acc.getAccountName()%></a>
+                            <a href="AccountPage.jsp?IdC=<%=IdC%>&IdA=<%=IdC%>" class="header-item-link"><%= acc.getAccountName()%></a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -87,7 +90,7 @@
                 </nav>
                 <div class="header-home-search">
                     <div class="home">
-                        <a class="logo" href="HomeServlet?accname=<%= acc.getAccountName()%>&idA=<%=IdA%>">
+                        <a class="logo" href="HomeServlet?accname=<%= acc.getAccountName()%>&idA=<%=IdC%>">
                             <i class="fa-solid fa-house home-logo-icon"></i>
                             <div class="header-item-link">Happy Field</div>
                         </a>
@@ -96,12 +99,12 @@
                         <form style="display: flex; border: none; margin: 0px; padding: 0px; width: 98%;" action="FindServlet" method="post">
                             <input style="flex: 1; height: 32px;" class="search-input" type="text" placeholder="Nhập thông tin" name="find">
                             <div><button type="submit" style="border: none; background-color: #fff;"><i class="fa-solid fa-magnifying-glass find-icon" style=" padding: 8px 11px!important;"></i></button></div>
-                            <input type="hidden" value="<%=IdA%>" name="IdA">
+                            <input type="hidden" value="<%=IdC%>" name="IdA">
                         </form>
                         
                     </div>
                     <div class="cart">
-                        <%ArrayList<Order> orderlist = md.getOrderInCart(IdA);
+                        <%ArrayList<Order> orderlist = md.getOrderInCart(IdC);
                         request.setAttribute("orderlist", orderlist);
                         if(acc.isIsCustommser()){
                         %>
@@ -113,7 +116,7 @@
                             <div class="cart-list">
                                 <c:if test="${requestScope.orderlist.size() == 0}">
                                     <img src="./image/empty-cart.webp" class="empty-cart">
-                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
+                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdC%>">Xem giỏ hàng</a>
                                 </c:if>
                                 <c:if test="${requestScope.orderlist.size() < 2 && requestScope.orderlist.size()!= 0}">
                                     <c:forEach begin="0" end="${requestScope.orderlist.size()}" items="${orderlist}" var="order">
@@ -125,7 +128,7 @@
                                             </div>
                                         </a>
                                     </c:forEach>
-                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
+                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdC%>">Xem giỏ hàng</a>
                                 </c:if>
                                 <c:if test="${requestScope.orderlist.size() >= 2}">
                                     <c:forEach begin="0" end="1" items="${requestScope.orderlist}" var="order">
@@ -137,7 +140,7 @@
                                             </div>
                                         </a>
                                     </c:forEach>                        
-                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdA%>">Xem giỏ hàng</a>
+                                    <a class="cart-view" style="text-decoration: none; color:rgba(44, 43, 43, 0.993);" href="CartPage.jsp?IdA=<%=IdC%>">Xem giỏ hàng</a>
                                 </c:if>
                             </div>
                         </div>
@@ -150,9 +153,9 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="navigation-bar">
-                        <a href="HomeServlet?accname=<%= acc.getAccountName()%>&idA=<%=IdA%>" class="navigation-bar-link">Home</a>
+                        <a href="HomeServlet?accname=<%= acc.getAccountName()%>&idA=<%=IdC%>" class="navigation-bar-link">Home</a>
                         <i class="fa-solid fa-angles-right navigation-bar-icon"></i>
-                        <a href="AccountPage.jsp?IdA=<%=IdA%>" class="navigation-bar-link">Quản lý tài khoản</a>
+                        <a href="AccountPage.jsp?IdA=<%=IdC%>&IdC=<%= IdC%>" class="navigation-bar-link">Quản lý tài khoản</a>
                     </div>
                     <nav class="category">
                         <div class="category-heading">
@@ -164,7 +167,7 @@
                             for(int i=0; i<typelist.size(); i++){
                             %>
                             <li class="category-item">
-                                <a href="ProductTypeServlet?idT=<%=typelist.get(i).getIdType() %>&IdA=<%=IdA%>&page=1" class="catagory-item-link"><%= typelist.get(i).getTypeName() %></a>
+                                <a href="ProductTypeServlet?idT=<%=typelist.get(i).getIdType() %>&IdA=<%=IdC%>&page=1" class="catagory-item-link"><%= typelist.get(i).getTypeName() %></a>
                             </li>
                             <%}%>
                             
@@ -173,26 +176,29 @@
                 </div>
                 <div class="col-sm-9">
                     <form class="form" action="ManagerAccountServlet" method="post">
+                        <% int IdA = Integer.parseInt(request.getParameter("IdA")); 
+                        Account acc1 = md.getAccountById(IdA); %>
                         <input type="hidden" name="IdA" value="<%= IdA %>"/>
+                        <input type="hidden" name="IdC" value="<%= IdC %>"/>
                         <div class="account-info">
                             <div class="title">Tên:</div>
-                            <div class="content"><input type="text" name="name" value="<%= acc.getName()%>"/></div>
+                            <div class="content"><input type="text" name="name" value="<%= acc1.getName()%>"/></div>
                         </div>
                         <div class="account-info">
                             <div class="title">Địa chỉ:</div>
-                            <div class="content"><input type="text" name="add" value="<%= acc.getAddress() %>"/></div>
+                            <div class="content"><input type="text" name="add" value="<%= acc1.getAddress() %>"/></div>
                         </div>
                         <div class="account-info">
                             <div class="title">Số điện thoại:</div>
-                            <div class="content"><input type="text" name="phone" value="<%= acc.getPhone() %>"/></div>
+                            <div class="content"><input type="text" name="phone" value="<%= acc1.getPhone() %>"/></div>
                         </div>
                         <div class="account-info">
                             <div class="title">Tên tài khoản:</div>
-                            <div class="content"><input type="text" name="accname" value="<%= acc.getAccountName()%>"/></div>
+                            <div class="content"><input type="text" name="accname" value="<%= acc1.getAccountName()%>"/></div>
                         </div>
                         <div class="account-info">
                             <div class="title">Mật khẩu:</div>
-                            <div class="content"><input type="text" name="pass" value="<%= acc.getPassword() %>"/></div>
+                            <div class="content"><input type="text" name="pass" value="<%= acc1.getPassword() %>"/></div>
                         </div>
                         <div>${error}</div>
                         <div class="submit">

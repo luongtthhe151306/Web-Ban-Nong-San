@@ -75,7 +75,7 @@ public class UpdateProductItemServlet extends HttpServlet {
                 }
             }
         }
-        ArrayList<Product> prolist = md.getProductByIdA(IdA);
+        ArrayList<Product> prolist = md.getAllProduct();
         Product pro = null;
         for(Product prolist1 : prolist){
             if(prolist1.getIdP() == IdP){
@@ -91,7 +91,7 @@ public class UpdateProductItemServlet extends HttpServlet {
         pro.setType(type);
         
         md.UpdateProduct(pro);
-        request.getRequestDispatcher("UpdateProductPageServlet?IdA="+IdA).forward(request, response);
+        request.getRequestDispatcher("SalerServlet?idA="+IdA).forward(request, response);
         
     }
 

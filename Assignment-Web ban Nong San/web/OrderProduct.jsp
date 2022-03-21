@@ -48,6 +48,9 @@
                         <li class="header-item">
                             <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                         </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Quản lý sản phẩm</a>
+                        </li>
                         <% } else if (acc.isIsSaler()) {%>
                         <li class="header-item">
                             <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
@@ -81,7 +84,7 @@
                         </li>
 
                         <li class="header-item">
-                            <a href="AccountPage.jsp?IdA=<%= acc.getIdA()%>" class="header-item-link"><%= acc.getAccountName()%></a>
+                            <a href="AccountPage.jsp?IdA=<%= acc.getIdA()%>&IdC=<%= acc.getIdA()%>" class="header-item-link"><%= acc.getAccountName()%></a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>

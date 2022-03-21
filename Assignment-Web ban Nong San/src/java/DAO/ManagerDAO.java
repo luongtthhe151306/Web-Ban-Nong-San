@@ -145,8 +145,10 @@ public class ManagerDAO {
 //    System.out.println("Số " + doubleNumber + " sau khi định dạng = " + 
 //        dcf.format(doubleNumber));
 
-        ArrayList<Account> acclist = n.getAccount();
-        System.out.println(acclist.get(3).isIsCustommser());
+//        ArrayList<Account> acclist = n.getAccount();
+//        System.out.println(acclist.get(3).isIsCustommser());
+        ArrayList<Type> type = n.getProductType();
+        System.out.println(type);
     }
 
     public Account getAccountById(int id) {
@@ -177,6 +179,48 @@ public class ManagerDAO {
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();
             state.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void DeleteOrderAccount(int IdA) {
+        try {
+            String sql = "DELETE FROM [Orders] WHERE IdC=" + IdA;
+            Connection conn = new BaseDAO().getConnection();
+//            PreparedStatement state = conn.prepareStatement("DELETE FROM [Product] WHERE IdP=" + IdP);
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void DeleteProAccount(int IdA) {
+        try {
+            String sql = "DELETE FROM [Product] WHERE IdC=" + IdA;
+            Connection conn = new BaseDAO().getConnection();
+//            PreparedStatement state = conn.prepareStatement("DELETE FROM [Product] WHERE IdP=" + IdP);
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void DeleteBill(int IdA) {
+        try {
+            String sql = "DELETE FROM [TotalBill] WHERE IdC=" + IdA;
+            Connection conn = new BaseDAO().getConnection();
+//            PreparedStatement state = conn.prepareStatement("DELETE FROM [Product] WHERE IdP=" + IdP);
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

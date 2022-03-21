@@ -7,11 +7,8 @@ package Controller;
 
 import DAO.ManagerDAO;
 import Model.Account;
-import Model.Product;
-import Model.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class DeleteProductItemServlet extends HttpServlet {
+public class DeleteAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,18 +32,19 @@ public class DeleteProductItemServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeleteProductItemServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DeleteProductItemServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        int IdA = Integer.parseInt(request.getParameter("IdA"));
+        int IdC = Integer.parseInt(request.getParameter("IdC"));
+        
+        ManagerDAO md = new ManagerDAO();
+        Account accA = md.getAccountById(IdA);
+        PrintWriter out = response.getWriter();
+        out.print(IdA);
+        out.print(IdC);
+        md.DeleteOrder(IdA);
+        md.DeleteBill(IdA);
+        md.DeleteProAccount(IdA);
+        md.DeleteAccount(IdA);
+        request.getRequestDispatcher("ManagerAccount.jsp?IdA="+IdC+"&page=1").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -61,33 +59,7 @@ public class DeleteProductItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("utf-8");
-        int IdP = Integer.parseInt(request.getParameter("IdP"));        
-        ManagerDAO md = new ManagerDAO();
-        ArrayList<Product> prolist = md.getAllProduct();
-        int IdA = Integer.parseInt(request.getParameter("IdA"));
-        String accname = "";
-        for (Product prolist1 : prolist) {
-            if(prolist1.getIdP() == IdP){
-                accname = prolist1.getAccount().getAccountName();
-                IdA = prolist1.getAccount().getIdA();
-            }
-        }
-        md.DeleteProduct(IdP);
-        ArrayList<Product> prolistbyIdA = md.getProductByIdA(IdA);
-        ArrayList<Type> typelist = md.getProductTypeByIdA(IdA);
-        
-//        PrintWriter out = response.getWriter();
-//        out.print(IdP);
-//        out.print(prolist);
-//        out.print(IdA);
-//        out.print(prolistbyIdA);
-//        out.print(typelist);
-        request.setAttribute("accname", accname);
-        request.setAttribute("prolistbyIdA", prolistbyIdA);
-        request.setAttribute("typelist", typelist);
-        request.getRequestDispatcher("SalerServlet?idA="+IdA).forward(request, response);
+        processRequest(request, response);
     }
 
     /**

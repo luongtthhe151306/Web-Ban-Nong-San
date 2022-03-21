@@ -362,20 +362,7 @@
     font-size: 17px;
 }
 
-.pagging{
-    display: flex!important;
-}
 
-.pagging-link{
-    
-    padding: 5px 30%!important;
-    border: 1px solid!important;
-    background-color: #fff;
-}
-
-.pagging-link a{
-    text-decoration: none!important;
-}
 /* footer */
 .footer {
     display: block;

@@ -49,6 +49,9 @@ and open the template in the editor.
                         <li class="header-item">
                             <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                         </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Quản lý sản phẩm</a>
+                        </li>
                         <% } else if (acc.isIsSaler()) {%>
                         <li class="header-item">
                             <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
@@ -82,7 +85,7 @@ and open the template in the editor.
                             </div>
                         </li>
                         <li class="header-item">
-                            <a href="AccountPage.jsp?IdA=${IdA}" class="header-item-link">${accname}</a>
+                            <a href="AccountPage.jsp?IdA=${IdA}&IdC=${IdA}" class="header-item-link">${accname}</a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -168,12 +171,12 @@ and open the template in the editor.
                             <li class="category-item">
                                 <a href="CreateProduct.jsp?IdA=${IdA}" class="catagory-item-link">Thêm sản phẩm</a>
                             </li>
-                            <li class="category-item">
+<!--                            <li class="category-item">
                                 <a href="DeleteProductPageServlet?IdA=${IdA}" class="catagory-item-link">Xóa sản phẩm</a>
                             </li>
                             <li class="category-item">
                                 <a href="UpdateProductPageServlet?IdA=${IdA}" class="catagory-item-link">Cập nhật lại sản phẩm</a>
-                            </li>
+                            </li>-->
                         </ul>
                     </nav>
                 </div>
@@ -181,25 +184,39 @@ and open the template in the editor.
                     <div class="home-product">
                         <div class="row">
                             <c:forEach items="${typelist}" var="type">
-                                <div class="product-list"><a class="product-list-link">${type.getTypeName()}</a></div>
+                                <table style="border: 1px solid;margin: 20px 0px;">
+                                    <tr>
+                                        <th style="border: 1px solid;">${type.getTypeName()}</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid;">Hình ảnh</td>
+                                        <td style="border: 1px solid;">Tên</td>
+                                        <td style="border: 1px solid;">Giá</td>
+                                        <td style="border: 1px solid;">Đã bán</td>
+                                        <td style="border: 1px solid;">Còn lại</td>
+                                        <td style="border: 1px solid;">Doanh thu</td>
+                                        <td style="border: 1px solid;"></td>
+                                    </tr>
+<!--                                <div class="product-list"><a class="product-list-link"></a></div>-->
                                 <c:forEach items="${prolistbyIdA}" var="pro">
                                     <c:if test="${type.getIdType() == pro.getType().getIdType()}">
-                                    <div class="col-sm-3 " style=" margin-bottom: 15px;">
-                                    <div class="product-item">
-                                        <a href="" class="product-item-link">
-                                            <img src="${pro.getImg()}" class="product-item-img" style="height: 170px">
-                                            <p class="product-item-name">${pro.getName()}</p>
-                                            <fmt:parseNumber var="j" integerOnly="true" type="number" value="${pro.getPrice()}" />
-                                            <p class="product-item-price">${j}vnd</p>
-                                            <p>Đã bán: ${pro.getQuantitySold()}</p>
-                                            <p>Còn lại: ${pro.getQuantityStock()}</p>
-                                            <fmt:parseNumber var="f" integerOnly="true" type="number" value="${pro.getPrice()*pro.getQuantitySold()}" />
-                                            <p>Doanh thu: ${f}vnd </p>
-                                        </a>
-                                    </div>
-                                    </div>
+                                        <tr>
+                                        <td style="border: 1px solid;"> <img src="${pro.getImg()}" class="product-item-img" style="height: 70px; width: 70px;"></td>
+                                        <td style="border: 1px solid;">${pro.getName()}</td>
+                                        <fmt:parseNumber var="j" integerOnly="true" type="number" value="${pro.getPrice()}" />
+                                        <td style="border: 1px solid;">${j}vnd</td>
+                                        <td style="border: 1px solid;">${pro.getQuantitySold()}</td>
+                                        <td style="border: 1px solid;">${pro.getQuantityStock()}</td>
+                                        <fmt:parseNumber var="f" integerOnly="true" type="number" value="${pro.getPrice()*pro.getQuantitySold()}" />
+                                        <td style="border: 1px solid;">${f}vnd</td>
+                                        <td style="border: 1px solid;"><a href="UpdateProduct.jsp?IdP=${pro.getIdP()}&IdA=${IdA}">Update</a>
+                                        <a href="DeleteProductItemServlet?IdP=${pro.getIdP()}&IdA=${IdA}" onclick="if (!confirm('Bạn muốn xóa sản phẩm?')) { return false; }">Delete</a>
+                                        </td>
+                                        </tr>
+                                    
                                     </c:if>
                                 </c:forEach> 
+                                </table>
                             </c:forEach>
                         </div>
                     </div>

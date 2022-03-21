@@ -113,6 +113,7 @@ public class ManagerAccountServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         ManagerDAO md = new ManagerDAO();
+        int IdC = Integer.parseInt(request.getParameter("IdC"));
         int IdA = Integer.parseInt(request.getParameter("IdA"));
         String name = request.getParameter("name");
         String add = request.getParameter("add");
@@ -162,7 +163,7 @@ public class ManagerAccountServlet extends HttpServlet {
         acc.setAccountName(accname);
         acc.setPassword(pass);
         md.UpdateAccount(acc);
-        request.getRequestDispatcher("AccountPage.jsp?IdA=" + IdA).forward(request, response);
+        request.getRequestDispatcher("AccountPage.jsp?IdA=" + IdA+"&IdC="+IdC).forward(request, response);
 //        }else{
 //            md.DeleteAccount(IdA);
 //        }

@@ -53,6 +53,9 @@
                         <li class="header-item">
                             <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                         </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Quản lý sản phẩm</a>
+                        </li>
                         <% } else if (acc.isIsSaler()) {%>
                         <li class="header-item">
                             <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
@@ -85,7 +88,7 @@
                             </div>
                         </li>
                         <li class="header-item">
-                            <a href="AccountPage.jsp?IdA=<%=IdA%>" class="header-item-link"><%= acc.getAccountName()%></a>
+                            <a href="AccountPage.jsp?IdA=<%=IdA%>&IdC=<%=IdA%>" class="header-item-link"><%= acc.getAccountName()%></a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
@@ -183,14 +186,10 @@
                 </div>
                 <div class="col-sm-9">
                     <div class="row">
-                        <%ArrayList<Product> prolist = md.getProductByIdA(IdA);
+                        <%ArrayList<Product> prolist = md.getAllProduct();
                             int IdP = Integer.parseInt(request.getParameter("IdP"));
-                            Product pro = null;
-                            for (Product prol : prolist) {
-                                if (prol.getIdP() == IdP) {
-                                    pro = prol;
-                                }
-                            }
+                            Product pro = md.getProductByIdP(IdP);
+                            
                         %>
                         <div class="col-sm-4" style="padding-top: 50px;">
                             <div class="update-img" style="background-image: url(<%=pro.getImg()%>);"></div>

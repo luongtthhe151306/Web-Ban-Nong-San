@@ -51,6 +51,9 @@
                             <li class="header-item">
                                 <a href="ManagerAccount.jsp?IdA=${idA}&page=1" class="header-item-link">Quản lý tài khoản</a>
                             </li>
+                            <li class="header-item">
+                            <a href="SalerServlet?idA=${idA}" class="header-item-link">Quản lý sản phẩm</a>
+                            </li>
                             <% } else if(isSaler) { %>
                             <li class="header-item">
                                 <a href="SalerServlet?idA=${idA}" class="header-item-link">Kênh người bán</a>
@@ -93,7 +96,7 @@
                                 </c:when>
                                 <c:when test="${accname != null}">
                                     <li class="header-item">
-                                        <a href="AccountPage.jsp?IdA=${idA}" class="header-item-link">${accname}</a>
+                                        <a href="AccountPage.jsp?IdA=${idA}&IdC=${idA}" class="header-item-link">${accname}</a>
                                     </li>
                                     <li class="header-item">
                                         <a href="Login.jsp" class="header-item-link">Đăng xuất</a>

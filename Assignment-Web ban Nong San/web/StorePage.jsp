@@ -49,6 +49,9 @@ and open the template in the editor.
                         <li class="header-item">
                             <a href="ManagerAccount.jsp?IdA=<%=IdA%>&page=1" class="header-item-link">Quản lý tài khoản</a>
                         </li>
+                        <li class="header-item">
+                            <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Quản lý sản phẩm</a>
+                        </li>
                         <% } else if (acc.isIsSaler()) {%>
                         <li class="header-item">
                             <a href="SalerServlet?idA=<%=IdA%>" class="header-item-link">Kênh người bán</a>
@@ -83,7 +86,7 @@ and open the template in the editor.
                             </div>
                         </li>
                         <li class="header-item">
-                            <a href="AccountPage.jsp?IdA=${IdA}" class="header-item-link">${accname}</a>
+                            <a href="AccountPage.jsp?IdA=${IdA}&IdC=${IdA}" class="header-item-link">${accname}</a>
                         </li>
                         <li class="header-item">
                             <a href="Login.jsp" class="header-item-link">Đăng xuất</a>
