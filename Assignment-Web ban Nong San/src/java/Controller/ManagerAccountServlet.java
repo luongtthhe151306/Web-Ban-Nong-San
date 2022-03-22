@@ -60,10 +60,10 @@ public class ManagerAccountServlet extends HttpServlet {
         ManagerDAO md = new ManagerDAO();
         ArrayList<Account> acclist = md.getAccount();
         if (end > acclist.size()) {
-            end = acclist.size();
+            end = acclist.size()-1;
         }
         out.print(end);
-        for (int x = begin; x < end; x++) {
+        for (int x = begin; x <= end; x++) {
             boolean flag = false;
             if (isC != null) {
                 for (String c : isC) {

@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/Controller/ManagerAccountServlet.java</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/Login.jsp</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/Controller/FindServlet.java</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/CreateAccount.jsp</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/DAO/ManagerDAO.java</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/web/ManagerAccount.jsp</file>
+            <file>file:/F:/PRJ/Web-Ban-Nong-San/Assignment-Web%20ban%20Nong%20San/src/java/Controller/CreateAccountServlet.java</file>
+        </group>
     </open-files>
 </project-private>

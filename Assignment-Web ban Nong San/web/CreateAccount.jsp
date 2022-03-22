@@ -16,6 +16,7 @@
     </head>
     <body>
         <div class="container">
+            <% String IdA = request.getParameter("IdA"); %>
             <div class="image"></div>
             <div class="createaccount">
                 <div style="text-align: center;padding-bottom: 10px; font-size: 30px;">Tạo tài khoản</div>
@@ -31,7 +32,8 @@
                     <label>Mật khẩu:</label>
                     <input type="text" name="passcreate"/></br>
                     <div>${error}</div>
-                    <div class="submit"><input type="submit" value="Tạo tài khoản"/></div>            
+                    <div class="submit"><input type="submit" value="Tạo tài khoản"/></div>   
+                    <input type="hidden" name="IdA" value="<%=IdA %>">
                 </form></div>
         </div>
     </body>

@@ -56,7 +56,7 @@ public class FindServlet extends HttpServlet {
         
         for(Type type:typelist){
             if(type.getTypeName().toLowerCase().contains(findToLower)){
-                request.getRequestDispatcher("ProductTypeServlet?idT="+type.getIdType()+"&IdA="+IdA).forward(request, response);
+                request.getRequestDispatcher("ProductTypeServlet?idT="+type.getIdType()+"&IdA="+IdA+"&page=1").forward(request, response);
                 return;
             }
         }

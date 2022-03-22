@@ -170,10 +170,10 @@
                             </tr>
                         </c:forEach>
                         <tr>
-                            <td><input type="hidden" name="IdA" value="<%=IdA%>"></td>
+                            <td><a href="CreateAccount.jsp?IdA=1">Tạo tài khoản</a></td>
                             <td><input type="hidden" name="begin" value="<%=b%>"></td>
                             <td><input type="hidden" name="end" value="<%=e%>"></td>
-                            <td></td>
+                            <td><input type="hidden" name="IdA" value="<%=IdA%>"></td>
                             <td></td>
                             <td></td>
                             <td></td>

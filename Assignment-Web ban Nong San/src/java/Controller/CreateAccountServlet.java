@@ -128,7 +128,14 @@ public class CreateAccountServlet extends HttpServlet {
         
         ManagerDAO md = new ManagerDAO();
         md.createAccount(acc);
-        request.getRequestDispatcher("Login.jsp").forward(request, response);
+        PrintWriter out = response.getWriter();
+        String idA = request.getParameter("IdA");
+        if(!idA.equals("null")){
+            int IdA = Integer.parseInt(idA);
+            request.getRequestDispatcher("ManagerAccount.jsp?IdA="+IdA+"&page=1").forward(request, response);
+        }else{
+            request.getRequestDispatcher("Login.jsp").forward(request, response);            
+        }
     }
 
     /**

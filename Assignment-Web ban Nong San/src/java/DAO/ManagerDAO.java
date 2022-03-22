@@ -67,7 +67,7 @@ public class ManagerDAO {
     public void createAccount(Account acc) {
         try {
             String sql = "INSERT INTO [Account]( [Name], [Address], [Phone], [AccountName], [Password],[isCustommer],[isSaler],[isAdmin])\n"
-                    + "VALUES('" + acc.getName() + "','" + acc.getAddress() + "','" + acc.getPhone() + "','"
+                    + "VALUES('" + acc.getName() + "',N'" + acc.getAddress() + "','" + acc.getPhone() + "','"
                     + acc.getAccountName() + "','" + acc.getPassword() + "',1,0,0)";
             Connection conn = new BaseDAO().getConnection();
             Statement state = conn.createStatement();
