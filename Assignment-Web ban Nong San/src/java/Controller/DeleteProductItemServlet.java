@@ -67,6 +67,7 @@ public class DeleteProductItemServlet extends HttpServlet {
         ManagerDAO md = new ManagerDAO();
         ArrayList<Product> prolist = md.getAllProduct();
         int IdA = Integer.parseInt(request.getParameter("IdA"));
+        int IdC = Integer.parseInt(request.getParameter("IdC"));
         String accname = "";
         for (Product prolist1 : prolist) {
             if(prolist1.getIdP() == IdP){
@@ -87,7 +88,7 @@ public class DeleteProductItemServlet extends HttpServlet {
         request.setAttribute("accname", accname);
         request.setAttribute("prolistbyIdA", prolistbyIdA);
         request.setAttribute("typelist", typelist);
-        request.getRequestDispatcher("SalerServlet?idA="+IdA).forward(request, response);
+        request.getRequestDispatcher("SalerServlet?idA="+IdC).forward(request, response);
     }
 
     /**

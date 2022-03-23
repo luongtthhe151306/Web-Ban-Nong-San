@@ -210,7 +210,7 @@ and open the template in the editor.
                                         <fmt:parseNumber var="f" integerOnly="true" type="number" value="${pro.getPrice()*pro.getQuantitySold()}" />
                                         <td style="border: 1px solid;">${f}vnd</td>
                                         <td style="border: 1px solid;"><a href="UpdateProduct.jsp?IdP=${pro.getIdP()}&IdA=${IdA}">Update</a>
-                                        <a href="DeleteProductItemServlet?IdP=${pro.getIdP()}&IdA=${IdA}" onclick="if (!confirm('Bạn muốn xóa sản phẩm?')) { return false; }">Delete</a>
+                                        <a href="DeleteProductItemServlet?IdP=${pro.getIdP()}&IdA=${pro.getAccount().getIdA()}&IdC=${IdA}" onclick="if (!confirm('Bạn muốn xóa sản phẩm?')) { return false; }">Delete</a>
                                         </td>
                                         </tr>
                                     
